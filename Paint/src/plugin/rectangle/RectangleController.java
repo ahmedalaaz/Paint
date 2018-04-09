@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Shape;
 import paint.model.CommandPane;
 import paint.model.UILoader;
 
@@ -50,6 +51,11 @@ public class RectangleController extends AnchorPane implements CommandPane {
 		// TODO Auto-generated method stub
 		shapeButton.setOnAction(value);
 
+	}
+	@Override
+	public Class<CustomRectangle> getToolClass() {
+		// TODO Auto-generated method stub
+		return CustomRectangle.class;
 	}
 
 }

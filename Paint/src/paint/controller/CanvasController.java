@@ -26,6 +26,7 @@ import plugin.rectangle.RectangleController;
 public class CanvasController implements DrawingEngine ,Initializable{
 	private final String FREE_DRAWING = "Free Drawing";
 	private final String RUBBER_DRAWING = "Rubber Drawing";
+	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();;
 	@FXML
 	private JFXColorPicker colorPicker;
 	@FXML
@@ -116,19 +117,21 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		sizesCB.setValue(36);
 	}
 	
-	 private void initPlugins(){
+	 @SuppressWarnings("unchecked")
+	private void initPlugins(){
 
 	        System.out.println("Initializing plugins...\n");
 	        PluginManager pluginManager = new PluginManager();
 	        ArrayList<CommandPane> nodes = new ArrayList<>();
 
 	        nodes = pluginManager.loadPlugins();
-
+	        
 	        int col = 0;
 	        int row = 0;
 
 	        for(CommandPane node : nodes) {
 	            gridPane.add((Node) node,col,row);
+	           supportedShapes.add((Class<? extends Shape>) node.getToolClass());
 	            col = (++col)%2;
 	            if(col == 0)
 	                row = (++row)%9;
