@@ -9,6 +9,7 @@ import javafx.stage.StageStyle;
 import paint.controller.CanvasController;
 
 public class Main extends Application {
+	private static FXMLLoader myLoader;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -26,8 +27,13 @@ public class Main extends Application {
 	}
 
 	public  Scene getCanvasScene()throws Exception {
-		Parent mainViewRoot = FXMLLoader.load(getClass().getResource("/resources/views/canvas_view.fxml"));
+		FXMLLoader  loader =  new FXMLLoader(getClass().getResource("/resources/views/canvas_view.fxml"));
+		myLoader = loader;
+		Parent mainViewRoot = loader.load();
 		Scene scene = new Scene(mainViewRoot);
 		return scene;
+	}
+	public static CanvasController getController() {
+		return myLoader.getController();
 	}
 }

@@ -1,6 +1,7 @@
 package paint.controller;
 
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,16 +16,17 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import paint.model.CommandPane;
 import paint.model.PluginManager;
+import paint.model.Shape;
 
 
 public class CanvasController implements DrawingEngine ,Initializable{
 	private final String FREE_DRAWING = "Free Drawing";
 	private final String RUBBER_DRAWING = "Rubber Drawing";
 	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();;
+	private ArrayList<Shape> currentShape = new ArrayList();
 	@FXML
 	private JFXColorPicker colorPicker;
 	@FXML
@@ -49,22 +51,23 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@Override
 	public void addShape(Shape shape) {
 		// TODO Auto-generated method stub
-		
+		currentShape.add(shape);
 	}
 	@Override
 	public void removeShape(Shape shape) {
 		// TODO Auto-generated method stub
-		
+		currentShape.remove(shape);
 	}
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
 		// TODO Auto-generated method stub
-		
+		currentShape.remove(oldShape);
+		currentShape.add(newShape);
 	}
 	@Override
 	public Shape[] getShapes() {
 		// TODO Auto-generated method stub
-		return null;
+		return (Shape[])currentShape.toArray();
 	}
 	@Override
 	public void undo() {
