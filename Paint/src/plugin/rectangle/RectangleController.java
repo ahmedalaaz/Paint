@@ -11,20 +11,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
+import paint.model.Shape;
 import paint.model.UILoader;
+import paint.view.Main;
 
 public class RectangleController extends AnchorPane implements CommandPane {
 	private String toolName;
 	@FXML
 	private JFXButton shapeButton;
 	private CustomRectangle rectangle;
-	/*
-	 * @param canvas is the root pane
-	 * @param event is the MouseEvent happened
-	 * TODO handle the mouseEvent here!
-	 */
-	private double mouseClickPozX ;
-	private double mouseClickPozY ;
 	private double rectangleStartX;
 	private double rectangleStartY;
 
@@ -33,13 +28,14 @@ public class RectangleController extends AnchorPane implements CommandPane {
 		// TODO Auto-generated method stub
 		if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
 			rectangle = new CustomRectangle(30, 30);
-			mouseClickPozX = event.getX();
-			mouseClickPozY = event.getY();
+			event.getX();
+			event.getY();
 			rectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			rectangle.setFillColor(Paint.valueOf("#FFFFFF"));
 			rectangle.setColor(Paint.valueOf("#000000"));
 			rectangleStartX = event.getX();
 			rectangleStartY = event.getY();
+			Main.getController().addShape(rectangle);;
 			rectangle.draw(canvas);
 		}
 		if(event.getEventType() == MouseEvent.MOUSE_DRAGGED) {

@@ -1,6 +1,6 @@
 package paint.controller;
 
-import javafx.scene.shape.Shape;
+import paint.model.Shape;
 
 public interface DrawingEngine {
 	public void refresh(Object canvas);
