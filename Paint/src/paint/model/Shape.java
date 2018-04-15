@@ -10,13 +10,13 @@ public interface Shape {
 
 	public java.util.Map<String, Double> getProperties();
 
-	public void setColor(java.awt.Color color);
+	public void setColor(Object color);
 
-	public java.awt.Color getColor();
+	public Object getColor();
 
-	public void setFillColor(java.awt.Color color);
+	public void setFillColor(Object color);
 
-	public java.awt.Color getFillColor();
+	public Object getFillColor();
 
 	/*
 	 * redraw the shape on the canvas, for swing, you will cast canvas to
@@ -26,4 +26,5 @@ public interface Shape {
 
 	/* create a deep clone of the shape */
 	public Object clone() throws CloneNotSupportedException;
+
 }

@@ -67,7 +67,7 @@
       </VBox>
    </top>
    <center>
-      <Pane fx:id="canvas" onMousePressed="#onCanvasPressed" prefHeight="708.0" prefWidth="1203.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="canvas" onMouseDragged="#onCanvasDragged" onMousePressed="#onCanvasPressed" prefHeight="708.0" prefWidth="1203.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <GridPane fx:id="gridPane" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700" prefWidth="160.0" scaleShape="false" BorderPane.alignment="CENTER">
