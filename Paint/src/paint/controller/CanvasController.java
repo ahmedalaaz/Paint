@@ -13,14 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import paint.model.CommandPane;
 import paint.model.PluginManager;
-import plugin.rectangle.RectangleController;
 
 
 public class CanvasController implements DrawingEngine ,Initializable{
@@ -106,7 +104,13 @@ public class CanvasController implements DrawingEngine ,Initializable{
 			selectedTool.execute(canvas, event);
 		}
 	}
-	
+	@FXML
+	protected void onCanvasDragged(MouseEvent event) {
+		//TODO add switch to choose drawing type.
+		if(selectedTool!=null) {
+			selectedTool.execute(canvas, event);
+		}
+	}
 	@FXML
 	protected void switchToPenMode() {
 		modeLabel.setText(FREE_DRAWING);

@@ -1,11 +1,11 @@
 package plugin.rectangle;
 
-import java.awt.Color;
-
 import java.awt.Point;
 import java.util.Map;
 
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import paint.model.Shape;
 
@@ -13,12 +13,49 @@ public class CustomRectangle implements Shape {
 	private Rectangle rectangle;
 	public CustomRectangle(double width, double height) {
 		rectangle = new Rectangle(width, height);	
-	}	
+	
+	}
+	public double getWidth() {
+		return rectangle.getWidth();
+	}
+	public double getHeight() {
+		return rectangle.getHeight();
+	}
+	public void setWidth(double width) {
+		rectangle.setWidth(width);
+	}
+	public void setHeight(double height) {
+		rectangle.setHeight(height);
+	}
+	public double getX() {
+		return rectangle.getX();
+	}
+	public void setX(double x) {
+		rectangle.setX(x);
+	}
+	public double getY() {
+		return rectangle.getY();
+	}
+	public void setY(double y) {
+		rectangle.setY(y);
+	}
+	public Node getParent() {
+		return rectangle.getParent();
+	}
 	@Override
 	public void setPosition(Point position) {
 		// TODO Auto-generated method stub
-		rectangle.setX(position.getX());
-		rectangle.setY(position.getY());
+		if(rectangle.getParent() == null) {
+		    rectangle.setX(position.getX());
+			rectangle.setY(position.getY());
+	        return ;    	
+		}
+		if (position.getX() >= 0 && position.getX() + rectangle.getWidth() <= rectangle.getParent().getBoundsInLocal().getWidth() ) {
+            rectangle.setX(position.getX());
+        }
+		if (position.getY() >= 0 && position.getY()+ rectangle.getHeight() <= rectangle .getParent().getBoundsInLocal().getHeight() ) {
+			rectangle.setY(position.getY());
+        }
 	}
 
 	@Override
@@ -40,27 +77,27 @@ public class CustomRectangle implements Shape {
 	}
 
 	@Override
-	public void setColor(Color color) {
+	public void setColor(Object color) {
 		// TODO Auto-generated method stub
-
+		rectangle.setStroke((Paint)color);
 	}
 
 	@Override
-	public Color getColor() {
+	public Paint getColor() {
 		// TODO Auto-generated method stub
-		return null;
+		return rectangle.getStroke();
 	}
 
 	@Override
-	public void setFillColor(Color color) {
+	public void setFillColor(Object color) {
 		// TODO Auto-generated method stub
-
+		rectangle.setFill((Paint)color);
 	}
 
 	@Override
-	public Color getFillColor() {
+	public Paint getFillColor() {
 		// TODO Auto-generated method stub
-		return null;
+		return rectangle.getFill();
 	}
 
 	@Override
