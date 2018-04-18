@@ -158,7 +158,7 @@ public class CustomRectangle implements Shape {
 			CustomRectangle.this.removeDashArray();
 		}
 		rectangle.removeEventHandler(MouseEvent.MOUSE_PRESSED,onMousePressed);
-		
+		rectangle.setOnMousePressed(null);
 	}
 	@Override
 	public void removeDashArray() {
