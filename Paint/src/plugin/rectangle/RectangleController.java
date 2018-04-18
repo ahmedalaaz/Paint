@@ -1,6 +1,9 @@
 package plugin.rectangle;
 
 import java.awt.Point;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -17,6 +20,7 @@ import paint.view.UILoader;
 
 public class RectangleController extends AnchorPane implements CommandPane {
 	private String toolName;
+	final private String TOOL = "rectangle";
 	@FXML
 	private JFXButton shapeButton;
 	private CustomRectangle rectangle;
@@ -76,8 +80,16 @@ public class RectangleController extends AnchorPane implements CommandPane {
 	
 	public RectangleController() {
 	        this.toolName = "Rectangle";
-	        UILoader uiLoader = new UILoader(getClass().getResource("rectangle.fxml"),this);
-	        uiLoader.load();
+	        UILoader uiLoader;
+			try {
+				uiLoader = new UILoader( new URL("file:///" + System.getProperty("user.dir") + File.separator + "src" + File.separator
+						+ "plugin" + File.separator + TOOL + File.separator + "rectangle.fxml"),this);
+		        uiLoader.load();
+
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 
 	@Override
