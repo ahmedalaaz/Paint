@@ -1,5 +1,8 @@
 package paint.view;
 
+import java.io.File;
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +30,8 @@ public class Main extends Application {
 	}
 
 	public  Scene getCanvasScene()throws Exception {
-		FXMLLoader  loader =  new FXMLLoader(getClass().getResource("/resources/views/canvas_view.fxml"));
+		FXMLLoader  loader =  new FXMLLoader( new URL("file:///" + System.getProperty("user.dir") + File.separator + "src" + File.separator
+				+ "resources" + File.separator + "views" + File.separator + "canvas_view.fxml"));
 		myLoader = loader;
 		Parent mainViewRoot = loader.load();
 		Scene scene = new Scene(mainViewRoot);

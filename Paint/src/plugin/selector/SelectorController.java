@@ -1,5 +1,8 @@
 package plugin.selector;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
@@ -16,13 +19,22 @@ import paint.view.UILoader;
 
 public class SelectorController extends AnchorPane implements CommandPane {
 	private String toolName;
+	final private String TOOL = "selector";
 	@FXML
 	private JFXButton toolButton;
 
 	public SelectorController() {
 		this.toolName = "Selector";
-		UILoader uiLoader = new UILoader(getClass().getResource("selector.fxml"), this);
-		uiLoader.load();
+		UILoader uiLoader;
+		try {
+			uiLoader = new UILoader(new URL("file:///" + System.getProperty("user.dir") + File.separator + "src" + File.separator
+					+ "plugin" + File.separator + TOOL + File.separator + "selector.fxml"), this);
+			uiLoader.load();
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
