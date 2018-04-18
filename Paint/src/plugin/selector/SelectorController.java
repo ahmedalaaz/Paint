@@ -41,7 +41,6 @@ public class SelectorController extends AnchorPane implements CommandPane {
 		for (Shape shape : shapes) {
 			shape.turnOffSelectListener();
 		}
-
 	}
 
 	@Override
