@@ -12,8 +12,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
 import paint.model.Shape;
-import paint.model.UILoader;
 import paint.view.Main;
+import paint.view.UILoader;
 
 public class RectangleController extends AnchorPane implements CommandPane {
 	private String toolName;
@@ -96,6 +96,18 @@ public class RectangleController extends AnchorPane implements CommandPane {
 	public Class<CustomRectangle> getToolClass() {
 		// TODO Auto-generated method stub
 		return CustomRectangle.class;
+	}
+
+	@Override
+	public void triggerState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pauseState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

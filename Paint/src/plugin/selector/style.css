@@ -1,0 +1,6 @@
+#selector {
+    -fx-background-image: url("selector.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+
+}

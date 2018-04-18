@@ -1,4 +1,4 @@
-package paint.model;
+package paint.view;
 
 import javafx.fxml.FXMLLoader;
 import plugin.rectangle.RectangleController;
