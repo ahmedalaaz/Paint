@@ -1,5 +1,7 @@
 package paint.controller;
 
+import java.util.ArrayList;
+
 import paint.model.Shape;
 
 public interface DrawingEngine {
@@ -8,7 +10,7 @@ public interface DrawingEngine {
 	public void removeShape(Shape shape);
 	public void updateShape(Shape oldShape, Shape newShape);
 	/* return the created shapes objects */
-	public Shape[] getShapes();
+	public ArrayList<Shape> getShapes();
 	/* limited to 20 steps. You consider these actions in
 	* undo & redo: addShape, removeShape, updateShape */
 	public void undo();

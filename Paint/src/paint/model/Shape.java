@@ -17,6 +17,13 @@ public interface Shape {
 	public void setFillColor(Object color);
 
 	public Object getFillColor();
+	
+	public void turnOnSelectListener();
+	
+	public void turnOffSelectListener();
+	
+	public void removeDashArray();
+	
 
 	/*
 	 * redraw the shape on the canvas, for swing, you will cast canvas to
@@ -26,5 +33,11 @@ public interface Shape {
 
 	/* create a deep clone of the shape */
 	public Object clone() throws CloneNotSupportedException;
+
+	public boolean isSelected();
+
+	public void setStrokeWidth(Integer value);
+	public void getStrokeWidth(Integer value);
+	
 
 }

@@ -10,5 +10,7 @@ public interface CommandPane {
     void execute(Object canvas, MouseEvent event);
     String getName();
     void setAction(EventHandler<ActionEvent> value);
+    void triggerState();
+    void pauseState();
     Class<?> getToolClass();
 }

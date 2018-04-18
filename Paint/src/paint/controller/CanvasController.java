@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 
@@ -14,31 +15,43 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import paint.model.CommandPane;
 import paint.model.PluginManager;
 import paint.model.Shape;
+import plugin.rectangle.CustomRectangle;
 
 
 public class CanvasController implements DrawingEngine ,Initializable{
-	private final String FREE_DRAWING = "Free Drawing";
-	private final String RUBBER_DRAWING = "Rubber Drawing";
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();;
-	private ArrayList<Shape> currentShape = new ArrayList();
-	@FXML
-	private JFXColorPicker colorPicker;
+	private ArrayList<Shape> currentShape = new ArrayList<Shape>();
 	@FXML
 	private Pane canvas;
 	@FXML
-	private JFXComboBox<Integer> sizesCB;
-	@FXML
 	private Label modeLabel;
+	@FXML
+	private AnchorPane extrasPane;
+	@FXML
+	private AnchorPane extrasTB;
+	@FXML
+	private JFXColorPicker fillColorPicker;
+	@FXML
+	private JFXColorPicker strokeColorPicker;
+	@FXML
+	private JFXButton applyColorsBtn;
+	@FXML
+	private JFXComboBox<Integer> strokeWidthCB;
+	@FXML
+	private JFXButton confirmStrokeBtn;
 	@FXML
 	private GridPane gridPane;
 	private CommandPane selectedTool;
 
+	
 	public void viewCanvasView(Stage primaryStage) {
 		primaryStage.show();
 	}
@@ -56,6 +69,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@Override
 	public void removeShape(Shape shape) {
 		// TODO Auto-generated method stub
+		//remove from children
 		currentShape.remove(shape);
 	}
 	@Override
@@ -65,9 +79,9 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		currentShape.add(newShape);
 	}
 	@Override
-	public Shape[] getShapes() {
+	public ArrayList<Shape> getShapes() {
 		// TODO Auto-generated method stub
-		return (Shape[])currentShape.toArray();
+		return currentShape;
 	}
 	@Override
 	public void undo() {
@@ -114,15 +128,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 			selectedTool.execute(canvas, event);
 		}
 	}
-	@FXML
-	protected void switchToPenMode() {
-		modeLabel.setText(FREE_DRAWING);
-	}
-	@FXML
-	protected void switchToRubberMode() {
-		modeLabel.setText(RUBBER_DRAWING);
-		sizesCB.setValue(36);
-	}
+	
 	
 	 @SuppressWarnings("unchecked")
 	private void initPlugins(){
@@ -147,18 +153,43 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	            nodeClass.cast(node);
 	            node.setAction((event) -> {
 	            	modeLabel.setText(node.getName());
+	            	if(selectedTool != null) {
+	            		selectedTool.pauseState();
+	            	}
 	                selectedTool = node;
+	                selectedTool.triggerState();
+	                
 	            });
 	        }
 	    }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		extrasPane.setVisible(false);
+		extrasTB.setVisible(false);
+		for(int i = 4 ; i<= 36 ; i+=2)strokeWidthCB.getItems().add(i);
+		applyColorsBtn.setOnAction((event)-> {
+			ShapesController.getInstance(CanvasController.this).changeColors(fillColorPicker.getValue().toString()
+					, strokeColorPicker.getValue().toString());
+		});
+		confirmStrokeBtn.setOnAction((event)-> {
+			ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
+		});
 		initPlugins();
-		for(int i = 4 ; i <= 72 ; i+=2)sizesCB.getItems().add(i);
-		sizesCB.setValue(12);
-		modeLabel.setText(FREE_DRAWING);
+		
 		
 	}
+
+	public void showExtrasPane() {
+		// TODO Auto-generated method stub
+		extrasPane.setVisible(true);
+		extrasTB.setVisible(true);
+	}
+	public void removeExtrasPane() {
+		// TODO Auto-generated method stub
+		extrasPane.setVisible(false);
+		extrasTB.setVisible(false);
+	}
+	
 
 }
