@@ -10,14 +10,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import paint.model.ResizableRectangle;
 import paint.model.Shape;
 import paint.view.Main;
 
 public class CustomRectangle implements Shape {
 	private Rectangle rectangle;
+	ResizableRectangle  resizableRectangle;
 	private Map<String, Double> properties = new HashMap<>();
 	EventHandler<MouseEvent> onMousePressed;
-	EventHandler<MouseEvent> onMouseDraggedToMove;
 	public CustomRectangle(double width, double height) {
 		rectangle = new Rectangle(width, height);
 		properties.put("width", width);
@@ -27,21 +28,27 @@ public class CustomRectangle implements Shape {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if(!rectangle.getStrokeDashArray().isEmpty()) {
-					CustomRectangle.this.removeDashArray();
+				if(resizableRectangle != null) {
+					CustomRectangle.this.removeResizableRectangle();
 					return;
 				}
-				rectangle.getStrokeDashArray().addAll(42d,6d,4d);
+				// rectangle.getStrokeDashArray().addAll(42d,6d,4d);
+				CustomRectangle.this.bindToResizableRectangle();
 			}
-		};
-		onMouseDraggedToMove = new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
+		
 		};
+		
+	}
+	protected void bindToResizableRectangle() {
+		resizableRectangle =  new ResizableRectangle(this.rectangle.getX(), this.rectangle.getY(), this.rectangle.getWidth()
+				, this.rectangle.getHeight());
+		Pane canvas = (Pane)this.rectangle.getParent();
+		resizableRectangle.addToParent(canvas);
+		this.rectangle.widthProperty().bind(resizableRectangle.getNode().widthProperty());
+		this.rectangle.heightProperty().bind(resizableRectangle.getNode().heightProperty());
+		this.rectangle.xProperty().bind(resizableRectangle.getNode().xProperty());
+		this.rectangle.yProperty().bind(resizableRectangle.getNode().yProperty());
 		
 	}
 	public double getWidth() {
@@ -141,6 +148,7 @@ public class CustomRectangle implements Shape {
 		Pane root = (Pane)canvas;
 		root.getChildren().add(rectangle);
 	}
+
 	public Object clone() throws CloneNotSupportedException{
 		return null;
 		
@@ -154,34 +162,33 @@ public class CustomRectangle implements Shape {
 	@Override
 	public void turnOffSelectListener() {
 		// TODO Auto-generated method stub
-		if(!rectangle.getStrokeDashArray().isEmpty()) {
-			CustomRectangle.this.removeDashArray();
-		}
+		if(resizableRectangle!=null) {
+			CustomRectangle.this.removeResizableRectangle();		}
 		rectangle.removeEventHandler(MouseEvent.MOUSE_PRESSED,onMousePressed);
 		rectangle.setOnMousePressed(null);
 	}
 	@Override
-	public void removeDashArray() {
+	public void removeResizableRectangle() {
 		// TODO Auto-generated method stub
-		rectangle.getStrokeDashArray().removeAll(rectangle.getStrokeDashArray());
+		this.resizableRectangle.remove();
+		resizableRectangle = null;
 		
 	}
 	@Override
 	public boolean isSelected() {
 		// TODO Auto-generated method stub
-		return !this.rectangle.getStrokeDashArray().isEmpty();
+		return this.resizableRectangle != null;
 	}
 	@Override
 	public void setStrokeWidth(Integer value) {
 		// TODO Auto-generated method stub
 		rectangle.setStrokeWidth(value);
-		double d = value;
-		rectangle.getStrokeDashArray().addAll(42d,6d,4d);
 	}
 	@Override
 	public void getStrokeWidth(Integer value) {
 		// TODO Auto-generated method stub
 		rectangle.getStrokeWidth();
 	}
+	
 
 }

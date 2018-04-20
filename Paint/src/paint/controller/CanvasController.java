@@ -12,14 +12,18 @@ import com.jfoenix.controls.JFXComboBox;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import paint.model.CommandPane;
+import paint.model.Mover;
 import paint.model.PluginManager;
 import paint.model.Shape;
 import plugin.rectangle.CustomRectangle;
@@ -47,6 +51,17 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	private JFXComboBox<Integer> strokeWidthCB;
 	@FXML
 	private JFXButton confirmStrokeBtn;
+	@FXML
+	private JFXButton moverBtn;
+	@FXML
+	private JFXButton resizerBtn;
+	@FXML
+	private Label resizingModeLabel;
+	@FXML
+	private Label movingModeLabel;
+	private boolean movingModeSelected = false;
+	private boolean resizingModeSelected = false;
+	
 	@FXML
 	private GridPane gridPane;
 	private CommandPane selectedTool;
@@ -132,13 +147,10 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	
 	 @SuppressWarnings("unchecked")
 	private void initPlugins(){
-
 	        System.out.println("Initializing plugins...\n");
 	        PluginManager pluginManager = new PluginManager();
 	        ArrayList<CommandPane> nodes = new ArrayList<>();
-
 	        nodes = pluginManager.loadPlugins();
-	        
 	        int col = 0;
 	        int row = 0;
 
@@ -154,10 +166,10 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	            node.setAction((event) -> {
 	            	modeLabel.setText(node.getName());
 	            	if(selectedTool != null) {
-	            		selectedTool.pauseState();
+	            		selectedTool.pauseState(event);
 	            	}
 	                selectedTool = node;
-	                selectedTool.triggerState();
+	                selectedTool.triggerState(event);
 	                
 	            });
 	        }
@@ -167,6 +179,10 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		// TODO Auto-generated method stub
 		extrasPane.setVisible(false);
 		extrasTB.setVisible(false);
+		movingModeLabel.setStyle("-fx-background-color: #FF4500");
+		resizingModeLabel.setStyle("-fx-background-color: #FF4500");
+		resizingModeSelected = false;
+		movingModeSelected = false;
 		for(int i = 4 ; i<= 36 ; i+=2)strokeWidthCB.getItems().add(i);
 		applyColorsBtn.setOnAction((event)-> {
 			ShapesController.getInstance(CanvasController.this).changeColors(fillColorPicker.getValue().toString()
@@ -174,6 +190,22 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		});
 		confirmStrokeBtn.setOnAction((event)-> {
 			ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
+		});
+		moverBtn.setOnAction((event)-> {
+			movingModeLabel.setStyle("-fx-background-color: #98FB98");;
+			resizingModeLabel.setStyle("-fx-background-color: #FF4500");
+			resizingModeSelected = false;
+			movingModeSelected = false;
+			Scene currentScene = (Scene) ((Node) event.getSource()).getScene();
+			currentScene.setCursor(Cursor.MOVE);
+		});
+		resizerBtn.setOnAction((event)-> { 
+			resizingModeLabel.setStyle("-fx-background-color: #98FB98");;
+			movingModeLabel.setStyle("-fx-background-color: #FF4500");
+			movingModeSelected = false;
+			resizingModeSelected = false;
+			Scene currentScene = (Scene) ((Node) event.getSource()).getScene();
+			currentScene.setCursor(Cursor.DEFAULT);
 		});
 		initPlugins();
 		
@@ -189,6 +221,13 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		// TODO Auto-generated method stub
 		extrasPane.setVisible(false);
 		extrasTB.setVisible(false);
+	}
+	public boolean isMovingModeSelected() {
+		return movingModeSelected;
+		
+	}
+	public boolean isResizingModeSelected() {
+		return resizingModeSelected;
 	}
 	
 
