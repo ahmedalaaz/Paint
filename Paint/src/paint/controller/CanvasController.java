@@ -45,6 +45,8 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	private JFXComboBox<Integer> strokeWidthCB;
 	@FXML
 	private JFXButton confirmStrokeBtn;
+	@FXML
+	private JFXButton deleteBtn;
 	
 	@FXML
 	private GridPane gridPane;
@@ -69,6 +71,8 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	public void removeShape(Shape shape) {
 		// TODO Auto-generated method stub
 		//remove from children
+		shape.removeResizableRectangle();
+		shape.removeFromParent();
 		currentShape.remove(shape);
 	}
 	@Override
@@ -169,10 +173,10 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		confirmStrokeBtn.setOnAction((event)-> {
 			ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
 		});
-		
-		initPlugins();
-		
-		
+		deleteBtn.setOnAction((event)->{
+			ShapesController.getInstance(CanvasController.this).deleteSelectedShapes();
+		});
+		initPlugins();	
 	}
 
 	

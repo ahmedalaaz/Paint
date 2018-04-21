@@ -38,6 +38,8 @@ public interface Shape {
 
 	public void setStrokeWidth(Integer value);
 	public void getStrokeWidth(Integer value);
+
+	public void removeFromParent();
 		
 
 }
