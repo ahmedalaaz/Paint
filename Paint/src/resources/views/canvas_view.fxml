@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -18,6 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="900.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paint.controller.CanvasController">
    <top>
@@ -46,12 +46,15 @@
                <children>
                   <AnchorPane prefHeight="46.0" prefWidth="289.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-background-color: transparent; -fx-border-color: black;">
                      <children>
-                        <Label fx:id="modeLabel" alignment="CENTER" layoutX="134.0" layoutY="8.0" prefHeight="27.0" prefWidth="135.0" textFill="#654b00">
+                        <Label fx:id="modeLabel" alignment="CENTER" layoutX="134.0" layoutY="23.0" prefHeight="27.0" prefWidth="135.0" textFill="#654b00">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label alignment="CENTER" layoutY="1.0" prefHeight="32.0" prefWidth="120.0" text="Current Mode" textFill="#654b00" />
+                        <Label alignment="CENTER" layoutY="21.0" prefHeight="32.0" prefWidth="120.0" text="Current Mode" textFill="#654b00">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font></Label>
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -60,13 +63,31 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </AnchorPane>
-                  <AnchorPane fx:id="extrasTB" prefHeight="71.0" prefWidth="897.0" style="-fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px; -fx-background-color: transparent;" stylesheets="@../css/styles.css">
+                  <AnchorPane fx:id="extrasTB" prefHeight="74.0" prefWidth="937.0" style="-fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px; -fx-background-color: transparent;" stylesheets="@../css/styles.css">
                      <children>
-                        <Label layoutX="14.0" layoutY="7.0" prefHeight="52.0" prefWidth="99.0" text="Stroke Width" textFill="#654b00" />
+                        <Label layoutX="14.0" layoutY="7.0" prefHeight="52.0" prefWidth="99.0" text="Stroke Width" textFill="#654b00">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font></Label>
                         <JFXComboBox fx:id="strokeWidthCB" layoutX="113.0" layoutY="17.0" prefHeight="33.0" prefWidth="81.0" />
                         <JFXButton id="apply" fx:id="confirmStrokeBtn" layoutX="232.0" layoutY="14.0" prefHeight="38.0" prefWidth="108.0" stylesheets="@../css/styles.css" text="confirm" />
-                        <Label fx:id="movingModeLabel" alignment="CENTER" layoutX="383.0" layoutY="7.0" prefHeight="52.0" prefWidth="99.0" text="Moving Mode" textFill="#654b00" />
-                        <Label fx:id="resizingModeLabel" alignment="CENTER" layoutX="521.0" layoutY="7.0" prefHeight="52.0" prefWidth="99.0" text="Resizing Mode" textFill="#654b00" />
+                        <Label alignment="CENTER" layoutX="406.0" layoutY="19.0" prefHeight="33.0" prefWidth="40.0" text="Fill " textFill="#654b00">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Label>
+                        <JFXColorPicker fx:id="fillColorPicker" layoutX="454.0" layoutY="22.0" prefHeight="26.0" prefWidth="91.0" />
+                        <Label id="fill" layoutX="356.0" layoutY="20.0" prefHeight="33.0" prefWidth="36.0" stylesheets="@../css/styles.css" />
+                        <Label alignment="CENTER" layoutX="626.0" layoutY="19.0" prefHeight="33.0" prefWidth="59.0" text="Stroke " textFill="#654b00">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Label>
+                        <JFXColorPicker fx:id="strokeColorPicker" layoutX="690.0" layoutY="24.0" prefHeight="26.0" prefWidth="89.0" />
+                        <Label id="stroke" layoutX="573.0" layoutY="20.0" prefHeight="33.0" prefWidth="36.0" stylesheets="@../css/styles.css" />
+                        <Separator layoutX="347.0" layoutY="8.0" minWidth="2.0" orientation="VERTICAL" prefHeight="50.0" prefWidth="0.0" style="-fx-background-color: black; -fx-border-width: 2px; -fx-border-color: black;" />
+                        <Separator layoutX="560.0" layoutY="12.0" minWidth="2.0" orientation="VERTICAL" prefHeight="50.0" prefWidth="0.0" style="-fx-background-color: black; -fx-border-width: 2px; -fx-border-color: black;" />
+                        <JFXButton id="apply" fx:id="applyColorsBtn" layoutX="808.0" layoutY="18.0" prefHeight="38.0" prefWidth="108.0" stylesheets="@../css/styles.css" text="Apply" />
                      </children>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -109,33 +130,6 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </GridPane>
-            <AnchorPane fx:id="extrasPane" prefHeight="423.0" prefWidth="202.0" style="-fx-background-color: white; -fx-border-radius: 10px; -fx-background-radius: 10px;">
-               <VBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </VBox.margin>
-               <children>
-                  <Label alignment="CENTER" layoutX="53.0" layoutY="83.0" prefHeight="33.0" prefWidth="47.0" text="Stroke " textFill="#654b00" />
-                  <JFXColorPicker fx:id="strokeColorPicker" layoutX="106.0" layoutY="87.0" prefHeight="26.0" prefWidth="89.0" />
-                  <Label alignment="CENTER" layoutX="56.0" layoutY="10.0" prefHeight="33.0" prefWidth="40.0" text="Fill " textFill="#654b00" />
-                  <JFXColorPicker fx:id="fillColorPicker" layoutX="104.0" layoutY="13.0" prefHeight="26.0" prefWidth="91.0" />
-                  <Label id="fill" layoutX="6.0" layoutY="11.0" prefHeight="33.0" prefWidth="36.0" stylesheets="@../css/styles.css" />
-                  <Label id="stroke" layoutX="6.0" layoutY="83.0" prefHeight="33.0" prefWidth="36.0" stylesheets="@../css/styles.css" />
-                  <JFXButton id="move" fx:id="moverBtn" layoutX="18.0" layoutY="224.0" prefHeight="66.0" prefWidth="170.0" text=" ">
-                     <stylesheets>
-                        <URL value="@../css/button.css" />
-                        <URL value="@../css/styles.css" />
-                     </stylesheets>
-                  </JFXButton>
-                  <JFXButton id="resize" fx:id="resizerBtn" layoutX="18.0" layoutY="310.0" prefHeight="66.0" prefWidth="170.0" text=" ">
-                     <stylesheets>
-                        <URL value="@../css/button.css" />
-                        <URL value="@../css/styles.css" />
-                     </stylesheets>
-                  </JFXButton>
-                  <JFXButton id="apply" fx:id="applyColorsBtn" layoutX="47.0" layoutY="142.0" prefHeight="38.0" prefWidth="108.0" stylesheets="@../css/styles.css" text="Apply" />
-                  <Separator layoutX="1.0" layoutY="195.0" prefWidth="200.0" />
-               </children>
-            </AnchorPane>
          </children>
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

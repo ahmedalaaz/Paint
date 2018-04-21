@@ -1,7 +1,5 @@
 package paint.model;
 
-import java.util.Arrays;
-
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
@@ -111,14 +109,14 @@ public class ResizableRectangle {
 	                double deltaX = event.getSceneX() - mouseLocation.value.getX();
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newX = outerSelectorRectangle.getX() + deltaX ;
-	                if (newX >= smallCirclesRadius 
-	                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - smallCirclesRadius) {
+	                if (newX >= 2*smallCirclesRadius 
+	                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setX(newX);
 	                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 	                }
 	                double newY = outerSelectorRectangle.getY() + deltaY ;
-	                if (newY >= smallCirclesRadius 
-	                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - smallCirclesRadius) {
+	                if (newY >=2* smallCirclesRadius 
+	                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setY(newY);
 	                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 	                }
@@ -130,13 +128,13 @@ public class ResizableRectangle {
 	                double deltaX = event.getSceneX() - mouseLocation.value.getX();
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX ;
-	                if (newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - smallCirclesRadius  
-	                        && newMaxX >= outerSelectorRectangle.getX()) {
+	                if (newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - 2*smallCirclesRadius  
+	                        && newMaxX >= outerSelectorRectangle.getX()+2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 	                }
 	                double newY = outerSelectorRectangle.getY() + deltaY ;
-	                if (newY >= smallCirclesRadius 
-	                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - smallCirclesRadius) {
+	                if (newY >= 2*smallCirclesRadius 
+	                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setY(newY);
 	                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 	                }
@@ -148,14 +146,14 @@ public class ResizableRectangle {
 	                double deltaX = event.getSceneX() - mouseLocation.value.getX();
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newX = outerSelectorRectangle.getX() + deltaX ;
-	                if (newX >= smallCirclesRadius 
-	                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - smallCirclesRadius) {
+	                if (newX >= 2*smallCirclesRadius 
+	                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setX(newX);
 	                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 	                }
 	                double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY ;
-	                if (newMaxY >= outerSelectorRectangle.getY() 
-	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - smallCirclesRadius) {
+	                if (newMaxY >= outerSelectorRectangle.getY() +2*smallCirclesRadius
+	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 	                }
 	                mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -166,13 +164,13 @@ public class ResizableRectangle {
 	                double deltaX = event.getSceneX() - mouseLocation.value.getX();
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX ;
-	                if (newMaxX >= outerSelectorRectangle.getX() 
-	                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - smallCirclesRadius) {
+	                if (newMaxX >= outerSelectorRectangle.getX() +2*smallCirclesRadius 
+	                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() -2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 	                }
 	                double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY ;
-	                if (newMaxY >= outerSelectorRectangle.getY() 
-	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - smallCirclesRadius) {
+	                if (newMaxY >= outerSelectorRectangle.getY() + 2*smallCirclesRadius
+	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() -2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 	                }
 	                mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -182,8 +180,8 @@ public class ResizableRectangle {
 	            if (mouseLocation.value != null) {
 	            	  double deltaX = event.getSceneX() - mouseLocation.value.getX();
 		                double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX ;
-		                if (newMaxX >= outerSelectorRectangle.getX() 
-		                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - smallCirclesRadius) {
+		                if (newMaxX >= outerSelectorRectangle.getX() +2*smallCirclesRadius
+		                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - 2*smallCirclesRadius) {
 		                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		                }
 	                mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -193,8 +191,8 @@ public class ResizableRectangle {
 	            if (mouseLocation.value != null) {
 	            	 double deltaX = event.getSceneX() - mouseLocation.value.getX();
 	            	 double newX = outerSelectorRectangle.getX() + deltaX ;
-		                if (newX >= smallCirclesRadius 
-		                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - smallCirclesRadius) {
+		                if (newX >= 2*smallCirclesRadius 
+		                        && newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2*smallCirclesRadius) {
 		                    outerSelectorRectangle.setX(newX);
 		                    outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 		                }
@@ -205,8 +203,8 @@ public class ResizableRectangle {
 	            if (mouseLocation.value != null) {
 	            	double deltaY = event.getSceneY() - mouseLocation.value.getY();
 		                double newY = outerSelectorRectangle.getY() + deltaY ;
-		                if (newY >= smallCirclesRadius 
-		                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - smallCirclesRadius) {
+		                if (newY >= 2*smallCirclesRadius 
+		                        && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() - 2*smallCirclesRadius) {
 		                    outerSelectorRectangle.setY(newY);
 		                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 		                }
@@ -217,8 +215,8 @@ public class ResizableRectangle {
 	            if (mouseLocation.value != null) {
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY ;
-	                if (newMaxY >= outerSelectorRectangle.getY() 
-	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - smallCirclesRadius) {
+	                if (newMaxY >= outerSelectorRectangle.getY() + 2*smallCirclesRadius
+	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 	                }
 	                mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -232,14 +230,14 @@ public class ResizableRectangle {
 	                double deltaY = event.getSceneY() - mouseLocation.value.getY();
 	                double newX = outerSelectorRectangle.getX() + deltaX ;
 	                double newMaxX = newX + outerSelectorRectangle.getWidth();
-	                if (newX >= smallCirclesRadius 
-	                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - smallCirclesRadius) {
+	                if (newX >= 2*smallCirclesRadius 
+	                        && newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setX(newX);
 	                }
 	                double newY = outerSelectorRectangle.getY() + deltaY ;
 	                double newMaxY = newY + outerSelectorRectangle.getHeight();
-	                if (newY >= smallCirclesRadius 
-	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - smallCirclesRadius) {
+	                if (newY >= 2*smallCirclesRadius 
+	                        && newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight() - 2*smallCirclesRadius) {
 	                    outerSelectorRectangle.setY(newY);
 	                }
 	                mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());

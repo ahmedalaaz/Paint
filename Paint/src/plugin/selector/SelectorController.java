@@ -1,6 +1,7 @@
 package plugin.selector;
 
 import java.io.File;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import paint.model.CommandPane;
-import paint.model.Mover;
 import paint.model.Shape;
 import paint.view.Main;
 import paint.view.UILoader;
@@ -21,7 +21,6 @@ import paint.view.UILoader;
 public class SelectorController extends AnchorPane implements CommandPane {
 	private String toolName;
 	final private String TOOL = "selector";
-	Mover mover  =  new Mover();
 	@FXML
 	private JFXButton toolButton;
 	public SelectorController() {
@@ -41,9 +40,7 @@ public class SelectorController extends AnchorPane implements CommandPane {
 	@Override
 	public void execute(Object canvas, MouseEvent event) {
 		// TODO Auto-generated method stub
-		if(Main.getController().isMovingModeSelected()) {
-			mover.execute(canvas, event);
-		}
+		
 	}
 
 	public void turnOnShapeListeners(ArrayList<Shape> shapes) {
@@ -81,7 +78,6 @@ public class SelectorController extends AnchorPane implements CommandPane {
 	public void triggerState(ActionEvent event) {
 		// TODO Auto-generated method stub
 		ArrayList<Shape> shapes = Main.getController().getShapes();
-		Main.getController().showExtrasPane();
 		this.turnOnShapeListeners(shapes);
 	}
 
@@ -89,7 +85,6 @@ public class SelectorController extends AnchorPane implements CommandPane {
 	public void pauseState(ActionEvent event) {
 		// TODO Auto-generated method stub
 		ArrayList<Shape> shapes = Main.getController().getShapes();
-		Main.getController().removeExtrasPane();
 		this.turnOffShapeListeners(shapes);	
 	}
 

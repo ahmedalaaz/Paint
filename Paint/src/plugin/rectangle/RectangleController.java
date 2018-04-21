@@ -30,7 +30,7 @@ public class RectangleController extends AnchorPane implements CommandPane {
 	public void execute(Object canvas, MouseEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
-			rectangle = new CustomRectangle(30, 30);
+			rectangle = new CustomRectangle(50, 50);
 			rectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			rectangle.setFillColor(Paint.valueOf("#FFFFFF"));
 			rectangle.setColor(Paint.valueOf("#000000"));
