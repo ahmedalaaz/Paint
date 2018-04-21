@@ -14,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
-import paint.model.Shape;
 import paint.view.Main;
 import paint.view.UILoader;
 
@@ -32,8 +31,6 @@ public class RectangleController extends AnchorPane implements CommandPane {
 		// TODO Auto-generated method stub
 		if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
 			rectangle = new CustomRectangle(30, 30);
-			event.getX();
-			event.getY();
 			rectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			rectangle.setFillColor(Paint.valueOf("#FFFFFF"));
 			rectangle.setColor(Paint.valueOf("#000000"));
@@ -45,7 +42,6 @@ public class RectangleController extends AnchorPane implements CommandPane {
 		if(event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 			if(rectangle == null) 
 				return;
-			
             double offsetX = event.getX() - rectangleStartX;
             double offsetY = event.getY() - rectangleStartY;
             if (offsetX > 0) {
@@ -111,13 +107,13 @@ public class RectangleController extends AnchorPane implements CommandPane {
 	}
 
 	@Override
-	public void triggerState() {
+	public void triggerState(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void pauseState() {
+	public void pauseState(ActionEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

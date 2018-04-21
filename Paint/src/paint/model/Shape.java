@@ -22,7 +22,7 @@ public interface Shape {
 	
 	public void turnOffSelectListener();
 	
-	public void removeDashArray();
+	public void removeResizableRectangle();
 	
 
 	/*
@@ -38,6 +38,6 @@ public interface Shape {
 
 	public void setStrokeWidth(Integer value);
 	public void getStrokeWidth(Integer value);
-	
+		
 
 }
