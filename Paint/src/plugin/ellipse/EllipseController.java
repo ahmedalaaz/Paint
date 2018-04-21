@@ -30,7 +30,7 @@ public class EllipseController extends AnchorPane implements CommandPane {
     @Override
     public void execute(Object canvas, MouseEvent event) {
         if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
-			ellipse = new CustomEllipse(10, 10);
+			ellipse = new CustomEllipse(50, 50);
 			ellipse.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			ellipse.setFillColor(Paint.valueOf("#FFFFFF"));
 			ellipse.setColor(Paint.valueOf("#000000"));
@@ -45,15 +45,12 @@ public class EllipseController extends AnchorPane implements CommandPane {
             double offsetX = event.getX() - ellipseStartX;
             double offsetY = event.getY() - ellipseStartY;
             if (offsetX > 0) {
-                if(ellipseStartX==ellipse.getRadiusX()){
-                   ellipse.setCenterX(ellipseStartX);
-                   ellipse.setRadiusX(ellipseStartX); 
-                   
-                }
+              
                 if (event.getX() > ((Region) ellipse.getParent()).getWidth())
                   ellipse.setRadiusX(((Region) ellipse.getParent()).getWidth() - ellipseStartX);
                 
                 else{
+                
                     ellipse.setRadiusX(offsetX);
                 }
                 	
