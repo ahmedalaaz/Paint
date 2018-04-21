@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import paint.model.ResizableRectangle;
@@ -53,10 +54,14 @@ public class CustomEllipse implements Shape {
 		return ellipse.getRadiusY();
 	}
 	public void setRadiusX(double radiusX) {
+		if(radiusX+ellipse.getCenterX() < ((Region) ellipse.getParent()).getWidth() 
+    			&& ellipse.getCenterX() - radiusX > 0)
 		ellipse.setRadiusX(radiusX);
 		properties.put("RadiusX", radiusX);
 	}
 	public void setRadiusY(double radiusY) {
+		if(radiusY+ellipse.getCenterY() < ((Region) ellipse.getParent()).getHeight() 
+    			&& ellipse.getCenterY() - radiusY > 0)
 		ellipse.setRadiusY(radiusY);
 		properties.put("RadiusY",radiusY);
 	}
@@ -88,7 +93,7 @@ public class CustomEllipse implements Shape {
 		if (position.getX()-ellipse.getRadiusX() >= 0 && position.getX()+ellipse.getRadiusX()  <= ellipse.getParent().getBoundsInLocal().getWidth() ) {
             ellipse.setCenterX(position.getX());
         }
-		if (position.getY()-ellipse.getRadiusY()>= 0 && position.getY()+ellipse.getRadiusY() <= ellipse.getParent().getBoundsInLocal().getHeight() ) {
+		if (position.getY()-ellipse.getRadiusY() >= 0 && position.getY()+ellipse.getRadiusY() <= ellipse.getParent().getBoundsInLocal().getHeight() ) {
             ellipse.setCenterY(position.getY());
         }
     }
