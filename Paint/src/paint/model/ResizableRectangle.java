@@ -281,7 +281,6 @@ public class ResizableRectangle {
 		canvas.getChildren().removeAll(this.outerSelectorRectangle,this.northEastSmallCircle,this.northSmallCircle,
     	this.northWestSmallCircle,this.southEastSmallCircle,this.southSmallCircle,this.southWestSmallCircle,
     	this.westSmallCircle,this.eastSmallCircle,this.moveHandle);
-		
 	}
 
 	

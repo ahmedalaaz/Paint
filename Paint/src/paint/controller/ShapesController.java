@@ -1,10 +1,9 @@
 package paint.controller;
 
-import java.awt.Point;
 import java.util.ArrayList;
-
 import javafx.scene.paint.Paint;
 import paint.model.Shape;
+import paint.view.Main;
 
 public class ShapesController {
 private CanvasController canvasController;
@@ -38,18 +37,17 @@ public void changeStrokeWidth(Integer value) {
 		}
 	}
 }
-public void moveShapes(double offsetX, double offsetY) {
+public void deleteSelectedShapes() {
 	// TODO Auto-generated method stub
 	ArrayList<Shape> shapes =  canvasController.getShapes();
-	for(Shape shape : shapes) {
+	ArrayList<Shape> shapesToRemove = new ArrayList<Shape>();
+	for( Shape shape : shapes) {
 		if(shape.isSelected()) {
-			Point shapePosition = shape.getPosition();
-			Point newPosition = new Point();
-			newPosition.setLocation(shapePosition.getX() + offsetX ,shapePosition.getY() + offsetY );
-			
-			System.out.println(newPosition.toString());
-			shape.setPosition(newPosition);
+			shapesToRemove.add(shape);
 		}
+	}
+	for(Shape shape : shapesToRemove) {
+		Main.getController().removeShape(shape);
 	}
 }
 

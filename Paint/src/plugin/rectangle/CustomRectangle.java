@@ -186,6 +186,12 @@ public class CustomRectangle implements Shape {
 		// TODO Auto-generated method stub
 		rectangle.getStrokeWidth();
 	}
+	@Override
+	public void removeFromParent() {
+		// TODO Auto-generated method stub
+		Pane parent = (Pane)this.rectangle.getParent();
+		parent.getChildren().remove(this.rectangle);
+	}
 	
 
 }
