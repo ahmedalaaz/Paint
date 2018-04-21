@@ -22,11 +22,12 @@ public class ResizableRectangle {
 	protected Circle westSmallCircle;
 	protected Circle eastSmallCircle;
 	protected Circle moveHandle;
+	protected Shape selectedShape;
 	
-	public ResizableRectangle(double x, double y , double width , double height) {
+	public ResizableRectangle(double x, double y , double width , double height, Shape shape) {
 		  	final double smallCirclesRadius = 10 ;
 		  	final Paint smallCircleColor = Color.ORANGE;
-
+		  	this.selectedShape = shape;
 	        outerSelectorRectangle = new Rectangle(x, y, width, height);
 
 	        // top left resize handle:
@@ -245,6 +246,9 @@ public class ResizableRectangle {
 	            }
 
 	        });
+	        outerSelectorRectangle.setOnMousePressed((event)->{
+	        	this.selectedShape.removeResizableRectangle();
+	        });
 	        outerSelectorRectangle.setStrokeWidth(6d);
 	        outerSelectorRectangle.getStrokeDashArray().addAll(46d,2d,4d);
 	        outerSelectorRectangle.setFill(Color.WHITE);
@@ -277,8 +281,9 @@ public class ResizableRectangle {
 		Pane canvas = (Pane) this.outerSelectorRectangle.getParent();
 		tempParent = canvas;
 		canvas.getChildren().removeAll(this.outerSelectorRectangle,this.northEastSmallCircle,this.northSmallCircle,
-    			this.northWestSmallCircle,this.southEastSmallCircle,this.southSmallCircle,this.southWestSmallCircle,
-    			this.westSmallCircle,this.eastSmallCircle,this.moveHandle);
+    	this.northWestSmallCircle,this.southEastSmallCircle,this.southSmallCircle,this.southWestSmallCircle,
+    	this.westSmallCircle,this.eastSmallCircle,this.moveHandle);
+		
 	}
 
 	
