@@ -1,6 +1,7 @@
 package plugin.rectangle;
 
 import java.awt.Point;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import paint.model.ResizableRectangle;
 import paint.model.Shape;
-import paint.view.Main;
 
 public class CustomRectangle implements Shape {
 	private Rectangle rectangle;
@@ -29,22 +29,19 @@ public class CustomRectangle implements Shape {
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if(resizableRectangle != null) {
-					CustomRectangle.this.removeResizableRectangle();
-					return;
+					CustomRectangle.this.resizableRectangle = null;
 				}
 				// rectangle.getStrokeDashArray().addAll(42d,6d,4d);
 				CustomRectangle.this.bindToResizableRectangle();
 			}
-
-		
 		};
-		
 	}
 	protected void bindToResizableRectangle() {
 		resizableRectangle =  new ResizableRectangle(this.rectangle.getX(), this.rectangle.getY(), this.rectangle.getWidth()
-				, this.rectangle.getHeight());
+				, this.rectangle.getHeight(),this);
 		Pane canvas = (Pane)this.rectangle.getParent();
 		resizableRectangle.addToParent(canvas);
+		// Binding properties :
 		this.rectangle.widthProperty().bind(resizableRectangle.getNode().widthProperty());
 		this.rectangle.heightProperty().bind(resizableRectangle.getNode().heightProperty());
 		this.rectangle.xProperty().bind(resizableRectangle.getNode().xProperty());
