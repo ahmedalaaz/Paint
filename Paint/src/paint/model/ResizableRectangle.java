@@ -251,7 +251,7 @@ public class ResizableRectangle {
 	        });
 	        outerSelectorRectangle.setStrokeWidth(6d);
 	        outerSelectorRectangle.getStrokeDashArray().addAll(46d,2d,4d);
-	        outerSelectorRectangle.setFill(Color.WHITE);
+	        outerSelectorRectangle.setFill(Color.TRANSPARENT);
 		}
 
     private void setUpDragging(Circle circle, Wrapper<Point2D> mouseLocation) {
