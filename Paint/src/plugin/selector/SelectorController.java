@@ -69,7 +69,7 @@ public class SelectorController extends AnchorPane implements CommandPane {
 	}
 
 	@Override
-	public Class<?> getToolClass() {
+	public Class<? extends Shape> getToolClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -81,18 +81,6 @@ public class ResizableRectangle {
 	        moveHandle.centerXProperty().bind(outerSelectorRectangle.xProperty().add(outerSelectorRectangle.widthProperty().divide(2)));
 	        moveHandle.centerYProperty().bind(outerSelectorRectangle.yProperty().add(outerSelectorRectangle.heightProperty().divide(2)));
 
-	     /*   // force circles to live in same parent as rectangle:
-	        outerSelectorRectangle.parentProperty().addListener((obs, oldParent, newParent) -> {
-	            for (Circle c : Arrays.asList(northWestSmallCircle, southEastSmallCircle,northEastSmallCircle,northSmallCircle,
-	            		southWestSmallCircle,southSmallCircle,westSmallCircle,eastSmallCircle,moveHandle)) {
-	                Pane currentParent = (Pane)c.getParent();
-	                if (currentParent != null) {
-	                    currentParent.getChildren().remove(c);
-	                }
-	                if(newParent == null) return;
-	                ((Pane)newParent).getChildren().add(c);
-	            }
-	        });*/
 	        Wrapper<Point2D> mouseLocation = new Wrapper<>();
 
 	        setUpDragging(northWestSmallCircle, mouseLocation) ;
