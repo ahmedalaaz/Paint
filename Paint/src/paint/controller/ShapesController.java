@@ -1,13 +1,24 @@
 package paint.controller;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
+import org.json.simple.JSONArray;
+
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import paint.model.LoadJSON;
+import paint.model.LoaderStrategy;
+import paint.model.SaverStrategy;
 import paint.model.Shape;
 import paint.view.Main;
 
 public class ShapesController {
 private CanvasController canvasController;
 private static ShapesController myInstance;
+private SaverStrategy saver;
 private ShapesController(CanvasController canvasController){
 	this.canvasController = canvasController;
 }
@@ -50,6 +61,49 @@ public void deleteSelectedShapes() {
 		Main.getController().removeShape(shape);
 	}
 }
+public void saveCurrentScene(String absolutePath,SaverStrategy saver) {
+	// TODO Auto-generated method stub
+	ArrayList<Shape> shapes = canvasController.getShapes();
+	this.saver =saver;
+	String outputToSave = this.save(shapes);
+	try (FileWriter file = new FileWriter(absolutePath)) {
+		file.write(outputToSave);
+		System.out.println("Successfully Copied JSON Object to File...");
+		System.out.println("\nJSON Object: " + outputToSave);
+	} catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+	}
+	//System.out.println(this.save(shapes));
+}
+
+public String save(ArrayList<Shape> shapes) {
+	try {
+		return saver.save(shapes);
+	}catch(Exception exception) {
+		exception.printStackTrace();
+	}
+	return null;
+}
+public void changeSavingStrategy(SaverStrategy saver) {
+	this.saver = saver;
+}
+public boolean isSupportedShape(String c) {
+	ArrayList<Class<? extends Shape>> supportedShapes = (ArrayList<Class<? extends Shape>>) canvasController.getSupportedShapes();
+	for(Class<? extends Shape> t : supportedShapes) {
+		if(t== null)continue;
+		if(t.getName().equals(c))return true;
+	}
+	return false;
+}
+public void loadSavedScene(String absolutePath, LoaderStrategy loadJSON) {
+	ArrayList<Shape> newShapes = loadJSON.load(absolutePath);
+	Pane canvas = new Pane();
+	canvasController.refresh(canvas);
+	for(Shape shape : newShapes) {
+		canvasController.addShape(shape);
+	}
+}	
 
 
 }

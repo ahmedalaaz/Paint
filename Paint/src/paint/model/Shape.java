@@ -1,5 +1,7 @@
 package paint.model;
 
+import org.json.simple.JSONObject;
+
 public interface Shape {
 	public void setPosition(java.awt.Point position);
 
@@ -40,6 +42,10 @@ public interface Shape {
 	public void getStrokeWidth(Integer value);
 
 	public void removeFromParent();
-		
+	public String getXMLString();
+	public String getJSONString();
+
+	public void loadJSON(JSONObject jsonObj);
+	
 
 }

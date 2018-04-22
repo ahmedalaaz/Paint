@@ -23,10 +23,12 @@
    <top>
       <VBox prefHeight="64.0" prefWidth="1279.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar>
+            <MenuBar fx:id="mMenuBar">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openSavedFile" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveCurrentCanvas" text="Save" />
                     <MenuItem mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>

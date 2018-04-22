@@ -2,8 +2,14 @@
 package plugin.ellipse;
 
 import java.awt.Point;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.simple.JSONObject;
+
+import com.google.gson.Gson;
+
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -15,173 +21,255 @@ import paint.model.ResizableRectangle;
 import paint.model.Shape;
 
 public class CustomEllipse implements Shape {
-    
-    private Ellipse ellipse;
-	ResizableRectangle  resizableRectangle;
+
+	private Ellipse ellipse;
+	private Class<CustomEllipse> mClass = CustomEllipse.class;
+	public Class<CustomEllipse> getmClass() {
+		return mClass;
+	}
+	private ResizableRectangle resizableRectangle;
 	private Map<String, Double> properties = new HashMap<>();
 	EventHandler<MouseEvent> onMousePressed;
-	public CustomEllipse(double RadiusX, double RadiusY) {
-		ellipse = new Ellipse(RadiusX, RadiusY);
-		properties.put("RadiusX", RadiusX);
-		properties.put("RadiusY",RadiusY);
-		onMousePressed =  new EventHandler<MouseEvent>() {
+	public CustomEllipse() {
+		ellipse = new Ellipse();
+		onMousePressed = new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if(resizableRectangle != null) {
+				if (resizableRectangle != null) {
 					CustomEllipse.this.resizableRectangle = null;
 				}
 				CustomEllipse.this.bindToResizableEllipse();
 			}
 		};
 	}
-        protected void bindToResizableEllipse() {
-		resizableRectangle =  new ResizableRectangle(this.ellipse.getCenterX()-this.ellipse.getRadiusX(), this.ellipse.getCenterY()-this.ellipse.getRadiusY(), (this.ellipse.getRadiusX())*2
-				, (this.ellipse.getRadiusY())*2,this);
-		Pane canvas = (Pane)this.ellipse.getParent();
+	public CustomEllipse(double radiusX, double radiusY) {
+		ellipse = new Ellipse(radiusX, radiusY);
+		properties.put("radiusX", radiusX);
+		properties.put("radiusY", radiusY);
+		onMousePressed = new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				if (resizableRectangle != null) {
+					CustomEllipse.this.resizableRectangle = null;
+				}
+				CustomEllipse.this.bindToResizableEllipse();
+			}
+		};
+	}
+
+	protected void bindToResizableEllipse() {
+		resizableRectangle = new ResizableRectangle(this.ellipse.getCenterX() - this.ellipse.getRadiusX(),
+				this.ellipse.getCenterY() - this.ellipse.getRadiusY(), (this.ellipse.getRadiusX()) * 2,
+				(this.ellipse.getRadiusY()) * 2, this);
+		Pane canvas = (Pane) this.ellipse.getParent();
 		resizableRectangle.addToParent(canvas);
 		// Binding properties :
-                this.ellipse.centerXProperty().bind(resizableRectangle.getNode().xProperty().add(ellipse.radiusXProperty()));
-                this.ellipse.centerYProperty().bind(resizableRectangle.getNode().yProperty().add(ellipse.radiusYProperty()));
+		this.ellipse.centerXProperty().bind(resizableRectangle.getNode().xProperty().add(ellipse.radiusXProperty()));
+		this.ellipse.centerYProperty().bind(resizableRectangle.getNode().yProperty().add(ellipse.radiusYProperty()));
 		this.ellipse.radiusXProperty().bind(resizableRectangle.getNode().widthProperty().divide(2));
-                this.ellipse.radiusYProperty().bind(resizableRectangle.getNode().heightProperty().divide(2));
-        }
-     public double getRadiusX() {
+		this.ellipse.radiusYProperty().bind(resizableRectangle.getNode().heightProperty().divide(2));
+	}
+
+	public double getRadiusX() {
 		return ellipse.getRadiusX();
 	}
+
 	public double getRadiusY() {
 		return ellipse.getRadiusY();
 	}
+
 	public void setRadiusX(double radiusX) {
-		if(radiusX+ellipse.getCenterX() < ((Region) ellipse.getParent()).getWidth() 
-    			&& ellipse.getCenterX() - radiusX > 0)
-		ellipse.setRadiusX(radiusX);
+		if(ellipse.getParent() == null)ellipse.setRadiusX(radiusX);
+		else if (radiusX + ellipse.getCenterX() < ((Region) ellipse.getParent()).getWidth()
+				&& ellipse.getCenterX() - radiusX > 0)
+			ellipse.setRadiusX(radiusX);
 		properties.put("RadiusX", radiusX);
 	}
+
 	public void setRadiusY(double radiusY) {
-		if(radiusY+ellipse.getCenterY() < ((Region) ellipse.getParent()).getHeight() 
-    			&& ellipse.getCenterY() - radiusY > 0)
-		ellipse.setRadiusY(radiusY);
-		properties.put("RadiusY",radiusY);
+		if(ellipse.getParent() == null)ellipse.setRadiusY(radiusY);
+		else if (radiusY + ellipse.getCenterY() < ((Region) ellipse.getParent()).getHeight()
+				&& ellipse.getCenterY() - radiusY > 0)
+			ellipse.setRadiusY(radiusY);
+		properties.put("RadiusY", radiusY);
 	}
-        public double getCenterX() {
+
+	public double getCenterX() {
 		return ellipse.getCenterX();
 	}
+
 	public void setCenterX(double x) {
-		
+
 		ellipse.setCenterX(x);
-		properties.put("x",x);
+		properties.put("x", x);
 	}
+
 	public double getCenterY() {
 		return ellipse.getCenterY();
 	}
+
 	public void setCenterY(double y) {
 		ellipse.setCenterY(y);
-		properties.put("y",y);
+		properties.put("y", y);
 	}
-        public Node getParent() {
+
+	public Node getParent() {
 		return ellipse.getParent();
 	}
-    @Override
-    public void setPosition(Point position) {
-        if(ellipse.getParent() == null) {
-		    ellipse.setCenterX(position.getX());
-		    ellipse.setCenterY(position.getY());
-	        return ;    	
+
+	@Override
+	public void setPosition(Point position) {
+		if (ellipse.getParent() == null) {
+			ellipse.setCenterX(position.getX());
+			ellipse.setCenterY(position.getY());
+			properties.put("x" , position.getX());
+			properties.put("y" , position.getY());
+			return;
 		}
-		if (position.getX()-ellipse.getRadiusX() >= 0 && position.getX()+ellipse.getRadiusX()  <= ellipse.getParent().getBoundsInLocal().getWidth() ) {
-            ellipse.setCenterX(position.getX());
-        }
-		if (position.getY()-ellipse.getRadiusY() >= 0 && position.getY()+ellipse.getRadiusY() <= ellipse.getParent().getBoundsInLocal().getHeight() ) {
-            ellipse.setCenterY(position.getY());
-        }
-    }
+		if (position.getX() - ellipse.getRadiusX() >= 0
+				&& position.getX() + ellipse.getRadiusX() <= ellipse.getParent().getBoundsInLocal().getWidth()) {
+			ellipse.setCenterX(position.getX());
+			properties.put("x" , position.getX());
 
-    @Override
-    public Point getPosition() {
-        return new Point((int)ellipse.getCenterX(), (int)ellipse.getCenterY());
-    }
+		}
+		if (position.getY() - ellipse.getRadiusY() >= 0
+				&& position.getY() + ellipse.getRadiusY() <= ellipse.getParent().getBoundsInLocal().getHeight()) {
+			ellipse.setCenterY(position.getY());
+			properties.put("y" , position.getY());
 
-    @Override
-    public void setProperties(Map<String, Double> properties) {
-        this.properties = properties;
-    }
-
-    @Override
-    public Map<String, Double> getProperties() {
-        return properties;
-    }
-
-    @Override
-    public void setColor(Object color) {
-        ellipse.setStroke((Paint)color);
-    }
-
-    @Override
-    public Object getColor() {
-        return ellipse.getStroke();
-    }
-
-    @Override
-    public void setFillColor(Object color) {
-       ellipse.setFill((Paint)color);
-
-    }
-
-    @Override
-    public Object getFillColor() {
-       return ellipse.getFill();
-    }
-    @Override
-    public void turnOnSelectListener() {
-    ellipse.setOnMousePressed(onMousePressed);
-
-    }
-
-    @Override
-    public void turnOffSelectListener() {
-        if(resizableRectangle!=null) {
-	 CustomEllipse.this.removeResizableRectangle();		
-        }
-	ellipse.removeEventHandler(MouseEvent.MOUSE_PRESSED,onMousePressed);
-	ellipse.setOnMousePressed(null);
-    }
-
-    @Override
-    public void removeResizableRectangle() {
-        this.resizableRectangle.remove();
-	 resizableRectangle = null;
-    }
-
-    @Override
-    public void draw(Object canvas) {
-        Pane root = (Pane)canvas;
-        root.getChildren().add(ellipse);
-    }
-
-    @Override
-    public boolean isSelected() {
-        return this.resizableRectangle != null;
-    }
-
-    @Override
-    public void setStrokeWidth(Integer value) {
-        ellipse.setStrokeWidth(value);
-    }
-
-    @Override
-    public void getStrokeWidth(Integer value) {
-        ellipse.getStrokeWidth();
-    }
-
-    @Override
-    public void removeFromParent() {
-        Pane parent = (Pane)this.ellipse.getParent();
-        parent.getChildren().remove(this.ellipse);
-    }
-    public Object clone() throws CloneNotSupportedException{
-		return null;
+		}
 		
+	}
+
+	@Override
+	public Point getPosition() {
+		return new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY());
+	}
+
+	@Override
+	public void setProperties(Map<String, Double> properties) {
+		this.properties = properties;
+	}
+
+	@Override
+	public Map<String, Double> getProperties() {
+		return properties;
+	}
+
+	@Override
+	public void setColor(Object color) {
+		ellipse.setStroke((Paint) color);
+	}
+
+	@Override
+	public Object getColor() {
+		return ellipse.getStroke();
+	}
+
+	@Override
+	public void setFillColor(Object color) {
+		ellipse.setFill((Paint) color);
+
+	}
+
+	@Override
+	public Object getFillColor() {
+		return ellipse.getFill();
+	}
+
+	@Override
+	public void turnOnSelectListener() {
+		ellipse.setOnMousePressed(onMousePressed);
+
+	}
+
+	@Override
+	public void turnOffSelectListener() {
+		if (resizableRectangle != null) {
+			CustomEllipse.this.removeResizableRectangle();
+		}
+		ellipse.removeEventHandler(MouseEvent.MOUSE_PRESSED, onMousePressed);
+		ellipse.setOnMousePressed(null);
+	}
+
+	@Override
+	public void removeResizableRectangle() {
+		this.resizableRectangle.remove();
+		resizableRectangle = null;
+	}
+
+	@Override
+	public void draw(Object canvas) {
+		Pane root = (Pane) canvas;
+		if(!root.getChildren().contains(ellipse))
+		root.getChildren().add(ellipse);
+	}
+
+	@Override
+	public boolean isSelected() {
+		return this.resizableRectangle != null;
+	}
+
+	@Override
+	public void setStrokeWidth(Integer value) {
+		ellipse.setStrokeWidth(value);
+	}
+
+	@Override
+	public void getStrokeWidth(Integer value) {
+		ellipse.getStrokeWidth();
+	}
+
+	@Override
+	public void removeFromParent() {
+		Pane parent = (Pane) this.ellipse.getParent();
+		parent.getChildren().remove(this.ellipse);
+	}
+
+	public Object clone() throws CloneNotSupportedException {
+		return null;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getJSONString() {
+		// TODO Auto-generated method stub
+		JSONObject shapeObj = new JSONObject();
+		shapeObj.put("x", this.getCenterX());
+		shapeObj.put("y", this.getCenterY());
+		shapeObj.put("radiusX", this.getRadiusX());
+		shapeObj.put("radiusY", this.getRadiusY());
+		shapeObj.put("stroke",this.getColor());
+		shapeObj.put("fill", this.getFillColor());
+		shapeObj.put("class", this.getClass());
+		return shapeObj.toJSONString();
+	}
+
+
+	@Override
+	public String getXMLString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadJSON(JSONObject shape) {
+		// TODO Auto-generated method stub
+		double x =  (Long)shape.get("x");
+		double y = (Long) shape.get("y");
+		double radiusX = (Long) shape.get("radiusX");
+		double radiusY = (Long) shape.get("radiusY");
+		Paint fill = Paint.valueOf((String)shape.get("fill"));
+		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
+		this.setColor(stroke);
+		this.setFillColor(fill);
+		this.setCenterX(x);
+		this.setCenterY(y);
+		this.setRadiusX(radiusX);
+		this.setRadiusY(radiusY);
 	}
 }
