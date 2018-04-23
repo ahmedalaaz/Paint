@@ -256,6 +256,11 @@ public class CustomRectangle implements Shape {
 		this.setWidth(width);
 		this.setHeight(height);
 	}
+	@Override
+	public ResizableRectangle getResizableRectangle() {
+		// TODO Auto-generated method stub
+		return this.resizableRectangle;
+	}
 	
 	
 	

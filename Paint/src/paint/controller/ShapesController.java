@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import paint.model.LoadJSON;
 import paint.model.LoaderStrategy;
+import paint.model.MultipleResizeState;
 import paint.model.SaverStrategy;
 import paint.model.Shape;
 import paint.view.Main;
@@ -102,6 +103,14 @@ public void loadSavedScene(String absolutePath, LoaderStrategy loadJSON) {
 	canvasController.refresh(canvas);
 	for(Shape shape : newShapes) {
 		canvasController.addShape(shape);
+	}
+}
+public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) {
+	ArrayList<Shape> shapes = canvasController.getShapes();
+	for(Shape shape : shapes) {
+		if(shape.isSelected()) {
+			resizeMoveState.trigger(shape, deltaX, deltaY);
+		}
 	}
 }	
 
