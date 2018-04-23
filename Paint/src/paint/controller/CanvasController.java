@@ -1,7 +1,7 @@
 package paint.controller;
 
 import java.io.File;
-
+import java.io.FileWriter;
 import java.net.URL;
 
 
@@ -31,12 +31,14 @@ import paint.model.LoadXML;
 import paint.model.PluginManager;
 import paint.model.SaveJSON;
 import paint.model.SaveXML;
+import paint.model.SaverStrategy;
 import paint.model.Shape;
 
 
 public class CanvasController implements DrawingEngine ,Initializable{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();;
+	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();
+	private SaverStrategy saver;
 	private ArrayList<Shape> currentShape = new ArrayList<Shape>();
 	@FXML
 	private MenuBar mMenuBar;
@@ -51,14 +53,15 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@FXML
 	private JFXColorPicker strokeColorPicker;
 	@FXML
-	private JFXButton applyColorsBtn;
+	private JFXButton applyStrokeBtn;
+	@FXML
+	private JFXButton applyFillBtn;
 	@FXML
 	private JFXComboBox<Integer> strokeWidthCB;
 	@FXML
 	private JFXButton confirmStrokeBtn;
 	@FXML
 	private JFXButton deleteBtn;
-	
 	@FXML
 	private GridPane gridPane;
 	private CommandPane selectedTool;
@@ -111,9 +114,27 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		
 	}
 	@Override
-	public void save(String path) {
+	public void save(String absolutePath) {
 		// TODO Auto-generated method stub
-		
+		ArrayList<Shape> shapes = this.getShapes();
+		this.saver =saver;
+		String outputToSave;
+		try {
+			outputToSave =  saver.save(shapes);
+		}catch(Exception exception) {
+			exception.printStackTrace();
+			outputToSave = null;
+		}
+		if(outputToSave == null)return;//TODO show error Dialogue cannot save
+		try (FileWriter file = new FileWriter(absolutePath)) {
+			file.write(outputToSave);
+			System.out.println("Successfully Copied JSON Object to File...");
+			System.out.println("\nJSON Object: " + outputToSave);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		//System.out.println(this.save(shapes));
 	}
 	@Override
 	public void load(String path) {
@@ -198,12 +219,14 @@ public class CanvasController implements DrawingEngine ,Initializable{
         	  }
         	switch(extension){
         	case "json" : 
-        	     ShapesController.getInstance(CanvasController.this).saveCurrentScene(file.getAbsolutePath(),new SaveJSON());
+        			this.saver = new SaveJSON();
+        	     this.save(file.getAbsolutePath());
         		 
         		break;
         	case "xml" :
-        	     ShapesController.getInstance(CanvasController.this).saveCurrentScene(file.getAbsolutePath(),new SaveXML());
-        		 
+        		this.saver = new SaveXML();
+        		 this.save(file.getAbsolutePath());
+         		 
         	}
           }
       }
@@ -242,12 +265,16 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		gridPane.setVgap(5);
+		gridPane.setHgap(5);
 		for(int i = 4 ; i<= 36 ; i+=2)strokeWidthCB.getItems().add(i);
 		strokeWidthCB.setValue(6);
-		applyColorsBtn.setOnAction((event)-> {
-			ShapesController.getInstance(CanvasController.this).changeColors(fillColorPicker.getValue().toString()
-					, strokeColorPicker.getValue().toString());
+		applyStrokeBtn.setOnAction((event)-> {
+			ShapesController.getInstance(CanvasController.this).changeStrokeColor(strokeColorPicker.getValue().toString());
+		});
+		applyFillBtn.setOnAction((event)->{
+			ShapesController.getInstance(CanvasController.this).changeFillColor(fillColorPicker.getValue().toString());
+				
 		});
 		confirmStrokeBtn.setOnAction((event)-> {
 			ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
