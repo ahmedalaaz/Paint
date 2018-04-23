@@ -4,6 +4,7 @@ package plugin.ellipse;
 import java.awt.Point;
 
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -219,10 +220,9 @@ public class CustomEllipse implements Shape {
 	}
 
 	@Override
-	public void getStrokeWidth(Integer value) {
-		ellipse.getStrokeWidth();
+	public Integer getStrokeWidth() {
+		return (int) ellipse.getStrokeWidth();
 	}
-
 	@Override
 	public void removeFromParent() {
 		Pane parent = (Pane) this.ellipse.getParent();
@@ -230,7 +230,15 @@ public class CustomEllipse implements Shape {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		return null;
+		CustomEllipse clone =  new CustomEllipse(this.getRadiusX(),this.getRadiusY());
+		clone.resizableRectangle = resizableRectangle;
+		clone.properties = properties;
+		clone.setColor(this.getColor());
+		clone.setFillColor(this.getFillColor());
+		clone.setPosition(this.getPosition());
+		clone.ellipse.setOnMousePressed(clone.ellipse.getOnMousePressed());
+		clone.setStrokeWidth(this.getStrokeWidth());
+		return clone;
 
 	}
 
