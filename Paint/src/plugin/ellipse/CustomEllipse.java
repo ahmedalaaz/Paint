@@ -239,7 +239,7 @@ public class CustomEllipse implements Shape {
 		// TODO Auto-generated method stub
 		JSONObject shapeObj = new JSONObject();
 		shapeObj.put("x", Double.toString((this.getCenterX())));
-		shapeObj.put("y", Double.toString((this.getCenterX())));
+		shapeObj.put("y", Double.toString((this.getCenterY())));
 		shapeObj.put("radiusX", Double.toString((this.getRadiusX())));
 		shapeObj.put("radiusY", Double.toString((this.getRadiusY())));
 		shapeObj.put("strokeWidth", Double.toString((this.ellipse.getStrokeWidth())));
