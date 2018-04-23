@@ -175,7 +175,15 @@ public class CustomRectangle implements Shape {
 	}
 
 	public Object clone() throws CloneNotSupportedException{
-		return null;
+		CustomRectangle clone =  new CustomRectangle(this.getWidth(),this.getHeight());
+		clone.resizableRectangle = resizableRectangle;
+		clone.properties = properties;
+		clone.setColor(this.getColor());
+		clone.setFillColor(this.getFillColor());
+		clone.setPosition(this.getPosition());
+		clone.rectangle.setOnMousePressed(clone.rectangle.getOnMousePressed());
+		clone.setStrokeWidth(this.getStrokeWidth());
+		return clone;
 		
 	}
 	@Override
@@ -210,9 +218,9 @@ public class CustomRectangle implements Shape {
 		rectangle.setStrokeWidth(value);
 	}
 	@Override
-	public void getStrokeWidth(Integer value) {
+	public Integer getStrokeWidth() {
 		// TODO Auto-generated method stub
-		rectangle.getStrokeWidth();
+		return (int) rectangle.getStrokeWidth();
 	}
 	@Override
 	public void removeFromParent() {

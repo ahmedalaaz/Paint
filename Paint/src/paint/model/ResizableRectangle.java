@@ -207,7 +207,6 @@ public class ResizableRectangle {
 			mouseLocation.value = null;
 		});
 	}
-
 	public Rectangle getNode() {
 		return this.outerSelectorRectangle;
 	}
@@ -306,7 +305,6 @@ public class ResizableRectangle {
 			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
-
 	public void triggerMovingHandleCircleMove(double deltaX, double deltaY) {
 		double newX = outerSelectorRectangle.getX() + deltaX;
 		double newMaxX = newX + outerSelectorRectangle.getWidth();
