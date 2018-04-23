@@ -1,7 +1,6 @@
 package paint.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.json.simple.JSONArray;
 import org.json.JSONObject;
