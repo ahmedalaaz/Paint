@@ -2,8 +2,11 @@ package plugin.rectangle;
 
 import java.awt.Point;
 
+
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.simple.JSONObject;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -16,9 +19,28 @@ import paint.model.Shape;
 
 public class CustomRectangle implements Shape {
 	private Rectangle rectangle;
-	ResizableRectangle  resizableRectangle;
+	private ResizableRectangle  resizableRectangle;
+	private Class<CustomRectangle> mClass = CustomRectangle.class;
+	public Class<CustomRectangle> getmClass() {
+		return mClass;
+	}
 	private Map<String, Double> properties = new HashMap<>();
 	EventHandler<MouseEvent> onMousePressed;
+	public CustomRectangle() {
+		rectangle = new Rectangle();
+		onMousePressed =  new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				if(resizableRectangle != null) {
+					CustomRectangle.this.resizableRectangle = null;
+				}
+				// rectangle.getStrokeDashArray().addAll(42d,6d,4d);
+				CustomRectangle.this.bindToResizableRectangle();
+			}
+		};
+	}
 	public CustomRectangle(double width, double height) {
 		rectangle = new Rectangle(width, height);
 		properties.put("width", width);
@@ -69,6 +91,7 @@ public class CustomRectangle implements Shape {
 		
 		rectangle.setX(x);
 		properties.put("x",x);
+		
 	}
 	public double getY() {
 		return rectangle.getY();
@@ -86,13 +109,17 @@ public class CustomRectangle implements Shape {
 		if(rectangle.getParent() == null) {
 		    rectangle.setX(position.getX());
 			rectangle.setY(position.getY());
+			properties.put("x" , position.getX());
+			properties.put("y", position.getY());
 	        return ;    	
 		}
 		if (position.getX() >= 0 && position.getX() + rectangle.getWidth() <= rectangle.getParent().getBoundsInLocal().getWidth() ) {
             rectangle.setX(position.getX());
+            properties.put("x", position.getX());
         }
 		if (position.getY() >= 0 && position.getY()+ rectangle.getHeight() <= rectangle .getParent().getBoundsInLocal().getHeight() ) {
 			rectangle.setY(position.getY());
+			properties.put("y", position.getY());
         }
 	}
 
@@ -143,6 +170,7 @@ public class CustomRectangle implements Shape {
 	public void draw(Object canvas) {
 		// TODO Auto-generated method stub
 		Pane root = (Pane)canvas;
+		if(!root.getChildren().contains(rectangle))
 		root.getChildren().add(rectangle);
 	}
 
@@ -192,6 +220,49 @@ public class CustomRectangle implements Shape {
 		Pane parent = (Pane)this.rectangle.getParent();
 		parent.getChildren().remove(this.rectangle);
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getJSONString() {
+		// TODO Auto-generated method stub
+		JSONObject shapeObj = new JSONObject();
+		shapeObj.put("x", this.getX());
+		shapeObj.put("y", this.getY());
+		shapeObj.put("width", this.getWidth());
+		shapeObj.put("height", this.getHeight());
+		shapeObj.put("stroke",this.getColor());
+		shapeObj.put("fill", this.getFillColor());
+		shapeObj.put("class", this.getClass());
+		return shapeObj.toJSONString();
+	}
+	
+	@Override
+	public String getXMLString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void loadJSON(JSONObject shape) {
+		// TODO Auto-generated method stub
+		double x =  (Long)shape.get("x");
+		double y = (Long) shape.get("y");
+		double width = (Long) shape.get("width");
+		double height= (Long) shape.get("height");
+		Paint fill = Paint.valueOf((String)shape.get("fill"));
+		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
+		this.setColor(stroke);
+		this.setFillColor(fill);
+		this.setX(x);
+		this.setY(y);
+		this.setWidth(width);
+		this.setHeight(height);
+	}
+	@Override
+	public ResizableRectangle getResizableRectangle() {
+		// TODO Auto-generated method stub
+		return this.resizableRectangle;
+	}
+	
+	
 	
 
 }

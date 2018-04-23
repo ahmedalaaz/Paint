@@ -24,8 +24,8 @@ public class Main extends Application {
 		// TODO Auto-generated method stub
 		primaryStage.setScene(getCanvasScene());
 		//primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.setResizable(true);
 		primaryStage.setTitle("Paint");
-		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 

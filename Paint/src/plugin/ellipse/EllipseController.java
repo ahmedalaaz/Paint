@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
+import paint.model.Shape;
 import paint.view.Main;
 import paint.view.UILoader;
 import plugin.rectangle.CustomRectangle;
@@ -121,7 +122,7 @@ public class EllipseController extends AnchorPane implements CommandPane {
     }
 
     @Override
-    public Class<?> getToolClass() {
+    public Class<? extends Shape> getToolClass() {
         return CustomEllipse.class;
     }
 
