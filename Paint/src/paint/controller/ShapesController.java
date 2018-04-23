@@ -73,6 +73,10 @@ public boolean isSupportedShape(String c) {
 }
 public void loadSavedScene(String absolutePath, LoaderStrategy loadJSON) {
 	ArrayList<Shape> newShapes = loadJSON.load(absolutePath);
+	if(newShapes == null) {
+		return;
+		//TODO show error message
+	}
 	Pane canvas = new Pane();
 	canvasController.refresh(canvas);
 	for(Shape shape : newShapes) {
