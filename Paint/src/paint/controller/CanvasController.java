@@ -117,7 +117,6 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	public void save(String absolutePath) {
 		// TODO Auto-generated method stub
 		ArrayList<Shape> shapes = this.getShapes();
-		this.saver =saver;
 		String outputToSave;
 		try {
 			outputToSave =  saver.save(shapes);
