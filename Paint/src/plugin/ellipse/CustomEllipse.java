@@ -3,12 +3,11 @@ package plugin.ellipse;
 
 import java.awt.Point;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-
-import com.google.gson.Gson;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -271,5 +270,10 @@ public class CustomEllipse implements Shape {
 		this.setCenterY(y);
 		this.setRadiusX(radiusX);
 		this.setRadiusY(radiusY);
+	}
+	@Override
+	public ResizableRectangle getResizableRectangle() {
+		// TODO Auto-generated method stub
+		return this.resizableRectangle;
 	}
 }

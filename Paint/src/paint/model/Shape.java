@@ -37,7 +37,7 @@ public interface Shape {
 	public Object clone() throws CloneNotSupportedException;
 
 	public boolean isSelected();
-
+	public ResizableRectangle getResizableRectangle();
 	public void setStrokeWidth(Integer value);
 	public void getStrokeWidth(Integer value);
 
