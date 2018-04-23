@@ -238,10 +238,11 @@ public class CustomEllipse implements Shape {
 	public String getJSONString() {
 		// TODO Auto-generated method stub
 		JSONObject shapeObj = new JSONObject();
-		shapeObj.put("x", this.getCenterX());
-		shapeObj.put("y", this.getCenterY());
-		shapeObj.put("radiusX", this.getRadiusX());
-		shapeObj.put("radiusY", this.getRadiusY());
+		shapeObj.put("x", Double.toString((this.getCenterX())));
+		shapeObj.put("y", Double.toString((this.getCenterY())));
+		shapeObj.put("radiusX", Double.toString((this.getRadiusX())));
+		shapeObj.put("radiusY", Double.toString((this.getRadiusY())));
+		shapeObj.put("strokeWidth", Double.toString((this.ellipse.getStrokeWidth())));
 		shapeObj.put("stroke",this.getColor());
 		shapeObj.put("fill", this.getFillColor());
 		shapeObj.put("class", this.getClass());
@@ -258,16 +259,18 @@ public class CustomEllipse implements Shape {
 	@Override
 	public void loadJSON(JSONObject shape) {
 		// TODO Auto-generated method stub
-		double x =  (Long)shape.get("x");
-		double y = (Long) shape.get("y");
-		double radiusX = (Long) shape.get("radiusX");
-		double radiusY = (Long) shape.get("radiusY");
+		double x =  Double.parseDouble((String)(shape.get("x")));
+		double y = Double.parseDouble((String)(shape.get("y")));
+		double radiusX = Double.parseDouble((String)(shape.get("radiusX")));
+		double radiusY = Double.parseDouble((String)(shape.get("radiusY")));
 		Paint fill = Paint.valueOf((String)shape.get("fill"));
 		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
+		double strokeWidth = Double.parseDouble((String)(shape.get("strokeWidth")));
 		this.setColor(stroke);
 		this.setFillColor(fill);
 		this.setCenterX(x);
 		this.setCenterY(y);
+		this.setStrokeWidth((int)strokeWidth);
 		this.setRadiusX(radiusX);
 		this.setRadiusY(radiusY);
 	}

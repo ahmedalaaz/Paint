@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
@@ -31,6 +32,10 @@ public class EllipseController extends AnchorPane implements CommandPane {
     @Override
     public void execute(Object canvas, MouseEvent event) {
         if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
+        	Pane parent = (Pane)canvas;
+        	if(event.getX() + 50 >= parent.getBoundsInLocal().getWidth() ||
+        			event.getX() - 50 <= 0  || event.getY()+50 >= parent.getBoundsInLocal().getHeight() ||
+        			event.getY() -50 <= 0)return;
 			ellipse = new CustomEllipse(50, 50);
 			ellipse.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			ellipse.setFillColor(Paint.valueOf("#FFFFFF"));

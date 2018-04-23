@@ -225,13 +225,14 @@ public class CustomRectangle implements Shape {
 	public String getJSONString() {
 		// TODO Auto-generated method stub
 		JSONObject shapeObj = new JSONObject();
-		shapeObj.put("x", this.getX());
-		shapeObj.put("y", this.getY());
-		shapeObj.put("width", this.getWidth());
-		shapeObj.put("height", this.getHeight());
+		shapeObj.put("x",  Double.toString((this.getX())));
+		shapeObj.put("y",  Double.toString((this.getY())));
+		shapeObj.put("width",  Double.toString((this.getWidth())));
+		shapeObj.put("height",  Double.toString((this.getHeight())));
 		shapeObj.put("stroke",this.getColor());
 		shapeObj.put("fill", this.getFillColor());
 		shapeObj.put("class", this.getClass());
+		shapeObj.put("strokeWidth", Double.toString((this.rectangle.getStrokeWidth())));
 		return shapeObj.toJSONString();
 	}
 	
@@ -243,16 +244,18 @@ public class CustomRectangle implements Shape {
 	@Override
 	public void loadJSON(JSONObject shape) {
 		// TODO Auto-generated method stub
-		double x =  (Long)shape.get("x");
-		double y = (Long) shape.get("y");
-		double width = (Long) shape.get("width");
-		double height= (Long) shape.get("height");
+		double x =  Double.parseDouble((String)(shape.get("x")));
+		double y = Double.parseDouble((String)(shape.get("y")));
+		double width = Double.parseDouble((String)(shape.get("width")));
+		double height= Double.parseDouble((String)(shape.get("height")));
+		double strokeWidth = Double.parseDouble((String)(shape.get("strokeWidth")));
 		Paint fill = Paint.valueOf((String)shape.get("fill"));
 		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
 		this.setColor(stroke);
 		this.setFillColor(fill);
 		this.setX(x);
 		this.setY(y);
+		this.setStrokeWidth((int)strokeWidth);
 		this.setWidth(width);
 		this.setHeight(height);
 	}

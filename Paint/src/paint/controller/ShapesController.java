@@ -1,18 +1,10 @@
 package paint.controller;
 
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-import org.json.simple.JSONArray;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
-import paint.model.LoadJSON;
 import paint.model.LoaderStrategy;
 import paint.model.MultipleResizeState;
-import paint.model.SaverStrategy;
 import paint.model.Shape;
 import paint.view.Main;
 
