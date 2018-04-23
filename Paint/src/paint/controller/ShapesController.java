@@ -19,7 +19,6 @@ import paint.view.Main;
 public class ShapesController {
 private CanvasController canvasController;
 private static ShapesController myInstance;
-private SaverStrategy saver;
 private ShapesController(CanvasController canvasController){
 	this.canvasController = canvasController;
 }
@@ -30,16 +29,25 @@ public static ShapesController getInstance() {
 	return myInstance == null ? null : myInstance;
 }
 
-public void changeColors(String fillColor , String strokeColor){
+public void changeStrokeColor(String strokeColor){
 	
 	ArrayList<Shape> shapes =  canvasController.getShapes();
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			shape.setColor(Paint.valueOf(strokeColor));
+		}
+	}
+}
+public void changeFillColor(String fillColor){
+	
+	ArrayList<Shape> shapes =  canvasController.getShapes();
+	for(Shape shape : shapes) {
+		if(shape.isSelected()) {
 			shape.setFillColor(Paint.valueOf(fillColor));
 		}
 	}
 }
+
 public void changeStrokeWidth(Integer value) {
 	// TODO Auto-generated method stub
 	ArrayList<Shape> shapes =  canvasController.getShapes();
@@ -62,33 +70,7 @@ public void deleteSelectedShapes() {
 		Main.getController().removeShape(shape);
 	}
 }
-public void saveCurrentScene(String absolutePath,SaverStrategy saver) {
-	// TODO Auto-generated method stub
-	ArrayList<Shape> shapes = canvasController.getShapes();
-	this.saver =saver;
-	String outputToSave = this.save(shapes);
-	try (FileWriter file = new FileWriter(absolutePath)) {
-		file.write(outputToSave);
-		System.out.println("Successfully Copied JSON Object to File...");
-		System.out.println("\nJSON Object: " + outputToSave);
-	} catch (Exception e) {
-		// TODO: handle exception
-		e.printStackTrace();
-	}
-	//System.out.println(this.save(shapes));
-}
 
-public String save(ArrayList<Shape> shapes) {
-	try {
-		return saver.save(shapes);
-	}catch(Exception exception) {
-		exception.printStackTrace();
-	}
-	return null;
-}
-public void changeSavingStrategy(SaverStrategy saver) {
-	this.saver = saver;
-}
 public boolean isSupportedShape(String c) {
 	ArrayList<Class<? extends Shape>> supportedShapes = (ArrayList<Class<? extends Shape>>) canvasController.getSupportedShapes();
 	for(Class<? extends Shape> t : supportedShapes) {
