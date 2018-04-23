@@ -1,6 +1,7 @@
 package paint.model;
 
 import java.io.File;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
