@@ -1,8 +1,9 @@
-#rectangle {
-    -fx-background-image: url("rect.png");
+#triangle {
+    -fx-background-image: url("trig.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
- -fx-background-color: 
+    -fx-background-size: 35px 35px;
+     -fx-background-color: 
         linear-gradient(#ffd65b, #e68400),
         linear-gradient(#ffef84, #f2ba44),
         linear-gradient(#ffea6a, #efaa22),

@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import paint.model.CommandPane;
+import paint.model.Shape;
 import paint.view.Main;
 import paint.view.UILoader;
 import plugin.rectangle.CustomRectangle;
@@ -30,7 +31,7 @@ public class EllipseController extends AnchorPane implements CommandPane {
     @Override
     public void execute(Object canvas, MouseEvent event) {
         if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
-			ellipse = new CustomEllipse(50, 50);
+			ellipse = new CustomEllipse(20, 20);
 			ellipse.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			ellipse.setFillColor(Paint.valueOf("#FFFFFF"));
 			ellipse.setColor(Paint.valueOf("#000000"));
@@ -121,7 +122,7 @@ public class EllipseController extends AnchorPane implements CommandPane {
     }
 
     @Override
-    public Class<?> getToolClass() {
+    public Class<? extends Shape> getToolClass() {
         return CustomEllipse.class;
     }
 

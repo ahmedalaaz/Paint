@@ -1,7 +1,10 @@
 package paint.controller;
 
 import java.util.ArrayList;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import paint.model.LoaderStrategy;
+import paint.model.MultipleResizeState;
 import paint.model.Shape;
 import paint.view.Main;
 
@@ -18,16 +21,25 @@ public static ShapesController getInstance() {
 	return myInstance == null ? null : myInstance;
 }
 
-public void changeColors(String fillColor , String strokeColor){
+public void changeStrokeColor(String strokeColor){
 	
 	ArrayList<Shape> shapes =  canvasController.getShapes();
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			shape.setColor(Paint.valueOf(strokeColor));
+		}
+	}
+}
+public void changeFillColor(String fillColor){
+	
+	ArrayList<Shape> shapes =  canvasController.getShapes();
+	for(Shape shape : shapes) {
+		if(shape.isSelected()) {
 			shape.setFillColor(Paint.valueOf(fillColor));
 		}
 	}
 }
+
 public void changeStrokeWidth(Integer value) {
 	// TODO Auto-generated method stub
 	ArrayList<Shape> shapes =  canvasController.getShapes();
@@ -50,6 +62,31 @@ public void deleteSelectedShapes() {
 		Main.getController().removeShape(shape);
 	}
 }
+
+public boolean isSupportedShape(String c) {
+	ArrayList<Class<? extends Shape>> supportedShapes = (ArrayList<Class<? extends Shape>>) canvasController.getSupportedShapes();
+	for(Class<? extends Shape> t : supportedShapes) {
+		if(t== null)continue;
+		if(t.getName().equals(c))return true;
+	}
+	return false;
+}
+public void loadSavedScene(String absolutePath, LoaderStrategy loadJSON) {
+	ArrayList<Shape> newShapes = loadJSON.load(absolutePath);
+	Pane canvas = new Pane();
+	canvasController.refresh(canvas);
+	for(Shape shape : newShapes) {
+		canvasController.addShape(shape);
+	}
+}
+public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) {
+	ArrayList<Shape> shapes = canvasController.getShapes();
+	for(Shape shape : shapes) {
+		if(shape.isSelected()) {
+			resizeMoveState.trigger(shape, deltaX, deltaY);
+		}
+	}
+}	
 
 
 }
