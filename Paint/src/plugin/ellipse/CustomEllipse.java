@@ -72,6 +72,7 @@ public class CustomEllipse implements Shape {
 		this.ellipse.centerYProperty().bind(resizableRectangle.getNode().yProperty().add(ellipse.radiusYProperty()));
 		this.ellipse.radiusXProperty().bind(resizableRectangle.getNode().widthProperty().divide(2));
 		this.ellipse.radiusYProperty().bind(resizableRectangle.getNode().heightProperty().divide(2));
+                
 	}
 
 	public double getRadiusX() {
