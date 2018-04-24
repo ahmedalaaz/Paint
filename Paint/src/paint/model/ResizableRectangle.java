@@ -25,6 +25,7 @@ public class ResizableRectangle {
 	protected Shape selectedShape;
 	final double smallCirclesRadius = 10;
 	final Paint smallCircleColor = Color.ORANGE;
+	private boolean isSquare = false;
 	protected Wrapper<Point2D> mouseLocation = new Wrapper<>();
 
 	public ResizableRectangle(double x, double y, double width, double height, Shape shape) {
@@ -216,7 +217,7 @@ public class ResizableRectangle {
 		if (newX >= 2 * smallCirclesRadius
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setX(newX);
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 		}
 	}
 
@@ -225,13 +226,13 @@ public class ResizableRectangle {
 		if (newX >= 2 * smallCirclesRadius
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setX(newX);
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 		}
 		double newY = outerSelectorRectangle.getY() + deltaY;
 		if (newY >= 2 * smallCirclesRadius && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setY(newY);
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 		}
 	}
 
@@ -240,7 +241,7 @@ public class ResizableRectangle {
 		if (newY >= 2 * smallCirclesRadius && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setY(newY);
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 		}
 	}
 
@@ -248,13 +249,13 @@ public class ResizableRectangle {
 		double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX;
 		if (newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - 2 * smallCirclesRadius
 				&& newMaxX >= outerSelectorRectangle.getX() + 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 		double newY = outerSelectorRectangle.getY() + deltaY;
 		if (newY >= 2 * smallCirclesRadius && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setY(newY);
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() - deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
 		}
 	}
 
@@ -263,7 +264,7 @@ public class ResizableRectangle {
 		if (newMaxX >= outerSelectorRectangle.getX() + 2 * smallCirclesRadius
 				&& newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth()
 						- 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 	}
 
@@ -272,13 +273,13 @@ public class ResizableRectangle {
 		if (newMaxX >= outerSelectorRectangle.getX() + 2 * smallCirclesRadius
 				&& newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth()
 						- 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() + deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 		double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY;
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * smallCirclesRadius
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
 						- 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
 
@@ -287,7 +288,7 @@ public class ResizableRectangle {
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * smallCirclesRadius
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
 						- 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
 
@@ -296,13 +297,13 @@ public class ResizableRectangle {
 		if (newX >= 2 * smallCirclesRadius
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * smallCirclesRadius) {
 			outerSelectorRectangle.setX(newX);
-			outerSelectorRectangle.setWidth(outerSelectorRectangle.getWidth() - deltaX);
+			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 		}
 		double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY;
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * smallCirclesRadius
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
 						- 2 * smallCirclesRadius) {
-			outerSelectorRectangle.setHeight(outerSelectorRectangle.getHeight() + deltaY);
+			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
 	public void triggerMovingHandleCircleMove(double deltaX, double deltaY) {
@@ -340,5 +341,43 @@ public class ResizableRectangle {
 				this.northWestSmallCircle, this.southEastSmallCircle, this.southSmallCircle, this.southWestSmallCircle,
 				this.westSmallCircle, this.eastSmallCircle, this.moveHandle);
 	}
+	protected void setWidth(double width) {
+		double x = this.outerSelectorRectangle.getX();
+		if(x+width <= 2*smallCirclesRadius || x+width > this.outerSelectorRectangle.getParent().getBoundsInLocal().getWidth())return;
+		if(isSquare) {
+			double y = this.outerSelectorRectangle.getY();
+			if(y+width <= 2*smallCirclesRadius || y+width > this.outerSelectorRectangle.getParent().getBoundsInLocal().getHeight())return;
+			this.outerSelectorRectangle.setHeight(width);
+			this.outerSelectorRectangle.setWidth(width);
+		}else {
+			this.outerSelectorRectangle.setWidth(width);
+		}
+	}
+	protected void setHeight(double height) {
+		double y = this.outerSelectorRectangle.getY();
+		if(y+height <= 2*smallCirclesRadius || y+height > this.outerSelectorRectangle.getParent().getBoundsInLocal().getHeight())return;
+		if(isSquare) {
+			double x = this.outerSelectorRectangle.getX();
+			if(x+height <= 2*smallCirclesRadius || x+height > this.outerSelectorRectangle.getParent().getBoundsInLocal().getWidth())return;
+			this.outerSelectorRectangle.setHeight(height);
+			this.outerSelectorRectangle.setWidth(height);
+		}else {
+			this.outerSelectorRectangle.setHeight(height);
+		}
+	}
+	
 
+	public void makeSquare() {
+		// TODO Auto-generated method stub
+		this.isSquare = true;
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		ResizableRectangle clone = new ResizableRectangle(this.outerSelectorRectangle.getX(), this.outerSelectorRectangle.getY()
+				, this.outerSelectorRectangle.getWidth(), this.outerSelectorRectangle.getHeight(), this.selectedShape);
+	 clone.isSquare = this.isSquare;
+		return clone;
+	}	
 }

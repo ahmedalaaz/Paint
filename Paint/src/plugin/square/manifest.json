@@ -1,0 +1,5 @@
+ {
+    "name": "Square",
+    "className": "SquareController",
+    "packageName": "plugin.square"
+ }
