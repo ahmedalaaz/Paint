@@ -1,8 +1,8 @@
-#rectangle {
-    -fx-background-image: url("rectangle.png");
+#circle {
+    -fx-background-image: url("circle.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
- -fx-background-color: 
+     -fx-background-color: 
         linear-gradient(#ffd65b, #e68400),
         linear-gradient(#ffef84, #f2ba44),
         linear-gradient(#ffea6a, #efaa22),

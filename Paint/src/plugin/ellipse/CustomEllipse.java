@@ -72,6 +72,7 @@ public class CustomEllipse implements Shape {
 		this.ellipse.centerYProperty().bind(resizableRectangle.getNode().yProperty().add(ellipse.radiusYProperty()));
 		this.ellipse.radiusXProperty().bind(resizableRectangle.getNode().widthProperty().divide(2));
 		this.ellipse.radiusYProperty().bind(resizableRectangle.getNode().heightProperty().divide(2));
+                
 	}
 
 	public double getRadiusX() {
@@ -87,7 +88,7 @@ public class CustomEllipse implements Shape {
 		else if (radiusX + ellipse.getCenterX() < ((Region) ellipse.getParent()).getWidth()
 				&& ellipse.getCenterX() - radiusX > 0)
 			ellipse.setRadiusX(radiusX);
-		properties.put("RadiusX", radiusX);
+		properties.put("radiusX", radiusX);
 	}
 
 	public void setRadiusY(double radiusY) {
@@ -95,7 +96,7 @@ public class CustomEllipse implements Shape {
 		else if (radiusY + ellipse.getCenterY() < ((Region) ellipse.getParent()).getHeight()
 				&& ellipse.getCenterY() - radiusY > 0)
 			ellipse.setRadiusY(radiusY);
-		properties.put("RadiusY", radiusY);
+		properties.put("radiusY", radiusY);
 	}
 
 	public double getCenterX() {
@@ -231,7 +232,7 @@ public class CustomEllipse implements Shape {
 
 	public Object clone() throws CloneNotSupportedException {
 		CustomEllipse clone =  new CustomEllipse(this.getRadiusX(),this.getRadiusY());
-		clone.resizableRectangle = resizableRectangle;
+		clone.resizableRectangle = (ResizableRectangle)resizableRectangle.clone();
 		clone.properties = properties;
 		clone.setColor(this.getColor());
 		clone.setFillColor(this.getFillColor());
