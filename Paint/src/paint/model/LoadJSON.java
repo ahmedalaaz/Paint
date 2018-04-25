@@ -33,7 +33,7 @@ public class LoadJSON implements LoaderStrategy {
 				className = className.substring(6, className.length());
 				if (!ShapesController.getInstance(Main.getController()).isSupportedShape(className))
 					return null;// TODO show error message cannot load
-				Shape tempShape =     instantiate(className, Shape.class);
+				Shape tempShape =    (new ShapesFactory()).instantiate(className, Shape.class);
 				tempShape.loadJSON(shape);
 				newShapes.add(tempShape);
 			}
@@ -43,14 +43,7 @@ public class LoadJSON implements LoaderStrategy {
 		}
 		return newShapes;
 	}
-	public <T> T instantiate(final String className, final Class<T> type){
-    try{
-        return type.cast(Class.forName(className).newInstance());
-    } catch(InstantiationException
-          | IllegalAccessException
-          | ClassNotFoundException e){
-        throw new IllegalStateException(e);
-    }
-}
+
+
 
 }

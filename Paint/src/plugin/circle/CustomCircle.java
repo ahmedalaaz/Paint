@@ -3,12 +3,12 @@ package plugin.circle;
 
 import java.awt.Point;
 
-
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -24,12 +24,15 @@ public class CustomCircle implements Shape {
 
 	private Circle circle;
 	private Class<CustomCircle> mClass = CustomCircle.class;
+
 	public Class<CustomCircle> getmClass() {
 		return mClass;
 	}
+
 	private ResizableRectangle resizableRectangle;
 	private Map<String, Double> properties = new HashMap<>();
 	EventHandler<MouseEvent> onMousePressed;
+
 	public CustomCircle() {
 		circle = new Circle();
 		onMousePressed = new EventHandler<MouseEvent>() {
@@ -44,6 +47,7 @@ public class CustomCircle implements Shape {
 			}
 		};
 	}
+
 	public CustomCircle(double radius) {
 		circle = new Circle(radius);
 		properties.put("radius", radius);
@@ -76,10 +80,13 @@ public class CustomCircle implements Shape {
 	public double getRadius() {
 		return circle.getRadius();
 	}
+
 	public void setRadius(double radius) {
-		if(circle.getParent() == null)circle.setRadius(radius);
+		if (circle.getParent() == null)
+			circle.setRadius(radius);
 		else if (radius + circle.getCenterX() < ((Region) circle.getParent()).getWidth()
-				&& circle.getCenterX() - radius > 0&&radius + circle.getCenterY() < ((Region) circle.getParent()).getHeight()
+				&& circle.getCenterX() - radius > 0
+				&& radius + circle.getCenterY() < ((Region) circle.getParent()).getHeight()
 				&& circle.getCenterY() - radius > 0)
 			circle.setRadius(radius);
 		properties.put("radius", radius);
@@ -113,23 +120,23 @@ public class CustomCircle implements Shape {
 		if (circle.getParent() == null) {
 			circle.setCenterX(position.getX());
 			circle.setCenterY(position.getY());
-			properties.put("x" , position.getX());
-			properties.put("y" , position.getY());
+			properties.put("x", position.getX());
+			properties.put("y", position.getY());
 			return;
 		}
 		if (position.getX() - circle.getRadius() >= 0
 				&& position.getX() + circle.getRadius() <= circle.getParent().getBoundsInLocal().getWidth()) {
 			circle.setCenterX(position.getX());
-			properties.put("x" , position.getX());
+			properties.put("x", position.getX());
 
 		}
 		if (position.getY() - circle.getRadius() >= 0
 				&& position.getY() + circle.getRadius() <= circle.getParent().getBoundsInLocal().getHeight()) {
 			circle.setCenterY(position.getY());
-			properties.put("y" , position.getY());
+			properties.put("y", position.getY());
 
 		}
-		
+
 	}
 
 	@Override
@@ -192,8 +199,8 @@ public class CustomCircle implements Shape {
 	@Override
 	public void draw(Object canvas) {
 		Pane root = (Pane) canvas;
-		if(!root.getChildren().contains(circle))
-		root.getChildren().add(circle);
+		if (!root.getChildren().contains(circle))
+			root.getChildren().add(circle);
 	}
 
 	@Override
@@ -210,6 +217,7 @@ public class CustomCircle implements Shape {
 	public Integer getStrokeWidth() {
 		return (int) circle.getStrokeWidth();
 	}
+
 	@Override
 	public void removeFromParent() {
 		Pane parent = (Pane) this.circle.getParent();
@@ -217,8 +225,8 @@ public class CustomCircle implements Shape {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		CustomCircle clone =  new CustomCircle(this.getRadius());
-		clone.resizableRectangle = (ResizableRectangle)resizableRectangle.clone();
+		CustomCircle clone = new CustomCircle(this.getRadius());
+		clone.resizableRectangle = (ResizableRectangle) resizableRectangle.clone();
 		clone.properties = properties;
 		clone.setColor(this.getColor());
 		clone.setFillColor(this.getFillColor());
@@ -237,38 +245,86 @@ public class CustomCircle implements Shape {
 		shapeObj.put("y", Double.toString((this.getCenterY())));
 		shapeObj.put("radius", Double.toString((this.getRadius())));
 		shapeObj.put("strokeWidth", Double.toString((this.circle.getStrokeWidth())));
-		shapeObj.put("stroke",this.getColor());
+		shapeObj.put("stroke", this.getColor());
 		shapeObj.put("fill", this.getFillColor());
 		shapeObj.put("class", this.getClass());
 		return shapeObj.toJSONString();
 	}
 
-
-	@Override
-	public String getXMLString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public void loadJSON(JSONObject shape) {
 		// TODO Auto-generated method stub
-		double x =  Double.parseDouble((String)(shape.get("x")));
-		double y = Double.parseDouble((String)(shape.get("y")));
-		double radius = Double.parseDouble((String)(shape.get("radius")));
-		Paint fill = Paint.valueOf((String)shape.get("fill"));
-		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
-		double strokeWidth = Double.parseDouble((String)(shape.get("strokeWidth")));
+		double x = Double.parseDouble((String) (shape.get("x")));
+		double y = Double.parseDouble((String) (shape.get("y")));
+		double radius = Double.parseDouble((String) (shape.get("radius")));
+		Paint fill = Paint.valueOf((String) shape.get("fill"));
+		Paint stroke = Paint.valueOf((String) shape.get("stroke"));
+		double strokeWidth = Double.parseDouble((String) (shape.get("strokeWidth")));
 		this.setColor(stroke);
 		this.setFillColor(fill);
 		this.setCenterX(x);
 		this.setCenterY(y);
-		this.setStrokeWidth((int)strokeWidth);
+		this.setStrokeWidth((int) strokeWidth);
 		this.setRadius(radius);
 	}
+
 	@Override
 	public ResizableRectangle getResizableRectangle() {
 		// TODO Auto-generated method stub
 		return this.resizableRectangle;
+	}
+
+	@Override
+	public void loadXML(Element element) {
+		// TODO Auto-generated method stub
+		double x = Double.parseDouble(
+				(String) (element.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue()));
+		double y = Double.parseDouble(
+				(String) (element.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue()));
+		double radius = Double.parseDouble(
+				(String) (element.getElementsByTagName("radius").item(0).getChildNodes().item(0).getNodeValue()));
+		Paint fill = Paint.valueOf(
+				(String) (element.getElementsByTagName("fill").item(0).getChildNodes().item(0).getNodeValue()));
+		Paint stroke = Paint.valueOf(
+				(String) (element.getElementsByTagName("stroke").item(0).getChildNodes().item(0).getNodeValue()));
+		double strokeWidth = Double.parseDouble(
+				(String) (element.getElementsByTagName("strokeWidth").item(0).getChildNodes().item(0).getNodeValue()));
+		this.setColor(stroke);
+		this.setFillColor(fill);
+		this.setCenterX(x);
+		this.setCenterY(y);
+		this.setStrokeWidth((int) strokeWidth);
+		this.setRadius(radius);
+
+	}
+
+	@Override
+	public org.w3c.dom.Node getXMLNode(Document doc) {
+		// TODO Auto-generated method stub
+		Element shape = doc.createElement("shape");
+		// create name element
+		Element x = doc.createElement("x");
+		x.appendChild(doc.createTextNode(Double.toString(this.getCenterX())));
+		shape.appendChild(x);
+		Element y = doc.createElement("y");
+		y.appendChild(doc.createTextNode(Double.toString(this.getCenterY())));
+		shape.appendChild(y);
+		Element radius = doc.createElement("radius");
+		radius.appendChild(doc.createTextNode(Double.toString(this.getRadius())));
+		shape.appendChild(radius);
+		Element fill = doc.createElement("fill");
+		fill.appendChild(doc.createTextNode(this.getFillColor().toString()));
+		shape.appendChild(fill);
+		Element stroke = doc.createElement("stroke");
+		stroke.appendChild(doc.createTextNode(this.getColor().toString()));
+		shape.appendChild(stroke);
+		Element strokeWidth = doc.createElement("strokeWidth");
+		strokeWidth.appendChild(doc.createTextNode(Double.toString(this.getStrokeWidth())));
+		shape.appendChild(strokeWidth);
+		Element cl = doc.createElement("class");
+		cl.appendChild(doc.createTextNode(this.getClass().toString()));
+		shape.appendChild(cl);
+
+		return shape;
 	}
 }
