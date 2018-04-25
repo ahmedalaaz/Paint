@@ -13,4 +13,5 @@ public interface CommandPane {
     void triggerState(ActionEvent event);
     void pauseState(ActionEvent event);
     Class<? extends Shape> getToolClass();
+	void triggerState();
 }

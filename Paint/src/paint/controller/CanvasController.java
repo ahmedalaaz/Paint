@@ -80,6 +80,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		// TODO Auto-generated method stub
 		this.canvas.getChildren().removeAll(this.canvas.getChildren());
 		this.canvas.getChildren().addAll(((Pane)canvas).getChildren());
+		selectedTool.triggerState();
 	}
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
@@ -139,7 +140,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		for(Shape s : undoShapes)
 			s.draw(canvas);
 		}
-		
+		selectedTool.triggerState();
 	}
 	@Override
 	public void redo() {
@@ -154,7 +155,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		for(Shape s : redoShapes)
 			s.draw(canvas);
 		}
-		
+		selectedTool.triggerState();
 	}
 	@Override
 	public void save(String absolutePath) {

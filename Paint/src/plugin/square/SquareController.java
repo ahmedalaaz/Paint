@@ -118,4 +118,10 @@ public class SquareController extends AnchorPane implements CommandPane {
 		
 	}
 
+	@Override
+	public void triggerState() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

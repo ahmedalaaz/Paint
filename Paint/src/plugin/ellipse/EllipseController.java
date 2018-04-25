@@ -130,6 +130,11 @@ public class EllipseController extends AnchorPane implements CommandPane {
     public Class<? extends Shape> getToolClass() {
         return CustomEllipse.class;
     }
+	@Override
+	public void triggerState() {
+		// TODO Auto-generated method stub
+		
+	}
 
     
     

@@ -88,4 +88,12 @@ public class SelectorController extends AnchorPane implements CommandPane {
 		this.turnOffShapeListeners(shapes);	
 	}
 
+	@Override
+	public void triggerState() {
+		// TODO Auto-generated method stub
+		ArrayList<Shape> shapes = Main.getController().getShapes();
+		this.turnOnShapeListeners(shapes);
+		
+	}
+
 }
