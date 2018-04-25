@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -260,9 +262,36 @@ public class CustomEllipse implements Shape {
 
 
 	@Override
-	public String getXMLString() {
+	public org.w3c.dom.Node getXMLNode(Document doc) {
 		// TODO Auto-generated method stub
-		return null;
+		Element shape = doc.createElement("shape");
+		// create name element
+		Element x = doc.createElement("x");
+		x.appendChild(doc.createTextNode(Double.toString(this.getCenterX())));
+		shape.appendChild(x);
+		Element y = doc.createElement("y");
+		y.appendChild(doc.createTextNode(Double.toString(this.getCenterY())));
+		shape.appendChild(y);
+		Element radiusX = doc.createElement("radiusX");
+		radiusX.appendChild(doc.createTextNode(Double.toString(this.getRadiusX())));
+		shape.appendChild(radiusX);
+		Element radiusY = doc.createElement("radiusY");
+		radiusY.appendChild(doc.createTextNode(Double.toString(this.getRadiusY())));
+		shape.appendChild(radiusY);
+		Element fill = doc.createElement("fill");
+		fill.appendChild(doc.createTextNode(this.getFillColor().toString()));
+		shape.appendChild(fill);
+		Element stroke = doc.createElement("stroke");
+		stroke.appendChild(doc.createTextNode(this.getColor().toString()));
+		shape.appendChild(stroke);
+		Element strokeWidth = doc.createElement("strokeWidth");
+		strokeWidth.appendChild(doc.createTextNode(Double.toString(this.getStrokeWidth())));
+		shape.appendChild(strokeWidth);
+		Element cl = doc.createElement("class");
+		cl.appendChild(doc.createTextNode(this.getClass().toString()));
+		shape.appendChild(cl);
+
+		return shape;
 	}
 
 	@Override
@@ -287,5 +316,32 @@ public class CustomEllipse implements Shape {
 	public ResizableRectangle getResizableRectangle() {
 		// TODO Auto-generated method stub
 		return this.resizableRectangle;
+	}
+	@Override
+	public void loadXML(Element element) {
+		// TODO Auto-generated method stub
+		  double x =Double.parseDouble((String)(element.getElementsByTagName("x")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  double y =Double.parseDouble((String)(element.getElementsByTagName("y")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  double radiusX =Double.parseDouble((String)(element.getElementsByTagName("radiusX")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  double radiusY =Double.parseDouble((String)(element.getElementsByTagName("radiusY")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  
+		  Paint fill = Paint.valueOf((String)(element.getElementsByTagName("fill")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  Paint stroke = Paint.valueOf((String)(element.getElementsByTagName("stroke")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  double strokeWidth =Double.parseDouble((String)(element.getElementsByTagName("strokeWidth")
+                  .item(0).getChildNodes().item(0).getNodeValue()));
+		  this.setColor(stroke);
+			this.setFillColor(fill);
+			this.setCenterX(x);
+			this.setCenterY(y);
+			this.setStrokeWidth((int)strokeWidth);
+			this.setRadiusX(radiusX);
+			this.setRadiusY(radiusY);
+			
 	}
 }
