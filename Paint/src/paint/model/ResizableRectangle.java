@@ -127,8 +127,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new NorthEastResize();
-				
-
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -247,6 +251,7 @@ public class ResizableRectangle {
 		circle.setOnMouseReleased(event -> {
 			circle.getParent().setCursor(Cursor.DEFAULT);
 			mouseLocation.value = null;
+			ShapesController.getInstance(Main.getController()).changeInitial(true);
 		});
 	}
 	public Rectangle getNode() {

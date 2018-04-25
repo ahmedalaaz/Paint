@@ -3,8 +3,6 @@ package plugin.ellipse;
 
 import java.awt.Point;
 
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,12 +24,15 @@ public class CustomEllipse implements Shape {
 
 	private Ellipse ellipse;
 	private Class<CustomEllipse> mClass = CustomEllipse.class;
+
 	public Class<CustomEllipse> getmClass() {
 		return mClass;
 	}
+
 	private ResizableRectangle resizableRectangle;
 	private Map<String, Double> properties = new HashMap<>();
 	EventHandler<MouseEvent> onMousePressed;
+
 	public CustomEllipse() {
 		ellipse = new Ellipse();
 		onMousePressed = new EventHandler<MouseEvent>() {
@@ -46,6 +47,7 @@ public class CustomEllipse implements Shape {
 			}
 		};
 	}
+
 	public CustomEllipse(double radiusX, double radiusY) {
 		ellipse = new Ellipse(radiusX, radiusY);
 		properties.put("radiusX", radiusX);
@@ -74,7 +76,7 @@ public class CustomEllipse implements Shape {
 		this.ellipse.centerYProperty().bind(resizableRectangle.getNode().yProperty().add(ellipse.radiusYProperty()));
 		this.ellipse.radiusXProperty().bind(resizableRectangle.getNode().widthProperty().divide(2));
 		this.ellipse.radiusYProperty().bind(resizableRectangle.getNode().heightProperty().divide(2));
-                
+
 	}
 
 	public double getRadiusX() {
@@ -86,7 +88,8 @@ public class CustomEllipse implements Shape {
 	}
 
 	public void setRadiusX(double radiusX) {
-		if(ellipse.getParent() == null)ellipse.setRadiusX(radiusX);
+		if (ellipse.getParent() == null)
+			ellipse.setRadiusX(radiusX);
 		else if (radiusX + ellipse.getCenterX() < ((Region) ellipse.getParent()).getWidth()
 				&& ellipse.getCenterX() - radiusX > 0)
 			ellipse.setRadiusX(radiusX);
@@ -94,7 +97,8 @@ public class CustomEllipse implements Shape {
 	}
 
 	public void setRadiusY(double radiusY) {
-		if(ellipse.getParent() == null)ellipse.setRadiusY(radiusY);
+		if (ellipse.getParent() == null)
+			ellipse.setRadiusY(radiusY);
 		else if (radiusY + ellipse.getCenterY() < ((Region) ellipse.getParent()).getHeight()
 				&& ellipse.getCenterY() - radiusY > 0)
 			ellipse.setRadiusY(radiusY);
@@ -129,23 +133,23 @@ public class CustomEllipse implements Shape {
 		if (ellipse.getParent() == null) {
 			ellipse.setCenterX(position.getX());
 			ellipse.setCenterY(position.getY());
-			properties.put("x" , position.getX());
-			properties.put("y" , position.getY());
+			properties.put("x", position.getX());
+			properties.put("y", position.getY());
 			return;
 		}
 		if (position.getX() - ellipse.getRadiusX() >= 0
 				&& position.getX() + ellipse.getRadiusX() <= ellipse.getParent().getBoundsInLocal().getWidth()) {
 			ellipse.setCenterX(position.getX());
-			properties.put("x" , position.getX());
+			properties.put("x", position.getX());
 
 		}
 		if (position.getY() - ellipse.getRadiusY() >= 0
 				&& position.getY() + ellipse.getRadiusY() <= ellipse.getParent().getBoundsInLocal().getHeight()) {
 			ellipse.setCenterY(position.getY());
-			properties.put("y" , position.getY());
+			properties.put("y", position.getY());
 
 		}
-		
+
 	}
 
 	@Override
@@ -208,8 +212,8 @@ public class CustomEllipse implements Shape {
 	@Override
 	public void draw(Object canvas) {
 		Pane root = (Pane) canvas;
-		if(!root.getChildren().contains(ellipse))
-		root.getChildren().add(ellipse);
+		if (!root.getChildren().contains(ellipse))
+			root.getChildren().add(ellipse);
 	}
 
 	@Override
@@ -226,6 +230,7 @@ public class CustomEllipse implements Shape {
 	public Integer getStrokeWidth() {
 		return (int) ellipse.getStrokeWidth();
 	}
+
 	@Override
 	public void removeFromParent() {
 		Pane parent = (Pane) this.ellipse.getParent();
@@ -233,14 +238,14 @@ public class CustomEllipse implements Shape {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		CustomEllipse clone =  new CustomEllipse(this.getRadiusX(),this.getRadiusY());
-		clone.resizableRectangle = (ResizableRectangle)resizableRectangle.clone();
+		CustomEllipse clone = new CustomEllipse(this.getRadiusX(), this.getRadiusY());
+		clone.resizableRectangle = null;
 		clone.properties = properties;
 		clone.setColor(this.getColor());
 		clone.setFillColor(this.getFillColor());
 		clone.setPosition(this.getPosition());
-		clone.ellipse.setOnMousePressed(clone.ellipse.getOnMousePressed());
-		clone.setStrokeWidth(this.getStrokeWidth());
+		if(this.ellipse.getOnMousePressed() != null)
+		clone.ellipse.setOnMousePressed(clone.onMousePressed);clone.setStrokeWidth(this.getStrokeWidth());
 		return clone;
 
 	}
@@ -254,12 +259,11 @@ public class CustomEllipse implements Shape {
 		shapeObj.put("radiusX", Double.toString((this.getRadiusX())));
 		shapeObj.put("radiusY", Double.toString((this.getRadiusY())));
 		shapeObj.put("strokeWidth", Double.toString((this.ellipse.getStrokeWidth())));
-		shapeObj.put("stroke",this.getColor());
+		shapeObj.put("stroke", this.getColor());
 		shapeObj.put("fill", this.getFillColor());
 		shapeObj.put("class", this.getClass());
 		return shapeObj.toJSONString();
 	}
-
 
 	@Override
 	public org.w3c.dom.Node getXMLNode(Document doc) {
@@ -297,51 +301,53 @@ public class CustomEllipse implements Shape {
 	@Override
 	public void loadJSON(JSONObject shape) {
 		// TODO Auto-generated method stub
-		double x =  Double.parseDouble((String)(shape.get("x")));
-		double y = Double.parseDouble((String)(shape.get("y")));
-		double radiusX = Double.parseDouble((String)(shape.get("radiusX")));
-		double radiusY = Double.parseDouble((String)(shape.get("radiusY")));
-		Paint fill = Paint.valueOf((String)shape.get("fill"));
-		Paint stroke = Paint.valueOf((String)shape.get("stroke"));
-		double strokeWidth = Double.parseDouble((String)(shape.get("strokeWidth")));
+		double x = Double.parseDouble((String) (shape.get("x")));
+		double y = Double.parseDouble((String) (shape.get("y")));
+		double radiusX = Double.parseDouble((String) (shape.get("radiusX")));
+		double radiusY = Double.parseDouble((String) (shape.get("radiusY")));
+		Paint fill = Paint.valueOf((String) shape.get("fill"));
+		Paint stroke = Paint.valueOf((String) shape.get("stroke"));
+		double strokeWidth = Double.parseDouble((String) (shape.get("strokeWidth")));
 		this.setColor(stroke);
 		this.setFillColor(fill);
 		this.setCenterX(x);
 		this.setCenterY(y);
-		this.setStrokeWidth((int)strokeWidth);
+		this.setStrokeWidth((int) strokeWidth);
 		this.setRadiusX(radiusX);
 		this.setRadiusY(radiusY);
 	}
+
 	@Override
 	public ResizableRectangle getResizableRectangle() {
 		// TODO Auto-generated method stub
 		return this.resizableRectangle;
 	}
+
 	@Override
 	public void loadXML(Element element) {
 		// TODO Auto-generated method stub
-		  double x =Double.parseDouble((String)(element.getElementsByTagName("x")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  double y =Double.parseDouble((String)(element.getElementsByTagName("y")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  double radiusX =Double.parseDouble((String)(element.getElementsByTagName("radiusX")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  double radiusY =Double.parseDouble((String)(element.getElementsByTagName("radiusY")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  
-		  Paint fill = Paint.valueOf((String)(element.getElementsByTagName("fill")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  Paint stroke = Paint.valueOf((String)(element.getElementsByTagName("stroke")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  double strokeWidth =Double.parseDouble((String)(element.getElementsByTagName("strokeWidth")
-                  .item(0).getChildNodes().item(0).getNodeValue()));
-		  this.setColor(stroke);
-			this.setFillColor(fill);
-			this.setCenterX(x);
-			this.setCenterY(y);
-			this.setStrokeWidth((int)strokeWidth);
-			this.setRadiusX(radiusX);
-			this.setRadiusY(radiusY);
-			
+		double x = Double.parseDouble(
+				(String) (element.getElementsByTagName("x").item(0).getChildNodes().item(0).getNodeValue()));
+		double y = Double.parseDouble(
+				(String) (element.getElementsByTagName("y").item(0).getChildNodes().item(0).getNodeValue()));
+		double radiusX = Double.parseDouble(
+				(String) (element.getElementsByTagName("radiusX").item(0).getChildNodes().item(0).getNodeValue()));
+		double radiusY = Double.parseDouble(
+				(String) (element.getElementsByTagName("radiusY").item(0).getChildNodes().item(0).getNodeValue()));
+
+		Paint fill = Paint.valueOf(
+				(String) (element.getElementsByTagName("fill").item(0).getChildNodes().item(0).getNodeValue()));
+		Paint stroke = Paint.valueOf(
+				(String) (element.getElementsByTagName("stroke").item(0).getChildNodes().item(0).getNodeValue()));
+		double strokeWidth = Double.parseDouble(
+				(String) (element.getElementsByTagName("strokeWidth").item(0).getChildNodes().item(0).getNodeValue()));
+		this.setColor(stroke);
+		this.setFillColor(fill);
+		this.setCenterX(x);
+		this.setCenterY(y);
+		this.setStrokeWidth((int) strokeWidth);
+		this.setRadiusX(radiusX);
+		this.setRadiusY(radiusY);
+
 	}
 }

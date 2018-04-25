@@ -129,6 +129,11 @@ public class CircleController extends AnchorPane implements CommandPane {
     public Class<? extends Shape> getToolClass() {
         return CustomCircle.class;
     }
+	@Override
+	public void triggerState() {
+		// TODO Auto-generated method stub
+		
+	}
 
     
     

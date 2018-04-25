@@ -1,0 +1,5 @@
+ {
+    "name": "Line",
+    "className": "LineController",
+    "packageName": "plugin.line"
+ }
