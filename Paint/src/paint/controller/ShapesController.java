@@ -1,9 +1,7 @@
 package paint.controller;
 
 import java.util.ArrayList;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
-import paint.model.LoaderStrategy;
 import paint.model.MultipleResizeState;
 import paint.model.Shape;
 import paint.view.Main;
