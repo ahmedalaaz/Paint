@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import paint.model.CommandPane;
 import paint.model.LoadJSON;
 import paint.model.LoadXML;
+import paint.model.LoaderStrategy;
 import paint.model.PluginManager;
 import paint.model.SaveJSON;
 import paint.model.SaveXML;
@@ -39,6 +40,7 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();
 	private SaverStrategy saver;
+	private LoaderStrategy loader;
 	private ArrayList<Shape> currentShape = new ArrayList<Shape>();
 	@FXML
 	private MenuBar mMenuBar;
@@ -128,7 +130,6 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		try (FileWriter file = new FileWriter(absolutePath)) {
 			file.write(outputToSave);
 			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + outputToSave);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -137,7 +138,16 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	}
 	@Override
 	public void load(String path) {
-		// TODO Auto-generated method stub
+		ArrayList<Shape> newShapes = loader.load(path);
+		if(newShapes == null) {
+			return;
+			//TODO show error message
+		}
+		Pane canvas = new Pane();
+		this.refresh(canvas);
+		for(Shape shape : newShapes) {
+			this.addShape(shape);
+		}
 		
 	}
 	@Override
@@ -252,12 +262,12 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	        	  }
 	        	switch(extension){
 	        	case "json" : 
-	        	     ShapesController.getInstance(CanvasController.this).loadSavedScene(file.getAbsolutePath(),new LoadJSON());
-	        		 
+	        		this.loader = new LoadJSON();
+	        	     this.load(file.getAbsolutePath());	        		 
 	        		break;
 	        	case "xml" :
-	        	     ShapesController.getInstance(CanvasController.this).loadSavedScene(file.getAbsolutePath(),new LoadXML());
-	        		 
+	        		this.loader = new LoadXML();
+	        	     this.load(file.getAbsolutePath());	        		 
 	        	}
 	          }
 		}

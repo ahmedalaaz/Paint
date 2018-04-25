@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -239,9 +241,33 @@ public class CustomSquare implements Shape {
 	}
 	
 	@Override
-	public String getXMLString() {
+	public org.w3c.dom.Node getXMLNode(Document doc) {
 		// TODO Auto-generated method stub
-		return null;
+		Element shape = doc.createElement("shape");
+		// create name element
+		Element x = doc.createElement("x");
+		x.appendChild(doc.createTextNode(Double.toString(this.getX())));
+		shape.appendChild(x);
+		Element y = doc.createElement("y");
+		y.appendChild(doc.createTextNode(Double.toString(this.getY())));
+		shape.appendChild(y);
+		Element side = doc.createElement("side");
+		side.appendChild(doc.createTextNode(Double.toString(this.getSide())));
+		shape.appendChild(side);
+		Element fill = doc.createElement("fill");
+		fill.appendChild(doc.createTextNode(this.getFillColor().toString()));
+		shape.appendChild(fill);
+		Element stroke = doc.createElement("stroke");
+		stroke.appendChild(doc.createTextNode(this.getColor().toString()));
+		shape.appendChild(stroke);
+		Element strokeWidth = doc.createElement("strokeWidth");
+		strokeWidth.appendChild(doc.createTextNode(Double.toString(this.getStrokeWidth())));
+		shape.appendChild(strokeWidth);
+		Element cl = doc.createElement("class");
+		cl.appendChild(doc.createTextNode(this.getClass().toString()));
+		shape.appendChild(cl);
+
+		return shape;
 	}
 	@Override
 	public void loadJSON(JSONObject shape) {
@@ -263,6 +289,28 @@ public class CustomSquare implements Shape {
 	public ResizableRectangle getResizableRectangle() {
 		// TODO Auto-generated method stub
 		return this.resizableRectangle;
+	}
+	@Override
+	public void loadXML(Element element) {
+		 double x =Double.parseDouble((String)(element.getElementsByTagName("x")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  double y =Double.parseDouble((String)(element.getElementsByTagName("y")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  double side =Double.parseDouble((String)(element.getElementsByTagName("side")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  Paint fill = Paint.valueOf((String)(element.getElementsByTagName("fill")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  Paint stroke = Paint.valueOf((String)(element.getElementsByTagName("stroke")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  double strokeWidth =Double.parseDouble((String)(element.getElementsByTagName("strokeWidth")
+                 .item(0).getChildNodes().item(0).getNodeValue()));
+		  this.setColor(stroke);
+			this.setFillColor(fill);
+			this.setX(x);
+			this.setY(y);
+			this.setStrokeWidth((int)strokeWidth);
+			this.setSide(side);
+
 	}
 	
 	

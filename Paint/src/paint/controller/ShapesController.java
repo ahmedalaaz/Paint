@@ -71,18 +71,6 @@ public boolean isSupportedShape(String c) {
 	}
 	return false;
 }
-public void loadSavedScene(String absolutePath, LoaderStrategy loadJSON) {
-	ArrayList<Shape> newShapes = loadJSON.load(absolutePath);
-	if(newShapes == null) {
-		return;
-		//TODO show error message
-	}
-	Pane canvas = new Pane();
-	canvasController.refresh(canvas);
-	for(Shape shape : newShapes) {
-		canvasController.addShape(shape);
-	}
-}
 public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) {
 	ArrayList<Shape> shapes = canvasController.getShapes();
 	for(Shape shape : shapes) {

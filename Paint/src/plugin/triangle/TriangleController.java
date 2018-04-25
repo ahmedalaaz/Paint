@@ -46,6 +46,11 @@ public class TriangleController extends AnchorPane implements CommandPane  {
         if(event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 	
              double topx=(event.getX()-triangleStartX)/2;
+             if(event.getX() <= 3 || event.getX() >= triangle.getParent().getBoundsInLocal().getWidth()-3)return;
+             if(triangleStartX <= 3 || triangleStartX >= triangle.getParent().getBoundsInLocal().getWidth()-3)return;
+             if(triangleStartY <= 3 || triangleStartY >= triangle.getParent().getBoundsInLocal().getHeight()-3)return;
+             if(event.getY() <= 3 || event.getY() >= triangle.getParent().getBoundsInLocal().getHeight()-3)return;
+             
              triangle.RemoveAllPoints();
              triangle.setX1Top(event.getX()-topx);
              triangle.setY1Top(triangleStartY);
