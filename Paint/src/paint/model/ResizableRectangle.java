@@ -111,7 +111,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new NorthWestResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 
 			}
@@ -121,7 +126,8 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new NorthEastResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				
+
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -130,7 +136,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new SouthWestResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -139,7 +150,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new SouthEastResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -147,7 +163,12 @@ public class ResizableRectangle {
 			if (mouseLocation.value != null) {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				MultipleResizeState resizeMoveState = new EastResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, 0);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, 0);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -155,7 +176,12 @@ public class ResizableRectangle {
 			if (mouseLocation.value != null) {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				MultipleResizeState resizeMoveState = new WestResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, 0);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, 0);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -163,7 +189,12 @@ public class ResizableRectangle {
 			if (mouseLocation.value != null) {
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new NorthResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, 0, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, 0, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -171,7 +202,12 @@ public class ResizableRectangle {
 			if (mouseLocation.value != null) {
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new SouthResize();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, 0, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, 0, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -181,7 +217,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new MovingHandle();
-				ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 
