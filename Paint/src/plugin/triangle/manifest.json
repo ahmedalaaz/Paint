@@ -1,0 +1,5 @@
+ {
+    "name": "Triangle",
+    "className": "TriangleController",
+    "packageName": "plugin.triangle"
+ }
