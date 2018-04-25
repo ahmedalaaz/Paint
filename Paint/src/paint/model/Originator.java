@@ -11,7 +11,12 @@ public Memento storedInMemento() {
 	return new Memento(arr);
 }
 public ArrayList<Shape> restoreFromMemento(Memento m) {
-	arr = m.getSavedArray();
+	try {
+		arr = m.getSavedArray();
+	} catch (CloneNotSupportedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	return arr;
 }
 }

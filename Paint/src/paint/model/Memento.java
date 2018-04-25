@@ -8,8 +8,11 @@ public class Memento {
 	public Memento(ArrayList<Shape> arr) {
 		ShapesArray=arr;
 	}
-	public ArrayList<Shape>getSavedArray(){
-		return ShapesArray;
+	public ArrayList<Shape>getSavedArray() throws CloneNotSupportedException{
+		ArrayList<Shape> returnedArray = new ArrayList<>();
+		for(Shape s : ShapesArray)
+			returnedArray.add((Shape) s.clone());
+		return returnedArray;
 	}
 	
 	

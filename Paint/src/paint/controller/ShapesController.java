@@ -2,6 +2,8 @@ package paint.controller;
 
 import java.util.ArrayList;
 import javafx.scene.paint.Paint;
+import paint.model.LoaderStrategy;
+import paint.model.MementoController;
 import paint.model.MultipleResizeState;
 import paint.model.Shape;
 import paint.view.Main;
@@ -19,18 +21,23 @@ public static ShapesController getInstance() {
 	return myInstance == null ? null : myInstance;
 }
 
-public void changeStrokeColor(String strokeColor){
+public void changeStrokeColor(String strokeColor) throws CloneNotSupportedException{
 	
 	ArrayList<Shape> shapes =  canvasController.getShapes();
+	MementoController m = new MementoController();
+	m.addLastScene(shapes);
+	
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			shape.setColor(Paint.valueOf(strokeColor));
 		}
 	}
 }
-public void changeFillColor(String fillColor){
+public void changeFillColor(String fillColor) throws CloneNotSupportedException{
 	
 	ArrayList<Shape> shapes =  canvasController.getShapes();
+	MementoController m = new MementoController();
+	m.addLastScene(shapes);
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			shape.setFillColor(Paint.valueOf(fillColor));
@@ -38,18 +45,23 @@ public void changeFillColor(String fillColor){
 	}
 }
 
-public void changeStrokeWidth(Integer value) {
+public void changeStrokeWidth(Integer value) throws CloneNotSupportedException {
 	// TODO Auto-generated method stub
 	ArrayList<Shape> shapes =  canvasController.getShapes();
+	MementoController m = new MementoController();
+	m.addLastScene(shapes);
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			shape.setStrokeWidth(value);			
 		}
 	}
 }
-public void deleteSelectedShapes() {
+public void deleteSelectedShapes() throws CloneNotSupportedException {
 	// TODO Auto-generated method stub
 	ArrayList<Shape> shapes =  canvasController.getShapes();
+
+	MementoController m = new MementoController();
+	m.addLastScene(shapes);
 	ArrayList<Shape> shapesToRemove = new ArrayList<Shape>();
 	for( Shape shape : shapes) {
 		if(shape.isSelected()) {
@@ -69,8 +81,13 @@ public boolean isSupportedShape(String c) {
 	}
 	return false;
 }
-public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) {
+
+public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) throws CloneNotSupportedException {
+
 	ArrayList<Shape> shapes = canvasController.getShapes();
+
+	MementoController m = new MementoController();
+	m.addLastScene(shapes);
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			resizeMoveState.trigger(shape, deltaX, deltaY);

@@ -25,9 +25,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import paint.model.Caretaker;
 import paint.model.CommandPane;
 import paint.model.LoadJSON;
 import paint.model.LoadXML;
+import paint.model.MementoController;
 import paint.model.LoaderStrategy;
 import paint.model.PluginManager;
 import paint.model.SaveJSON;
@@ -83,8 +85,16 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@Override
 	public void addShape(Shape shape) {
 		// TODO Auto-generated method stub
-		if(!canvas.getChildren().contains(shape))shape.draw(canvas);
-		currentShape.add(shape);
+		if(!canvas.getChildren().contains(shape))shape.draw(canvas);{
+			ArrayList<Shape> shapes = getShapes();
+			MementoController m = new MementoController();
+			try {
+				m.addLastScene(shapes);
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		currentShape.add(shape);}
 	}
 	@Override
 	public void removeShape(Shape shape) {
@@ -108,11 +118,42 @@ public class CanvasController implements DrawingEngine ,Initializable{
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
+		MementoController m = new MementoController();
+
+		if(m.ifContains("Undo")) {
+			try {
+				Caretaker ct = new Caretaker();
+				if(!ct.lastShapes.contains(getShapes()))
+				{
+				m.addBeforeUndo(getShapes());}
+			}
+			catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		ArrayList<Shape> undoShapes = new ArrayList<>();
+		undoShapes = m.returnShapes(-1);
+		
+		currentShape=undoShapes;
+		refresh(canvas);
+		for(Shape s : undoShapes)
+			s.draw(canvas);
+		}
 		
 	}
 	@Override
 	public void redo() {
 		// TODO Auto-generated method stub
+		MementoController m = new MementoController();
+		if(m.ifContains("Redo")) {
+		ArrayList<Shape> redoShapes = new ArrayList<>();
+		redoShapes = m.returnShapes(1);
+		
+		currentShape=redoShapes;
+		refresh(canvas);
+		for(Shape s : redoShapes)
+			s.draw(canvas);
+		}
 		
 	}
 	@Override
@@ -279,17 +320,37 @@ public class CanvasController implements DrawingEngine ,Initializable{
 		for(int i = 4 ; i<= 36 ; i+=2)strokeWidthCB.getItems().add(i);
 		strokeWidthCB.setValue(6);
 		applyStrokeBtn.setOnAction((event)-> {
-			ShapesController.getInstance(CanvasController.this).changeStrokeColor(strokeColorPicker.getValue().toString());
+			try {
+				ShapesController.getInstance(CanvasController.this).changeStrokeColor(strokeColorPicker.getValue().toString());
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 		applyFillBtn.setOnAction((event)->{
-			ShapesController.getInstance(CanvasController.this).changeFillColor(fillColorPicker.getValue().toString());
+			try {
+				ShapesController.getInstance(CanvasController.this).changeFillColor(fillColorPicker.getValue().toString());
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
 		});
 		confirmStrokeBtn.setOnAction((event)-> {
-			ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
+			try {
+				ShapesController.getInstance(CanvasController.this).changeStrokeWidth(strokeWidthCB.getValue());
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 		deleteBtn.setOnAction((event)->{
-			ShapesController.getInstance(CanvasController.this).deleteSelectedShapes();
+			try {
+				ShapesController.getInstance(CanvasController.this).deleteSelectedShapes();
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 		initPlugins();	
 	}
