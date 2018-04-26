@@ -226,12 +226,13 @@ public class CustomCircle implements Shape {
 
 	public Object clone() throws CloneNotSupportedException {
 		CustomCircle clone = new CustomCircle(this.getRadius());
-		clone.resizableRectangle = (ResizableRectangle) resizableRectangle.clone();
+		clone.resizableRectangle = null;
 		clone.properties = properties;
 		clone.setColor(this.getColor());
 		clone.setFillColor(this.getFillColor());
 		clone.setPosition(this.getPosition());
-		clone.circle.setOnMousePressed(clone.circle.getOnMousePressed());
+		if(this.circle.getOnMousePressed() != null)
+		clone.circle.setOnMousePressed(clone.onMousePressed);
 		clone.setStrokeWidth(this.getStrokeWidth());
 		return clone;
 

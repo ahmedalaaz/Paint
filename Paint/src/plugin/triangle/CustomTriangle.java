@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 
 import paint.model.ResizableRectangle;
 import paint.model.Shape;
+import plugin.square.CustomSquare;
 
 public class CustomTriangle implements Shape {
 
@@ -63,26 +64,58 @@ public class CustomTriangle implements Shape {
 			}
 		};
 	}
-
 	protected void bindToResizableRectangle() {
-		resizableRectangle = new ResizableRectangle(this.getX2Right(), this.getY1Top(),
-				this.getX3Left() - this.getX2Right(), this.getY3Left() - this.getY1Top(), this);
+		if(this.getX2Right() < this.getX3Left()) {
+			double xTop = this.getX1Top();
+			double xRight = this.getX3Left();
+			double xLeft = this.getX2Right();
+			double yTop =  this.getY1Top();
+			double yBase = this.getY2Right();
+			this.RemoveAllPoints();
+			this.setX1Top(xTop);
+			this.setY1Top(yTop);
+			this.setX2Right(xRight);
+			this.setY2Right(yBase);
+			this.setX3Left(xLeft);
+			this.setY3Left(yBase);
+		}
+		if(this.getY1Top() < this.getY2Right()) {
+		resizableRectangle = new ResizableRectangle(this.getX3Left(), this.getY1Top(),
+				this.getX2Right() - this.getX3Left(), this.getY3Left() - this.getY1Top(), this);
 		Pane canvas = (Pane) this.triangle.getParent();
 		resizableRectangle.addToParent(canvas);
 		// Binding properties :
 		this.x1TopProperty().bind(
 				resizableRectangle.getNode().xProperty().add(resizableRectangle.getNode().widthProperty().divide(2)));
 		this.y1TopProperty().bind(resizableRectangle.getNode().yProperty());
-		this.x2RightProperty().bind(resizableRectangle.getNode().xProperty());
+		this.x2RightProperty().bind(resizableRectangle.getNode().xProperty().add(resizableRectangle.getNode().widthProperty()));
 		this.y2RightProperty()
 				.bind(resizableRectangle.getNode().yProperty().add(resizableRectangle.getNode().heightProperty()));
 		this.x3LeftProperty()
-				.bind(resizableRectangle.getNode().xProperty().add(resizableRectangle.getNode().widthProperty()));
+				.bind(resizableRectangle.getNode().xProperty());
 		this.y3LeftProperty()
 				.bind(resizableRectangle.getNode().yProperty().add(resizableRectangle.getNode().heightProperty()));
-
+		}else {
+			resizableRectangle = new ResizableRectangle(this.getX3Left(), this.getY3Left(),
+					this.getX2Right() - this.getX3Left(), -1*this.getY3Left() + this.getY1Top(), this);
+			Pane canvas = (Pane) this.triangle.getParent();
+			resizableRectangle.addToParent(canvas);
+			// Binding properties :
+			this.x1TopProperty().bind(
+					resizableRectangle.getNode().xProperty().add(resizableRectangle.getNode().widthProperty().divide(2)));
+			this.y1TopProperty().bind(resizableRectangle.getNode().yProperty().add(resizableRectangle.getNode().heightProperty()));
+			this.x2RightProperty().bind(resizableRectangle.getNode().xProperty().add(resizableRectangle.getNode().widthProperty()));
+			this.y2RightProperty()
+					.bind(resizableRectangle.getNode().yProperty());
+			this.x3LeftProperty()
+					.bind(resizableRectangle.getNode().xProperty());
+			this.y3LeftProperty()
+					.bind(resizableRectangle.getNode().yProperty());
+				
+			
+			
+		}
 	}
-
 	@Override
 	public void setPosition(Point position) {
 	}
@@ -178,7 +211,21 @@ public class CustomTriangle implements Shape {
 
 	
 	public Object clone() throws CloneNotSupportedException {
-		return null;
+		CustomTriangle clone = new CustomTriangle();
+		clone.resizableRectangle = null;
+		clone.properties = properties;
+		clone.setColor(this.getColor());
+		clone.setFillColor(this.getFillColor());
+		if(this.triangle.getOnMousePressed() != null)
+			clone.triangle.setOnMousePressed(clone.onMousePressed);clone.setX1Top(this.getX1Top());
+		clone.setY1Top(this.getY1Top());
+		clone.setX2Right(this.getX2Right());
+		clone.setY2Right(this.getY2Right());
+		clone.setX3Left(this.getX3Left());
+		clone.setY3Left(this.getY3Left());
+		clone.setStrokeWidth(this.getStrokeWidth());
+		return clone;	
+	
 	}
 
 	public void RemoveAllPoints() {

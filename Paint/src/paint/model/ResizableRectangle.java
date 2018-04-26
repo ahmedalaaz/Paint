@@ -23,7 +23,7 @@ public class ResizableRectangle {
 	protected Circle eastSmallCircle;
 	protected Circle moveHandle;
 	protected Shape selectedShape;
-	final double smallCirclesRadius = 10;
+	final double smallCirclesRadius = 5;
 	final Paint smallCircleColor = Color.ORANGE;
 	private boolean isSquare = false;
 	protected Wrapper<Point2D> mouseLocation = new Wrapper<>();
@@ -127,8 +127,12 @@ public class ResizableRectangle {
 				double deltaX = event.getSceneX() - mouseLocation.value.getX();
 				double deltaY = event.getSceneY() - mouseLocation.value.getY();
 				MultipleResizeState resizeMoveState = new NorthEastResize();
-				
-
+				try {
+					ShapesController.getInstance(Main.getController()).resizeAllSelected(resizeMoveState, deltaX, deltaY);
+				} catch (CloneNotSupportedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 			}
 		});
@@ -231,7 +235,7 @@ public class ResizableRectangle {
 		outerSelectorRectangle.setOnMousePressed((event) -> {
 			this.selectedShape.removeResizableRectangle();
 		});
-		outerSelectorRectangle.setStrokeWidth(6d);
+		outerSelectorRectangle.setStrokeWidth(2d);
 		outerSelectorRectangle.getStrokeDashArray().addAll(46d, 2d, 4d);
 		outerSelectorRectangle.setFill(Color.TRANSPARENT);
 		outerSelectorRectangle.setStroke(Paint.valueOf("#B0C4DE"));
@@ -247,6 +251,7 @@ public class ResizableRectangle {
 		circle.setOnMouseReleased(event -> {
 			circle.getParent().setCursor(Cursor.DEFAULT);
 			mouseLocation.value = null;
+			ShapesController.getInstance(Main.getController()).changeInitial(true);
 		});
 	}
 	public Rectangle getNode() {

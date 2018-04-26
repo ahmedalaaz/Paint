@@ -11,6 +11,7 @@ import paint.view.Main;
 public class ShapesController {
 private CanvasController canvasController;
 private static ShapesController myInstance;
+private boolean initial = true;
 private ShapesController(CanvasController canvasController){
 	this.canvasController = canvasController;
 }
@@ -85,15 +86,20 @@ public boolean isSupportedShape(String c) {
 public void resizeAllSelected(MultipleResizeState resizeMoveState, double deltaX, double deltaY) throws CloneNotSupportedException {
 
 	ArrayList<Shape> shapes = canvasController.getShapes();
-
+	if(initial) {
 	MementoController m = new MementoController();
 	m.addLastScene(shapes);
+	initial = false;
+	}
 	for(Shape shape : shapes) {
 		if(shape.isSelected()) {
 			resizeMoveState.trigger(shape, deltaX, deltaY);
 		}
 	}
-}	
+}
+public void changeInitial(boolean value) {
+	initial = value;
+}
 
 
 }
