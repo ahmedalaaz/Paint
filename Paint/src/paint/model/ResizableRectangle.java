@@ -23,7 +23,7 @@ public class ResizableRectangle {
 	protected Circle eastSmallCircle;
 	protected Circle moveHandle;
 	protected Shape selectedShape;
-	final double smallCirclesRadius = 10;
+	final double smallCirclesRadius = 5;
 	final Paint smallCircleColor = Color.ORANGE;
 	private boolean isSquare = false;
 	protected Wrapper<Point2D> mouseLocation = new Wrapper<>();
@@ -235,7 +235,7 @@ public class ResizableRectangle {
 		outerSelectorRectangle.setOnMousePressed((event) -> {
 			this.selectedShape.removeResizableRectangle();
 		});
-		outerSelectorRectangle.setStrokeWidth(6d);
+		outerSelectorRectangle.setStrokeWidth(2d);
 		outerSelectorRectangle.getStrokeDashArray().addAll(46d, 2d, 4d);
 		outerSelectorRectangle.setFill(Color.TRANSPARENT);
 		outerSelectorRectangle.setStroke(Paint.valueOf("#B0C4DE"));
