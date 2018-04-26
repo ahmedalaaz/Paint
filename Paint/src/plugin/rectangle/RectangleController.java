@@ -1,11 +1,13 @@
 package plugin.rectangle;
 
 import java.awt.Point;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.jfoenix.controls.JFXButton;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,9 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.view.Main;
 import paint.view.UILoader;
+
 
 public class RectangleController extends AnchorPane implements CommandPane {
 	private String toolName;
@@ -34,6 +38,7 @@ public class RectangleController extends AnchorPane implements CommandPane {
 			rectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			rectangle.setFillColor(Paint.valueOf("#FFFFFF"));
 			rectangle.setColor(Paint.valueOf("#000000"));
+        	rectangle.setStrokeWidth(6);
 			rectangleStartX = event.getX();
 			rectangleStartY = event.getY();
 			Main.getController().addShape(rectangle);;
@@ -98,7 +103,8 @@ public class RectangleController extends AnchorPane implements CommandPane {
 	public void setAction(EventHandler<ActionEvent> value) {
 		// TODO Auto-generated method stub
 		shapeButton.setOnAction(value);
-
+		AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(shapeButton);
 	}
 	@Override
 	public Class<CustomRectangle> getToolClass() {

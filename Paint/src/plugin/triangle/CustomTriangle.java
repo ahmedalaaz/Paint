@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 
 import paint.model.ResizableRectangle;
 import paint.model.Shape;
-import plugin.square.CustomSquare;
 
 public class CustomTriangle implements Shape {
 

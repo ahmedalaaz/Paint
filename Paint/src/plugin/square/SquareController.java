@@ -1,11 +1,13 @@
 package plugin.square;
 
 import java.awt.Point;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.jfoenix.controls.JFXButton;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.view.Main;
 import paint.view.UILoader;
@@ -34,6 +37,7 @@ public class SquareController extends AnchorPane implements CommandPane {
 			square.setPosition(new Point((int)event.getX(), (int)event.getY()));
 			square.setFillColor(Paint.valueOf("#FFFFFF"));
 			square.setColor(Paint.valueOf("#000000"));
+        	square.setStrokeWidth(6);
 			squareStartX = event.getX();
 			squareStartY = event.getY();
 			Main.getController().addShape(square);;
@@ -54,7 +58,7 @@ public class SquareController extends AnchorPane implements CommandPane {
                 	square.setX(0);
                 else
                 	square.setX(event.getX());
-                square.setSide(squareStartX - square.getX());
+                square.setSide(squareStartX - event.getX());
             }
 
             if (offsetY > 0) {
@@ -98,7 +102,8 @@ public class SquareController extends AnchorPane implements CommandPane {
 	public void setAction(EventHandler<ActionEvent> value) {
 		// TODO Auto-generated method stub
 		squareButton.setOnAction(value);
-
+		AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(squareButton);
 	}
 	@Override
 	public Class<CustomSquare> getToolClass() {
