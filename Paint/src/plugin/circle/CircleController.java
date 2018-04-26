@@ -2,10 +2,12 @@
 package plugin.circle;
 
 import com.jfoenix.controls.JFXButton;
+
 import java.awt.Point;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.model.Shape;
 import paint.view.Main;
@@ -39,6 +42,7 @@ public class CircleController extends AnchorPane implements CommandPane {
         	circle.setPosition(new Point((int)event.getX(), (int)event.getY()));
         	circle.setFillColor(Paint.valueOf("#FFFFFF"));
         	circle.setColor(Paint.valueOf("#000000"));
+        	circle.setStrokeWidth(6);
 			circleStartX = event.getX();
 			circleStartY = event.getY();
 			Main.getController().addShape(circle);;
@@ -113,6 +117,8 @@ public class CircleController extends AnchorPane implements CommandPane {
     @Override
     public void setAction(EventHandler<ActionEvent> value) {
         circleButton.setOnAction(value);
+        AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(circleButton);
     }
 
     @Override

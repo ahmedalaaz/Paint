@@ -25,22 +25,16 @@ public class SaveXML implements SaverStrategy{
 	        try {
 	            dBuilder = dbFactory.newDocumentBuilder();
 	            Document doc = dBuilder.newDocument();
-	            //add elements to Document
 	            Element rootElement =
 	                doc.createElement("shapes");
-	            //append root element to document
 	            doc.appendChild(rootElement);
 	            for(Shape shape : shapes) {
 	           rootElement.appendChild(shape.getXMLNode(doc));
 	            }
-	            //for output to file, console
 	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	            Transformer transformer = transformerFactory.newTransformer();
-	            //for pretty print
 	            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	            DOMSource source = new DOMSource(doc);
-
-	            //write to console or file
 	            StreamResult console = new StreamResult(outWriter);
 	            transformer.transform(source, console);
 	            StringBuffer sb = outWriter.getBuffer(); 

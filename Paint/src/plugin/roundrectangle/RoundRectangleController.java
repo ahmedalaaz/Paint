@@ -2,10 +2,12 @@
 package plugin.roundrectangle;
 
 import com.jfoenix.controls.JFXButton;
+
 import java.awt.Point;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,11 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.model.Shape;
 import paint.view.Main;
 import paint.view.UILoader;
-import plugin.rectangle.CustomRectangle;
 
 
 public class RoundRectangleController extends AnchorPane implements CommandPane {
@@ -25,54 +27,55 @@ public class RoundRectangleController extends AnchorPane implements CommandPane 
     private String toolName;
 	final private String TOOL = "roundrectangle";
 	@FXML
-	private JFXButton RoundRectangleButton;
-	private CustomRoundRectangle roundrectangle;
-	private double roundrectangleStartX;
-	private double roundrectangleStartY;
+	private JFXButton roundRectangleButton;
+	private CustomRoundRectangle roundRectangle;
+	private double roundRectangleStartX;
+	private double roundRectangleStartY;
         
     @Override
     public void execute(Object canvas, MouseEvent event) {
      if(event.getEventType() == (MouseEvent.MOUSE_PRESSED)) {
-			roundrectangle = new CustomRoundRectangle(55, 55);
-			roundrectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
-                        roundrectangle.setArcHeight(40);
-                        roundrectangle.setArcWidth(40);
-			roundrectangle.setFillColor(Paint.valueOf("#FFFFFF"));
-			roundrectangle.setColor(Paint.valueOf("#000000"));
-			roundrectangleStartX = event.getX();
-			roundrectangleStartY = event.getY();
-			Main.getController().addShape(roundrectangle);;
-			roundrectangle.draw(canvas);
+			roundRectangle = new CustomRoundRectangle(55, 55);
+			roundRectangle.setPosition(new Point((int)event.getX(), (int)event.getY()));
+                        roundRectangle.setArcHeight(40);
+                        roundRectangle.setArcWidth(40);
+			roundRectangle.setFillColor(Paint.valueOf("#FFFFFF"));
+			roundRectangle.setColor(Paint.valueOf("#000000"));
+        	roundRectangle.setStrokeWidth(6);
+			roundRectangleStartX = event.getX();
+			roundRectangleStartY = event.getY();
+			Main.getController().addShape(roundRectangle);;
+			roundRectangle.draw(canvas);
 		}
 		if(event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-			if(roundrectangle == null) 
+			if(roundRectangle == null) 
 				return;
-            double offsetX = event.getX() - roundrectangleStartX;
-            double offsetY = event.getY() - roundrectangleStartY;
+            double offsetX = event.getX() - roundRectangleStartX;
+            double offsetY = event.getY() - roundRectangleStartY;
             if (offsetX > 0) {
-                if (event.getX() > ((Region) roundrectangle.getParent()).getWidth())
-                  roundrectangle.setWidth(((Region) roundrectangle.getParent()).getWidth() - roundrectangleStartX);
+                if (event.getX() > ((Region) roundRectangle.getParent()).getWidth())
+                  roundRectangle.setWidth(((Region) roundRectangle.getParent()).getWidth() - roundRectangleStartX);
                else
-                	roundrectangle.setWidth(offsetX);
+                	roundRectangle.setWidth(offsetX);
             } else {
                if (event.getX() < 0)
-                	roundrectangle.setX(0);
+                	roundRectangle.setX(0);
                 else
-                	roundrectangle.setX(event.getX());
-                roundrectangle.setWidth(roundrectangleStartX - roundrectangle.getX());
+                	roundRectangle.setX(event.getX());
+                roundRectangle.setWidth(roundRectangleStartX - roundRectangle.getX());
             }
 
             if (offsetY > 0) {
-              if (event.getY() >  ((Region) roundrectangle.getParent()).getHeight())
-                	roundrectangle.setHeight( ((Region) roundrectangle.getParent()).getHeight() - roundrectangleStartY);
+              if (event.getY() >  ((Region) roundRectangle.getParent()).getHeight())
+                	roundRectangle.setHeight( ((Region) roundRectangle.getParent()).getHeight() - roundRectangleStartY);
                 else
-                	roundrectangle.setHeight(offsetY);
+                	roundRectangle.setHeight(offsetY);
             } else {
                 if (event.getY() < 0)
-                	roundrectangle.setY(0);
+                	roundRectangle.setY(0);
                 else
-                	roundrectangle.setY(event.getY());
-                roundrectangle.setHeight(roundrectangleStartY - roundrectangle.getY());
+                	roundRectangle.setY(event.getY());
+                roundRectangle.setHeight(roundRectangleStartY - roundRectangle.getY());
             }
 
         }
@@ -100,7 +103,9 @@ public class RoundRectangleController extends AnchorPane implements CommandPane 
 
     @Override
     public void setAction(EventHandler<ActionEvent> value) {
-        RoundRectangleButton.setOnAction(value);
+        roundRectangleButton.setOnAction(value);
+        AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(roundRectangleButton);
     }
 
     @Override

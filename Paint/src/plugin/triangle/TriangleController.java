@@ -2,15 +2,18 @@
 package plugin.triangle;
 
 import com.jfoenix.controls.JFXButton;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.model.Shape;
 import paint.view.Main;
@@ -36,6 +39,7 @@ public class TriangleController extends AnchorPane implements CommandPane {
 			triangle.setY3Left(event.getY() + 30);
 			triangle.setFillColor(Paint.valueOf("#FFFFFF"));
 			triangle.setColor(Paint.valueOf("#000000"));
+        	triangle.setStrokeWidth(6);
 			triangleStartX = event.getX();
 			triangleStartY = event.getY();
 			Main.getController().addShape(triangle);
@@ -87,7 +91,8 @@ public class TriangleController extends AnchorPane implements CommandPane {
 	@Override
 	public void setAction(EventHandler<ActionEvent> value) {
 		triangleButton.setOnAction(value);
-
+		AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(triangleButton);
 	}
 
 	@Override

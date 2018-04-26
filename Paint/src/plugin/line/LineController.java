@@ -2,15 +2,18 @@
 package plugin.line;
 
 import com.jfoenix.controls.JFXButton;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.model.Shape;
 import paint.view.Main;
@@ -32,7 +35,7 @@ public class LineController extends AnchorPane implements CommandPane  {
 			line = new CustomLine(event.getX(), event.getY(),event.getX()+20,event.getY()+20);
 			line.setFillColor(Paint.valueOf("#000000"));
 			line.setColor(Paint.valueOf("#000000"));
-			line.setStrokeWidth(10);
+			line.setStrokeWidth(6);
 			Main.getController().addShape(line);;
 			line.draw(canvas);
 		}
@@ -66,7 +69,8 @@ public class LineController extends AnchorPane implements CommandPane  {
     @Override
     public void setAction(EventHandler<ActionEvent> value) {
          lineButton.setOnAction(value);
-
+         AnimationAdder animation =  new AnimationAdder();
+         animation.addShapeIconAnimation(lineButton);
     }
 
     @Override

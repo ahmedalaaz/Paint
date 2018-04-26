@@ -2,6 +2,7 @@ package plugin.selector;
 
 import java.io.File;
 
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import paint.model.AnimationAdder;
 import paint.model.CommandPane;
 import paint.model.Shape;
 import paint.view.Main;
@@ -65,7 +67,8 @@ public class SelectorController extends AnchorPane implements CommandPane {
 	public void setAction(EventHandler<ActionEvent> value) {
 		// TODO Auto-generated method stub
 		toolButton.setOnAction(value);
-
+		AnimationAdder animation =  new AnimationAdder();
+        animation.addShapeIconAnimation(toolButton);
 	}
 
 	@Override
