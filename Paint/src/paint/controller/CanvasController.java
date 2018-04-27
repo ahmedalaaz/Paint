@@ -219,7 +219,8 @@ public class CanvasController implements DrawingEngine, Initializable {
 		PluginManager pluginManager = new PluginManager();
 		CommandPane node;
 		node = pluginManager.getClassFromJar(jarPath);
-			gridPane.add((Node) node, gridColumn, gridRow);
+		if(node == null)return;//error
+		gridPane.add((Node) node, gridColumn, gridRow);
 			supportedShapes.add(node.getToolClass());
 			gridColumn = (++gridColumn) % 2;
 			if (gridColumn == 0)
@@ -258,8 +259,10 @@ public class CanvasController implements DrawingEngine, Initializable {
 		System.out.println("Initializing plugins...\n");
 		PluginManager pluginManager = new PluginManager();
 		ArrayList<CommandPane> nodes = new ArrayList<>();
+		if(nodes == null)return;//error
 		nodes = pluginManager.loadPlugins();
 		for (CommandPane node : nodes) {
+			if(node == null)continue;
 			gridPane.add((Node) node, gridColumn, gridRow);
 			supportedShapes.add(node.getToolClass());
 			gridColumn = (++gridColumn) % 2;

@@ -280,7 +280,7 @@ public class ResizableRectangle {
 
 	public void triggerWestCircleMove(double deltaX, double deltaY) {
 		double newX = outerSelectorRectangle.getX() + deltaX;
-		if (newX >= 2 * SMALL_CIRCLE_RADIUS
+		if (newX >= SMALL_CIRCLE_RADIUS + SMALL_CIRCLE_STROKE
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setX(newX);
 			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
@@ -289,13 +289,13 @@ public class ResizableRectangle {
 
 	public void triggerNorthWestCircleMove(double deltaX, double deltaY) {
 		double newX = outerSelectorRectangle.getX() + deltaX;
-		if (newX >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
+		if (newX >= (SMALL_CIRCLE_RADIUS + SMALL_CIRCLE_STROKE)
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setX(newX);
 			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
 		}
 		double newY = outerSelectorRectangle.getY() + deltaY;
-		if (newY >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
+		if (newY >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setY(newY);
 			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
@@ -304,7 +304,7 @@ public class ResizableRectangle {
 
 	public void triggerNorthCircleMove(double deltaX, double deltaY) {
 		double newY = outerSelectorRectangle.getY() + deltaY;
-		if (newY >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
+		if (newY >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setY(newY);
 			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
@@ -313,12 +313,12 @@ public class ResizableRectangle {
 
 	public void triggerNorthEastCircleMove(double deltaX, double deltaY) {
 		double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX;
-		if (newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
+		if (newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth() - SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE
 				&& newMaxX >= outerSelectorRectangle.getX() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 		double newY = outerSelectorRectangle.getY() + deltaY;
-		if (newY >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
+		if (newY >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE && newY <= outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight()
 				- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setY(newY);
 			this.setHeight(outerSelectorRectangle.getHeight() - deltaY);
@@ -329,7 +329,7 @@ public class ResizableRectangle {
 		double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX;
 		if (newMaxX >= outerSelectorRectangle.getX() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
 				&& newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) {
 			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 	}
@@ -338,13 +338,13 @@ public class ResizableRectangle {
 		double newMaxX = outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() + deltaX;
 		if (newMaxX >= outerSelectorRectangle.getX() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
 				&& newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) {
 			this.setWidth(outerSelectorRectangle.getWidth() + deltaX);
 		}
 		double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY;
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) {
 			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
@@ -353,14 +353,14 @@ public class ResizableRectangle {
 		double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY;
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) {
 			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
 
 	public void triggerSouthWestCircleMove(double deltaX, double deltaY) {
 		double newX = outerSelectorRectangle.getX() + deltaX;
-		if (newX >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
+		if (newX >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE
 				&& newX <= outerSelectorRectangle.getX() + outerSelectorRectangle.getWidth() - 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setX(newX);
 			this.setWidth(outerSelectorRectangle.getWidth() - deltaX);
@@ -368,23 +368,23 @@ public class ResizableRectangle {
 		double newMaxY = outerSelectorRectangle.getY() + outerSelectorRectangle.getHeight() + deltaY;
 		if (newMaxY >= outerSelectorRectangle.getY() + 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE) {
 			this.setHeight(outerSelectorRectangle.getHeight() + deltaY);
 		}
 	}
 	public void triggerMovingHandleCircleMove(double deltaX, double deltaY) {
 		double newX = outerSelectorRectangle.getX() + deltaX;
 		double newMaxX = newX + outerSelectorRectangle.getWidth();
-		if (newX >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
+		if (newX >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE
 				&& newMaxX <= outerSelectorRectangle.getParent().getBoundsInLocal().getWidth()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setX(newX);
 		}
 		double newY = outerSelectorRectangle.getY() + deltaY;
 		double newMaxY = newY + outerSelectorRectangle.getHeight();
-		if (newY >= 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)
+		if (newY >= SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE
 				&& newMaxY <= outerSelectorRectangle.getParent().getBoundsInLocal().getHeight()
-						- 2 * (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
+						- (SMALL_CIRCLE_RADIUS+SMALL_CIRCLE_STROKE)) {
 			outerSelectorRectangle.setY(newY);
 		}
 	}
