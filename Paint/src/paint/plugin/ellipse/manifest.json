@@ -1,0 +1,5 @@
+ {
+    "name": "Ellipse",
+    "className": "EllipseController",
+    "packageName": "paint.plugin.ellipse"
+ }

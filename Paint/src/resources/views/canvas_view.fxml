@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="785.0" prefWidth="1565.0" style="-fx-background-color: #01579B;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paint.controller.CanvasController">
+<AnchorPane prefHeight="785.0" prefWidth="1403.0" style="-fx-background-color: #1A237E;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paint.controller.CanvasController">
    <children>
-      <AnchorPane layoutX="333.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
+      <AnchorPane layoutX="237.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
          <children>
             <Label layoutX="17.0" layoutY="19.0" prefHeight="40.0" prefWidth="99.0" text="Stroke Width" textFill="#263238">
                <font>
-                  <Font name="Noto Sans CJK JP Black" size="14.0" />
+                  <Font name="Noto Sans CJK JP Black" size="12.0" />
                </font>
             </Label>
             <JFXComboBox fx:id="strokeWidthCB" layoutX="136.0" layoutY="22.0" prefHeight="33.0" prefWidth="81.0" />
@@ -30,23 +30,23 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <VBox id="box" layoutX="4.0" layoutY="211.0" prefHeight="270.0" prefWidth="322.0" spacing="20.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-color: black;" stylesheets="@../css/styles.css">
+      <VBox id="box" layoutX="19.0" layoutY="212.0" prefHeight="272.0" prefWidth="197.0" spacing="20.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-color: black;" stylesheets="@../css/styles.css">
          <children>
-            <GridPane fx:id="gridPane" prefHeight="250.0" prefWidth="310.0" scaleShape="false" style="-fx-background-color: transparent; -fx-border-radius: 10px; -fx-background-radius: 10px;">
+            <GridPane fx:id="gridPane" maxWidth="140.0" prefHeight="250.0" prefWidth="140.0" scaleShape="false" style="-fx-background-color: transparent; -fx-border-radius: 10px; -fx-background-radius: 10px;">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="40.0" prefHeight="41.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -54,20 +54,20 @@
             </GridPane>
          </children>
       </VBox>
-      <Pane fx:id="canvas" layoutX="336.0" layoutY="96.0" onMouseDragged="#onCanvasDragged" onMousePressed="#onCanvasPressed" prefHeight="676.0" prefWidth="1223.0" style="-fx-background-color: white;" />
-      <AnchorPane layoutX="4.0" layoutY="664.0" prefHeight="61.0" prefWidth="322.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-background-color: #FFECB3; -fx-border-color: black;">
+      <Pane fx:id="canvas" layoutX="237.0" layoutY="95.0" onMouseDragged="#onCanvasDragged" onMousePressed="#onCanvasPressed" prefHeight="676.0" prefWidth="1156.0" style="-fx-background-color: white;" />
+      <AnchorPane layoutX="4.0" layoutY="708.0" prefHeight="63.0" prefWidth="210.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-background-color: #FFECB3; -fx-border-color: black;">
          <children>
-            <Label fx:id="modeLabel" alignment="CENTER" layoutX="163.0" layoutY="9.0" prefHeight="40.0" prefWidth="145.0" textFill="#263238">
+            <Label fx:id="modeLabel" alignment="CENTER" layoutX="109.0" layoutY="11.0" prefHeight="40.0" prefWidth="107.0" textFill="#263238">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <font>
-                  <Font name="Noto Sans CJK JP Black" size="14.0" />
+                  <Font name="Noto Sans CJK JP Black" size="12.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutY="11.0" prefHeight="40.0" prefWidth="131.0" text="Current Mode" textFill="#263238">
+            <Label alignment="CENTER" layoutY="11.0" prefHeight="40.0" prefWidth="99.0" text="Current Mode" textFill="#263238">
                <font>
-                  <Font name="Noto Sans CJK JP Black" size="14.0" />
+                  <Font name="Noto Sans CJK JP Black" size="12.0" />
                </font>
             </Label>
          </children>
@@ -75,9 +75,9 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </AnchorPane>
-      <AnchorPane layoutX="1289.0" layoutY="14.0" prefHeight="74.0" prefWidth="264.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
+      <AnchorPane layoutX="1164.0" layoutY="14.0" prefHeight="74.0" prefWidth="228.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;" AnchorPane.leftAnchor="1164.0">
          <children>
-            <JFXButton id="open" layoutX="103.0" layoutY="12.0" onAction="#openSavedFile" prefHeight="50.0" prefWidth="70.0" style="-fx-border-radius: 20; -fx-border-color: grey; -fx-background-radius: 20;" stylesheets="@../css/styles.css" text=" ">
+            <JFXButton id="open" layoutX="77.0" layoutY="10.0" onAction="#openSavedFile" prefHeight="50.0" prefWidth="70.0" style="-fx-border-radius: 20; -fx-border-color: grey; -fx-background-radius: 20;" stylesheets="@../css/styles.css" text=" ">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -87,18 +87,18 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </JFXButton>
-            <JFXButton id="open" layoutX="180.0" layoutY="12.0" onAction="#openSavedFile" prefHeight="50.0" prefWidth="70.0" style="-fx-border-radius: 20; -fx-border-color: grey; -fx-background-radius: 20;" stylesheets="@../css/styles.css" text=" ">
+            <JFXButton id="import" layoutX="147.0" layoutY="12.0" onAction="#chooseJarFile" prefHeight="50.0" prefWidth="70.0" style="-fx-border-radius: 20; -fx-border-color: grey; -fx-background-radius: 20;" stylesheets="@../css/styles.css" text=" ">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="659.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
+      <AnchorPane layoutX="546.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
          <children>
             <Label alignment="CENTER" layoutX="68.0" layoutY="22.0" prefHeight="33.0" prefWidth="40.0" text="Fill " textFill="#263238">
                <font>
-                  <Font name="Noto Sans CJK JP Black" size="14.0" />
+                  <Font name="Noto Sans CJK JP Black" size="12.0" />
                </font>
             </Label>
             <JFXColorPicker fx:id="fillColorPicker" layoutX="121.0" layoutY="27.0" prefHeight="26.0" prefWidth="91.0" />
@@ -106,11 +106,11 @@
             <JFXButton id="apply" fx:id="applyFillBtn" layoutX="213.0" layoutY="22.0" prefHeight="38.0" prefWidth="81.0" stylesheets="@../css/styles.css" text=" " />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="968.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
+      <AnchorPane layoutX="855.0" layoutY="14.0" prefHeight="74.0" prefWidth="309.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
          <children>
             <Label alignment="CENTER" layoutX="71.0" layoutY="20.0" prefHeight="33.0" prefWidth="59.0" text="Stroke " textFill="#263238">
                <font>
-                  <Font name="Noto Sans CJK JP Black" size="14.0" />
+                  <Font name="Noto Sans CJK JP Black" size="12.0" />
                </font>
             </Label>
             <JFXColorPicker fx:id="strokeColorPicker" layoutX="135.0" layoutY="25.0" prefHeight="26.0" prefWidth="89.0" />
@@ -118,13 +118,13 @@
             <JFXButton id="apply" fx:id="applyStrokeBtn" layoutX="226.0" layoutY="19.0" prefHeight="38.0" prefWidth="81.0" stylesheets="@../css/styles.css" text=" " />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="2.0" layoutY="108.0" prefHeight="74.0" prefWidth="322.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
+      <AnchorPane layoutX="8.0" layoutY="108.0" prefHeight="74.0" prefWidth="212.0" style="-fx-background-color: #FFECB3; -fx-background-radius: 10px; -fx-border-color: black; -fx-border-radius: 10px;">
          <children>
-            <JFXButton id="delete" fx:id="deleteBtn" layoutX="228.0" layoutY="12.0" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
-            <JFXButton id="redo" fx:id="redoBtn" layoutX="121.0" layoutY="12.0" onAction="#redo" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
-            <JFXButton id="undo" fx:id="undoBtn" layoutX="16.0" layoutY="12.0" onAction="#undo" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
+            <JFXButton id="delete" fx:id="deleteBtn" layoutX="148.0" layoutY="12.0" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
+            <JFXButton id="redo" fx:id="redoBtn" layoutX="81.0" layoutY="12.0" onAction="#redo" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
+            <JFXButton id="undo" fx:id="undoBtn" layoutX="14.0" layoutY="12.0" onAction="#undo" prefHeight="50.0" prefWidth="70.0" stylesheets="@../css/styles.css" text=" " />
          </children>
       </AnchorPane>
-      <JFXButton id="mainImg" fx:id="imageBtn" layoutX="14.0" layoutY="14.0" prefHeight="74.0" prefWidth="123.0" stylesheets="@../css/styles.css" text=" " />
+      <JFXButton id="mainImg" fx:id="imageBtn" layoutY="14.0" prefHeight="74.0" prefWidth="123.0" stylesheets="@../css/styles.css" text=" " />
    </children>
 </AnchorPane>

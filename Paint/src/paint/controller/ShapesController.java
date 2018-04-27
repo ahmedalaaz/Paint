@@ -2,6 +2,7 @@ package paint.controller;
 
 import java.util.ArrayList;
 import javafx.scene.paint.Paint;
+import paint.model.CustomClassLoader;
 import paint.model.LoaderStrategy;
 import paint.model.MementoController;
 import paint.model.MultipleResizeState;
@@ -12,6 +13,7 @@ public class ShapesController {
 private CanvasController canvasController;
 private static ShapesController myInstance;
 private boolean initial = true;
+private ArrayList<CustomClassLoader> loaders =  new ArrayList<>();
 private ShapesController(CanvasController canvasController){
 	this.canvasController = canvasController;
 }
@@ -21,7 +23,19 @@ public static ShapesController getInstance(CanvasController canvasController) {
 public static ShapesController getInstance() {
 	return myInstance == null ? null : myInstance;
 }
-
+public void addLoader(CustomClassLoader loader) {
+	this.loaders.add(loader);
+}
+public CustomClassLoader getLoader(String className) {
+	for(CustomClassLoader loader : loaders) {
+		if(loader.getmClass() == null)continue;
+		System.out.println(className + " " +loader.getmClass().getName());
+		if(loader.getmClass().getName().equals(className)) {
+			return loader;
+		}
+	}
+	return null;
+}
 public void changeStrokeColor(String strokeColor) throws CloneNotSupportedException{
 	
 	ArrayList<Shape> shapes =  canvasController.getShapes();
