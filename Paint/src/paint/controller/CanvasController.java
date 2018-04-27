@@ -41,6 +41,8 @@ public class CanvasController implements DrawingEngine, Initializable {
 	private ArrayList<Class<? extends Shape>> supportedShapes = new ArrayList();
 	private SaverStrategy saver;
 	private LoaderStrategy loader;
+	private int gridColumn = 0;
+	private int gridRow = 0;
 	private ArrayList<Shape> currentShape = new ArrayList<Shape>();
 	@FXML
 	private JFXButton imageBtn;
@@ -81,7 +83,7 @@ public class CanvasController implements DrawingEngine, Initializable {
 		// TODO Auto-generated method stub
 		this.canvas.getChildren().removeAll(this.canvas.getChildren());
 		this.canvas.getChildren().addAll(((Pane) canvas).getChildren());
-		selectedTool.triggerState();
+		if(selectedTool != null)selectedTool.triggerState();
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
@@ -148,7 +150,7 @@ public class CanvasController implements DrawingEngine, Initializable {
 			for (Shape s : undoShapes)
 				s.draw(canvas);
 		}
-		selectedTool.triggerState();
+		if(selectedTool != null)selectedTool.triggerState();
 	}
 
 	@Override
@@ -164,7 +166,7 @@ public class CanvasController implements DrawingEngine, Initializable {
 			for (Shape s : redoShapes)
 				s.draw(canvas);
 		}
-		selectedTool.triggerState();
+		if(selectedTool != null)selectedTool.triggerState();
 	}
 
 	@Override
@@ -214,8 +216,27 @@ public class CanvasController implements DrawingEngine, Initializable {
 	@Override
 	public void installPluginShape(String jarPath) {
 		// TODO Auto-generated method stub
+		PluginManager pluginManager = new PluginManager();
+		CommandPane node;
+		node = pluginManager.getClassFromJar(jarPath);
+			gridPane.add((Node) node, gridColumn, gridRow);
+			supportedShapes.add(node.getToolClass());
+			gridColumn = (++gridColumn) % 2;
+			if (gridColumn == 0)
+				gridRow = (++gridRow) % 9;
+			@SuppressWarnings("rawtypes")
+			Class nodeClass = node.getClass();
+			nodeClass.cast(node);
+			node.setAction((event) -> {
+				modeLabel.setText(node.getName());
+				if (selectedTool != null) {
+					selectedTool.pauseState(event);
+				}
+				selectedTool = node;
+				selectedTool.triggerState(event);
 
-	}
+			});
+		}
 
 	@FXML
 	protected void onCanvasPressed(MouseEvent event) {
@@ -238,15 +259,12 @@ public class CanvasController implements DrawingEngine, Initializable {
 		PluginManager pluginManager = new PluginManager();
 		ArrayList<CommandPane> nodes = new ArrayList<>();
 		nodes = pluginManager.loadPlugins();
-		int col = 0;
-		int row = 0;
-
 		for (CommandPane node : nodes) {
-			gridPane.add((Node) node, col, row);
+			gridPane.add((Node) node, gridColumn, gridRow);
 			supportedShapes.add(node.getToolClass());
-			col = (++col) % 2;
-			if (col == 0)
-				row = (++row) % 9;
+			gridColumn = (++gridColumn) % 2;
+			if (gridColumn == 0)
+				gridRow = (++gridRow) % 9;
 			@SuppressWarnings("rawtypes")
 			Class nodeClass = node.getClass();
 			nodeClass.cast(node);
@@ -329,11 +347,26 @@ public class CanvasController implements DrawingEngine, Initializable {
 			}
 		}
 	}
+	@FXML
+	protected void chooseJarFile() {
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Extensions Allowed ", "*.jar");
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		// Show open file dialog
+		File file = fileChooser.showOpenDialog((Stage) canvas.getScene().getWindow());
+		if (file != null) {
+			System.out.println(file.getAbsolutePath());
+			this.installPluginShape(file.getAbsolutePath());
+		}
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		gridPane.setVgap(30);
-		gridPane.setHgap(10);
+		gridPane.setVgap(20);
+		gridPane.setHgap(20);
 		for (int i = 4; i <= 20; i += 2)
 			strokeWidthCB.getItems().add(i);
 		strokeWidthCB.setValue(6);

@@ -1,15 +1,22 @@
 package paint.model;
 
 import java.io.File;
-
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import paint.controller.ShapesController;
+import paint.view.Main;
 
 public class PluginManager {
 	public ArrayList<CommandPane> loadPlugins() {
@@ -22,10 +29,10 @@ public class PluginManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.print("\nOpening " + Path + "src" + File.separator + "plugin" + File.separator + " for plugins\n");
+		System.out.print("\nOpening " + Path + "src" + File.separator + "paint" + File.separator + "plugin" + "  for plugins\n");
 
 		try {
-			File file = new File(dirUrl.getPath() + "src" + File.separator + "plugin");
+			File file = new File(dirUrl.getPath() + "src" + File.separator + "paint" + File.separator + "plugin");
 			String[] shapesNames = file.list();
 			for (String name : shapesNames) {
 				if (new File(dirUrl.getPath()).isDirectory() && name.charAt(0) != '.') {
@@ -48,7 +55,7 @@ public class PluginManager {
 		URL jsonUrl = null;
 		try {
 			jsonUrl = new URL("file:///" + System.getProperty("user.dir") + File.separator + "src" + File.separator
-					+ "plugin" + File.separator + tool + File.separator + "manifest.json");
+					+ "paint" +  File.separator + "plugin" + File.separator + tool + File.separator + "manifest.json");
 		} catch (MalformedURLException e) {
 			System.out.print("Cannot load " + tool + "'s manifest.json!");
 		}
@@ -83,8 +90,8 @@ public class PluginManager {
 
 		if (className != null && packageName != null) {
 			try {
-				classUrl = new URL("file:///" + System.getProperty("user.dir") + File.separator + "plugin"
-						+ File.separator + tool + File.separator + className + ".class");
+				classUrl = new URL("file:///" + System.getProperty("user.dir") + File.separator + "paint" +
+			File.separator + "plugin" + File.separator + tool + File.separator + className + ".class");
 				System.out.print(classUrl);
 
 			} catch (MalformedURLException e) {
@@ -93,11 +100,10 @@ public class PluginManager {
 			URL[] urls = new URL[] { classUrl };
 			@SuppressWarnings("resource")
 			ClassLoader classLoader = new URLClassLoader(urls);
-
 			try {
 				Class<?> cls = classLoader.loadClass(packageName + "." + className);
 				newCommand = (CommandPane) cls.newInstance();
-
+				ShapesController.getInstance(Main.getController()).addLoader(new CustomClassLoader(manifest, classLoader,newCommand.getToolClass()));
 				System.out.print("Initialized " + toolName + "!\n");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -108,5 +114,53 @@ public class PluginManager {
 			}
 		}
 		return newCommand;
+	}
+	public CommandPane getClassFromJar(String jarPath) {
+		CommandPane newCommand = null;
+		try {
+			URL[] urls = { new URL("jar:file:" + jarPath+"!/") };
+			URLClassLoader classLoader = URLClassLoader.newInstance(urls);
+			//URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {myJarFile});
+			PluginManifest  manifest = getManifestFromJar(jarPath);
+			Class<?> mClass = classLoader.loadClass(manifest.getPackageName() + "."+manifest.getClassName());
+			newCommand = (CommandPane) mClass.newInstance();
+			ShapesController.getInstance(Main.getController()).addLoader(new CustomClassLoader(manifest, classLoader,newCommand.getToolClass()));
+			return newCommand;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return newCommand;
+	}
+	@SuppressWarnings("resource")
+	public PluginManifest getManifestFromJar(String jarPath) {
+		try {
+			ZipFile  file = new ZipFile(jarPath);
+			if (file != null) {
+				System.out.println("Entered file :: " + jarPath);
+			   Enumeration<? extends ZipEntry> entries = file.entries();
+			   if (entries != null) {
+			      while (entries.hasMoreElements()) {
+			          ZipEntry entry = entries.nextElement();
+			         if(entry.getName().contains("manifest.json")) {
+			        	 try (Reader reader = new InputStreamReader(file.getInputStream(entry), "UTF-8")) {
+			     			Gson gson = new GsonBuilder().create();
+			     			PluginManifest manifest = gson.fromJson(reader, PluginManifest.class);
+			     			System.out.println(manifest.getName());
+			     			return manifest;
+			     		} catch (Exception e) {
+			     			// TODO: handle exception
+			     			e.printStackTrace();
+			     		}
+			         }
+			      	}
+			    }
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 }

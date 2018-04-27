@@ -1,7 +1,7 @@
 package paint.view;
 
 import javafx.fxml.FXMLLoader;
-import plugin.rectangle.RectangleController;
+import paint.plugin.rectangle.RectangleController;
 
 import java.io.IOException;
 import java.net.URL;

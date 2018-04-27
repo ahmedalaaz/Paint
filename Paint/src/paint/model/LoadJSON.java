@@ -34,6 +34,7 @@ public class LoadJSON implements LoaderStrategy {
 				if (!ShapesController.getInstance(Main.getController()).isSupportedShape(className))
 					return null;// TODO show error message cannot load
 				Shape tempShape =    (new ShapesFactory()).instantiate(className, Shape.class);
+				if(tempShape == null)return null;//TODO show error message cannot load
 				tempShape.loadJSON(shape);
 				newShapes.add(tempShape);
 			}

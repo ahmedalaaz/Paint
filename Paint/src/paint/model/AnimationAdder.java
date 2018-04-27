@@ -58,7 +58,7 @@ public class AnimationAdder {
 
 		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), button);
 		translateTransition.setFromX(0);
-		translateTransition.setToX(button.getLayoutX() + 180);
+		translateTransition.setToX(button.getLayoutX() + 120);
 		translateTransition.setCycleCount(2);
 		translateTransition.setAutoReverse(true);
 
@@ -79,7 +79,7 @@ public class AnimationAdder {
 		TranslateTransition translateTransition =
                 new TranslateTransition(Duration.millis(500), button);
             translateTransition.setFromX(0);
-            translateTransition.setToX(button.getLayoutX() + 30);
+            translateTransition.setToX(button.getLayoutX() + 15);
             translateTransition.setCycleCount(1);
             translateTransition.setRate(1);
             translateTransition.setAutoReverse(true);

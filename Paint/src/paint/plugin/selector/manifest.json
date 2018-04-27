@@ -1,0 +1,5 @@
+ {
+    "name": "Selector",
+    "className": "SelectorController",
+    "packageName": "paint.plugin.selector"
+ }
