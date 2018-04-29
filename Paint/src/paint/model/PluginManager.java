@@ -1,6 +1,7 @@
 package paint.model;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
+import paint.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,19 +30,29 @@ public class PluginManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.print("\nOpening " + Path + "src" + File.separator + "paint" + File.separator + "plugin" + "  for plugins\n");
+		System.out.print("\nOpening " + Path + "src" + File.separator + "resources" + File.separator + "plugins" + "  for plugins\n");
 
 		try {
-			File file = new File(dirUrl.getPath() + "src" + File.separator + "paint" + File.separator + "plugin");
+			/*File file = new File(getClass().getResource("/plugins").getPath());
+			System.out.println(getClass().getResource("/plugins").getPath());
+			System.out.println("class resource :: " + getClass().getResource(""));
+			String path = getClass().getResource("/plugins").getPath();*/
+			File file = new File(dirUrl.getPath()+"plugins");
+			System.out.println(dirUrl.getPath()+"plugins");
+			System.out.println("class resource :: " + dirUrl.getPath()+"plugins");
+			String path = dirUrl.getPath()+"plugins";
 			String[] shapesNames = file.list();
 			for (String name : shapesNames) {
-				if (new File(dirUrl.getPath()).isDirectory() && name.charAt(0) != '.') {
+				
+				/*if (new File(dirUrl.getPath()).isDirectory() && name.charAt(0) != '.') {
 					CommandPane newTool = loadTool(name);
 					if (newTool != null) {
 
 						commands.add(newTool);
 					}
-				}
+				}*/
+				CommandPane newTool = getClassFromJar(path+"/"+name);
+				commands.add(newTool);
 			}
 		} catch (NullPointerException e) {
 			System.out.print("Plugins directory not found!\nCannot initialize plugins");
@@ -121,7 +132,10 @@ public class PluginManager {
 			URL[] urls = { new URL("jar:file:" + jarPath+"!/") };
 			URLClassLoader classLoader = URLClassLoader.newInstance(urls);
 			//URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {myJarFile});
+			
 			PluginManifest  manifest = getManifestFromJar(jarPath);
+			System.out.println(manifest.getClassName());
+			System.out.println("*** URL : : " + urls[0].getPath());
 			Class<?> mClass = classLoader.loadClass(manifest.getPackageName() + "."+manifest.getClassName());
 			newCommand = (CommandPane) mClass.newInstance();
 			ShapesController.getInstance(Main.getController()).addLoader(new CustomClassLoader(manifest, classLoader,newCommand.getToolClass()));

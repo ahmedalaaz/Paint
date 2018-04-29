@@ -63,8 +63,8 @@ public class AnimationAdder {
 		translateTransition.setAutoReverse(true);
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000), button);
-		rotateTransition.setByAngle(270f);
-		rotateTransition.setCycleCount(1);
+		rotateTransition.setByAngle(360f);
+		rotateTransition.setCycleCount(2);
 		rotateTransition.setAutoReverse(true);
 
 		SequentialTransition sequentialTransition = new SequentialTransition();

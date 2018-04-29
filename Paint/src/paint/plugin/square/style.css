@@ -1,6 +1,0 @@
-#square {
-    -fx-background-image: url("square.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-	-fx-background-size: 50, 150;
-}

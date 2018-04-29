@@ -1,7 +1,9 @@
 package paint.controller;
 
 import java.io.File;
+
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -35,6 +38,7 @@ import paint.model.SaveJSON;
 import paint.model.SaveXML;
 import paint.model.SaverStrategy;
 import paint.model.Shape;
+import paint.network.FirebaseDB;
 
 public class CanvasController implements DrawingEngine, Initializable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -43,6 +47,13 @@ public class CanvasController implements DrawingEngine, Initializable {
 	private LoaderStrategy loader;
 	private int gridColumn = 0;
 	private int gridRow = 0;
+	@FXML
+	private AnchorPane mainPane;
+	private final KeyCombination copyKeyCombination = new KeyCodeCombination(
+			KeyCode.C, KeyCombination.CONTROL_DOWN);
+	private final KeyCombination pasteKeyCombination = new KeyCodeCombination(
+			KeyCode.V, KeyCombination.CONTROL_DOWN);
+
 	private ArrayList<Shape> currentShape = new ArrayList<Shape>();
 	@FXML
 	private JFXButton imageBtn;
@@ -83,6 +94,7 @@ public class CanvasController implements DrawingEngine, Initializable {
 		// TODO Auto-generated method stub
 		this.canvas.getChildren().removeAll(this.canvas.getChildren());
 		this.canvas.getChildren().addAll(((Pane) canvas).getChildren());
+		this.currentShape = new ArrayList<>();
 		if(selectedTool != null)selectedTool.triggerState();
 	}
 
@@ -90,9 +102,9 @@ public class CanvasController implements DrawingEngine, Initializable {
 	@Override
 	public void addShape(Shape shape) {
 		// TODO Auto-generated method stub
-		if (!canvas.getChildren().contains(shape))
+		System.out.println("Adding to canvas :" + shape.getClass());
+		if (!canvas.getChildren().contains(shape) && !currentShape.contains(shape)) {
 			shape.draw(canvas);
-		{
 			ArrayList<Shape> shapes = getShapes();
 			MementoController m = new MementoController();
 			try {
@@ -102,7 +114,46 @@ public class CanvasController implements DrawingEngine, Initializable {
 				e.printStackTrace();
 			}
 			currentShape.add(shape);
+			if(!ShapesController.getInstance(this).isFromDB()) {
+				FirebaseDB firebase;
+				try {
+					firebase = FirebaseDB.getInstance();
+					firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			
+		}else {
+			System.out.println("entered else");
 		}
+		if(selectedTool!=null)selectedTool.triggerState();
+	}
+	@SuppressWarnings("unlikely-arg-type")
+	public void addShapeForRealTimeConnection(Shape shape) {
+		if (!canvas.getChildren().contains(shape) && !currentShape.contains(shape)) {
+			shape.draw(canvas);
+			currentShape.add(shape);
+			if(!ShapesController.getInstance(this).isFromDB()) {
+				FirebaseDB firebase;
+				try {
+					firebase = FirebaseDB.getInstance();
+					firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			
+		}else {
+			System.out.println("entered else");
+		}
+		if(selectedTool!=null)selectedTool.triggerState();
+	}
+	public void addToCurrentShapes(Shape shape) {
+		if(currentShape.contains(shape))return;
+		this.currentShape.add(shape);
 	}
 
 	@Override
@@ -137,6 +188,7 @@ public class CanvasController implements DrawingEngine, Initializable {
 			try {
 				if (!Caretaker.lastShapes.contains(getShapes())) {
 					m.addBeforeUndo(getShapes());
+					System.out.println("added to redo!!");
 				}
 			} catch (CloneNotSupportedException e) {
 				// TODO Auto-generated catch block
@@ -144,11 +196,22 @@ public class CanvasController implements DrawingEngine, Initializable {
 			}
 			ArrayList<Shape> undoShapes = new ArrayList<>();
 			undoShapes = m.returnShapes(-1);
-
-			currentShape = undoShapes;
 			refresh(canvas);
-			for (Shape s : undoShapes)
-				s.draw(canvas);
+			currentShape.removeAll(currentShape);
+			currentShape  = undoShapes;
+			for (Shape shape : undoShapes) {
+				shape.draw(canvas);
+			}
+				FirebaseDB firebase;
+				try {
+					firebase = FirebaseDB.getInstance();
+					System.out.println(currentShape.size());
+					firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 		}
 		if(selectedTool != null)selectedTool.triggerState();
 	}
@@ -160,11 +223,23 @@ public class CanvasController implements DrawingEngine, Initializable {
 		if (m.ifContains("Redo")) {
 			ArrayList<Shape> redoShapes = new ArrayList<>();
 			redoShapes = m.returnShapes(1);
-
-			currentShape = redoShapes;
 			refresh(canvas);
-			for (Shape s : redoShapes)
-				s.draw(canvas);
+			currentShape = redoShapes;
+			for (Shape shape : redoShapes) {
+					shape.draw(canvas);
+			}
+			
+			if(!ShapesController.getInstance(this).isFromDB()) {
+				FirebaseDB firebase;
+				try {
+					firebase = FirebaseDB.getInstance();
+					firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+
 		}
 		if(selectedTool != null)selectedTool.triggerState();
 	}
@@ -200,11 +275,30 @@ public class CanvasController implements DrawingEngine, Initializable {
 			// TODO show error message
 		}
 		Pane canvas = new Pane();
-		this.refresh(canvas);
-		for (Shape shape : newShapes) {
-			this.addShape(shape);
+		ArrayList<Shape> shapes = getShapes();
+		MementoController m = new MementoController();
+		try {
+			m.addLastScene(shapes);
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		this.refresh(canvas);
+		currentShape.removeAll(currentShape);
+		for (Shape shape : newShapes) {
+			ShapesController.getInstance(this).changeNetworkState(true);
+			this.addShape(shape);	
+			ShapesController.getInstance(this).changeNetworkState(false);
+		}
+		
+			FirebaseDB firebase;
+			try {
+				firebase = FirebaseDB.getInstance();
+				firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	@Override
@@ -219,7 +313,8 @@ public class CanvasController implements DrawingEngine, Initializable {
 		PluginManager pluginManager = new PluginManager();
 		CommandPane node;
 		node = pluginManager.getClassFromJar(jarPath);
-			gridPane.add((Node) node, gridColumn, gridRow);
+		if(node == null)return;//error
+		gridPane.add((Node) node, gridColumn, gridRow);
 			supportedShapes.add(node.getToolClass());
 			gridColumn = (++gridColumn) % 2;
 			if (gridColumn == 0)
@@ -242,16 +337,25 @@ public class CanvasController implements DrawingEngine, Initializable {
 	protected void onCanvasPressed(MouseEvent event) {
 		// TODO add switch to choose drawing type.
 		if (selectedTool != null) {
+			try {
 			selectedTool.execute(canvas, event);
-		}
+		
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			}
 	}
 
 	@FXML
 	protected void onCanvasDragged(MouseEvent event) {
 		// TODO add switch to choose drawing type.
 		if (selectedTool != null) {
-			selectedTool.execute(canvas, event);
-		}
+			try {
+				selectedTool.execute(canvas, event);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				}
 	}
 
 	private void initPlugins() {
@@ -259,7 +363,9 @@ public class CanvasController implements DrawingEngine, Initializable {
 		PluginManager pluginManager = new PluginManager();
 		ArrayList<CommandPane> nodes = new ArrayList<>();
 		nodes = pluginManager.loadPlugins();
+		if(nodes == null)return;//error
 		for (CommandPane node : nodes) {
+			if(node == null)continue;
 			gridPane.add((Node) node, gridColumn, gridRow);
 			supportedShapes.add(node.getToolClass());
 			gridColumn = (++gridColumn) % 2;
@@ -367,8 +473,33 @@ public class CanvasController implements DrawingEngine, Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		gridPane.setVgap(20);
 		gridPane.setHgap(20);
+
+		mainPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (copyKeyCombination.match(event)) {
+					ShapesController.getInstance(CanvasController.this).addSelectedShapesToClipBoard();
+				}else if(pasteKeyCombination.match(event)) {
+					ShapesController.getInstance(CanvasController.this).pasteClipBoard();
+				}
+    }
+});
 		for (int i = 4; i <= 20; i += 2)
 			strokeWidthCB.getItems().add(i);
+		canvas.setOnMouseReleased((event) ->{
+			if(selectedTool!=null) {
+				//if(!ShapesController.getInstance(this).isFromDB()) {
+					FirebaseDB firebase;
+					try {
+						firebase = FirebaseDB.getInstance();
+						firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//}
+			}
+		});
 		strokeWidthCB.setValue(6);
 		applyStrokeBtn.setOnAction((event) -> {
 			try {
@@ -399,8 +530,12 @@ public class CanvasController implements DrawingEngine, Initializable {
 		});
 		deleteBtn.setOnAction((event) -> {
 			try {
+				//TODO delete this ::
+				//	FirebaseDB firebase =  FirebaseDB.getInstance();
+				//	firebase.updateCanvas(ShapesController.getInstance(this).getCanvasShapesAsJson());
+				// ******
 				ShapesController.getInstance(CanvasController.this).deleteSelectedShapes();
-			} catch (CloneNotSupportedException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -414,6 +549,12 @@ public class CanvasController implements DrawingEngine, Initializable {
 		animation .setRotateTransition(redoBtn);
 		animation.addMainIconAnimation(imageBtn);
 		initPlugins();
+		try {
+			FirebaseDB firebase = FirebaseDB.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

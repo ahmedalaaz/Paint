@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.simple.JSONObject;
 import org.w3c.dom.*;
 
 import paint.controller.ShapesController;
@@ -45,6 +46,12 @@ public class LoadXML implements LoaderStrategy {
 		}
 		return shapes;
 
+	}
+
+	@Override
+	public ArrayList<Shape> loadRealTimeConnetion(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

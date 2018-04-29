@@ -41,6 +41,7 @@ public interface Shape {
 
 	public boolean isSelected();
 	public ResizableRectangle getResizableRectangle();
+	public void bindToResizableRectangle();
 	public void setStrokeWidth(Integer value);
 	public Integer getStrokeWidth();
 
