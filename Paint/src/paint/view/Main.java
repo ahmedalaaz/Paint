@@ -1,16 +1,14 @@
 package paint.view;
 
-import java.io.File;
-
-import java.net.URL;
+import com.google.firebase.FirebaseApp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import paint.controller.CanvasController;
+import paint.network.FirebaseDB;
 
 public class Main extends Application {
 	private static FXMLLoader myLoader;

@@ -13,6 +13,7 @@ public class ShapesFactory {
     	CustomClassLoader loader = ShapesController.getInstance(Main.getController()).getLoader(className);
     	if(loader == null) {
     		//TODO show error
+    		System.out.println("NULL Loader!!");
     		return null;
     	}
         Class<?> cl =  loader.getClassObject();
@@ -20,6 +21,7 @@ public class ShapesFactory {
         Class<?> shapeClass =  node.getToolClass();
     	return type.cast(shapeClass.newInstance());
     } catch(Exception e){
+    	e.printStackTrace();
         throw new IllegalStateException(e);
     }
 	}

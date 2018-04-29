@@ -1,6 +1,7 @@
 package paint.model;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
+import paint.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,14 +33,14 @@ public class PluginManager {
 		System.out.print("\nOpening " + Path + "src" + File.separator + "resources" + File.separator + "plugins" + "  for plugins\n");
 
 		try {
-			File file = new File(getClass().getResource("/plugins").getPath());
+			/*File file = new File(getClass().getResource("/plugins").getPath());
 			System.out.println(getClass().getResource("/plugins").getPath());
 			System.out.println("class resource :: " + getClass().getResource(""));
-			String path = getClass().getResource("/plugins").getPath();
-			/*File file = new File(dirUrl.getPath()+"plugins");
+			String path = getClass().getResource("/plugins").getPath();*/
+			File file = new File(dirUrl.getPath()+"plugins");
 			System.out.println(dirUrl.getPath()+"plugins");
 			System.out.println("class resource :: " + dirUrl.getPath()+"plugins");
-			String path = dirUrl.getPath()+"plugins";*/
+			String path = dirUrl.getPath()+"plugins";
 			String[] shapesNames = file.list();
 			for (String name : shapesNames) {
 				
